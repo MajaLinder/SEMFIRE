@@ -62,9 +62,11 @@ body {
     border-right: 1px solid currentColor;
     text-align: right;
     cursor: pointer;
+    bottom: 20px;
+    width: 100px;
 }
 
-.scale-label {
+.scale-labelY {
     line-height: 10px;
     font-size: 10px;
     position: absolute;
