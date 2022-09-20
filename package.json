@@ -1,16 +1,27 @@
 {
-    "name": "mod-starter",
-    "version": "1.0.0",
+    "name": "js-pareto-chart-d3",
+    "version": "1.0.1",
     "description": "",
+    "main": "index.js",
     "scripts": {
-        "start": "npm ci && npm run server",
-        "server": "mods-dev-server src"
+        "server": "mods-dev-server dist",
+        "build": "webpack --mode production --no-devtool",
+        "build-watch": "webpack --watch",
+        "start": "npm run build-watch"
     },
-    "keywords": [],
-    "author": "",
+    "author": "dcroitor, dhategan",
     "license": "ISC",
+    "dependencies": {},
     "devDependencies": {
-        "@tibco/spotfire-mods-dev-server": "^1.0.1"
-    },
-    "dependencies": {}
+        "@babel/core": "7.17.9",
+        "@babel/plugin-transform-runtime": "7.17.0",
+        "@babel/preset-env": "7.16.11",
+        "@tibco/spotfire-mods-dev-server": "^1.0.1",
+        "babel-loader": "8.2.4",
+        "copy-webpack-plugin": "10.2.4",
+        "core-js": "3.21.1",
+        "d3": "^5.14.2",
+        "webpack": "5.72.0",
+        "webpack-cli": "4.9.2"
+    }
 }
