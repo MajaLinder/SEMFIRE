@@ -37,27 +37,6 @@ body {
     align-items: flex-end;
 }
 
-.bar {
-    border: 1px solid transparent;
-    border-bottom-width: 0;
-    flex-shrink: 1;
-    max-width: 100px;
-    flex-grow: 1;
-    min-width: 3px;
-    border-radius: 4px 4px 0 0;
-    text-align: center;
-    overflow: hidden;
-}
-
-.bar:hover {
-    border-color: currentColor;
-}
-
-.segment {
-    width: 100%;
-    display: block;
-}
-
 #y-scale {
     border-right: 1px solid currentColor;
     text-align: right;
@@ -71,8 +50,4 @@ body {
     font-size: 10px;
     position: absolute;
     right: 5px;
-}
-
-#x-scale {
-    border-top: 1px solid currentColor;
 }

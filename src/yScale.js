@@ -9,7 +9,7 @@ import {createLabelY} from "./utility/methods"
 export function renderYScale(max, yAxis, yAxisMode, mod) {
     const yScaleDiv = document.getElementById("y-scale");
     yScaleDiv.innerHTML = "";
-    yAxisMode.value() === "numeric"
+    //yAxisMode.value() === "numeric"
     if (max === 0) {
         return;
     }
@@ -28,5 +28,3 @@ export function renderYScale(max, yAxis, yAxisMode, mod) {
     yScaleDiv.onmouseleave = () => mod.controls.tooltip.hide();
 
 }
-
-
