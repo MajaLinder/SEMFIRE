@@ -3,6 +3,7 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
+import { calculateMaxYValue } from "./utility/methods";
 import {renderYScale} from "./yScale"
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
@@ -77,10 +78,7 @@ import {renderYScale} from "./yScale"
         /**
          * Print out to document
          */
-        let colorHierarchy = await dataView.hierarchy("Color");
-        let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
-
-        let maxYValue = calculateMaxYValue(xLeaves, stackedBars, categoricalColorCount);
+        let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
         /**
@@ -89,41 +87,3 @@ import {renderYScale} from "./yScale"
         context.signalRenderComplete();
     }
 });
-/**
- * Calculate the maximum value from a hierarchy. If split bars is enabled, the single maximum value from all rows will be used.
- * @param {Spotfire.DataViewHierarchyNode[]} xLeaves
- * @param {Spotfire.ModProperty<boolean>} stackedBars
- * @param {number} categoricalColorCount
- */
- function calculateMaxYValue(xLeaves, stackedBars, categoricalColorCount) {
-    let maxYValue = 0;
-    if (stackedBars.value() && categoricalColorCount > 0) {
-        xLeaves.forEach((node) => {
-            maxYValue = Math.max(maxValue(node.rows(), "Y"), maxYValue);
-        });
-    } else {
-        xLeaves.forEach((node) => {
-            let sum = sumValue(node.rows(), "Y");
-            maxYValue = Math.max(maxYValue, sum);
-        });
-    }
-
-    return maxYValue;
-}
-/**
- * Calculate the total value for an axis from a set of rows. Null values are treated a 0.
- * @param {Spotfire.DataViewRow[]} rows Rows to calculate the total value from
- * @param {string} axis Name of Axis to use to calculate the value.
- */
- function sumValue(rows, axis) {
-    return rows.reduce((p, c) => +c.continuous(axis).value() + p, 0);
-}
-
-/**
- * Calculate the max value for an axis from a set of rows. Null values are treated a 0.
- * @param {Spotfire.DataViewRow[]} rows Rows to calculate the max value from
- * @param {string} axis Name of Axis to use to calculate the value.
- */
-function maxValue(rows, axis) {
-    return rows.reduce((p, c) => Math.max(+c.continuous(axis).value(), p), 0);
-}
