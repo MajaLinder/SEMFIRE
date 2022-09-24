@@ -3,8 +3,9 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import { calculateMaxYValue } from "./utility/methods";
+import {calculateMaxYValue} from "./utility/methods";
 import {renderYScale} from "./yScale"
+import {renderZScale} from "./zScale"
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
@@ -81,6 +82,7 @@ import {renderYScale} from "./yScale"
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
+        renderZScale(maxYValue, yAxis, yAxisMode, mod)
         /**
          * Signal that the mod is ready for export.
          */

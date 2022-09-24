@@ -18,36 +18,51 @@ body {
 #border {
     position: relative;
     height: calc(100vh - 20px);
-    width: calc(100vw - 20px);
-}
-
-#canvas,
-#x-scale,
-#y-scale {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-#canvas {
+    max-width: 800px;
+    width: 78vw;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 40px;
+}
+
+#z-scale,
+#y-scale {
+    height: 85%;
+    text-align: right;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+}
+
+#y-scale{
+    border-right: 1px solid currentColor;
+    align-items: flex-end;
+    padding-right: 1px;
+}
+
+#z-scale {
+    border-left: 1px solid currentColor;
+    align-items: flex-start;
+    padding-left: 1px;
+}
+
+.scale-labelY,
+.scale-labelZ{
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
     align-items: flex-end;
 }
 
-#y-scale {
-    border-right: 1px solid currentColor;
-    text-align: right;
-    cursor: pointer;
-    bottom: 20px;
-    width: 100px;
+.tick{
+    margin-bottom: 6px;
 }
 
 .scale-labelY {
-    line-height: 10px;
-    font-size: 10px;
-    position: absolute;
     right: 5px;
+}
+.scale-labelZ {
+    right: -25px;
 }
