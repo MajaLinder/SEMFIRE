@@ -17,13 +17,33 @@
 /**
  * Render a scale label
  * @param {number} value
- * @param {number} yPosition
  */
- export function createLabelY(value, yPosition) {
+ export function createLabelY(value) {
     let label = createDiv("scale-labelY", "" + value);
+    let tick = createDiv("tick", "")
+    tick.style.width = "5px";
+    tick.style.borderBottom = "1px solid black";
+    tick.style.marginRight = "-3px";
+    tick.style.marginLeft = "3px";
+    label.appendChild(tick);
     label.style.color = "#FA7864";
     label.style.fontSize = 10 + "px";
-    label.style.bottom = yPosition + "%";
+    return label;
+}
+/**
+ * Render a scale label
+ * @param {number} value
+ */
+ export function createLabelColorAxis(value) {
+    let label = createDiv("scale-labelColorAxis", "" + value);
+    let tick = createDiv("tick", "")
+    tick.style.width = "5px";
+    tick.style.borderBottom = "1px solid black";
+    tick.style.marginLeft = "-3px";
+    tick.style.marginRight = "3px";
+    label.prepend(tick);
+    label.style.color = "#375FDB";
+    label.style.fontSize = 10 + "px";
     return label;
 }
 /**
