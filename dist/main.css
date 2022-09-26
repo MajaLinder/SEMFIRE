@@ -26,7 +26,7 @@ body {
     margin-left: 40px;
 }
 
-#z-scale,
+#color-scale,
 #y-scale {
     height: 85%;
     text-align: right;
@@ -42,14 +42,14 @@ body {
     padding-right: 1px;
 }
 
-#z-scale {
+#color-scale {
     border-left: 1px solid currentColor;
     align-items: flex-start;
     padding-left: 1px;
 }
 
 .scale-labelY,
-.scale-labelZ{
+.scale-labelColorAxis{
     font-size: 10px;
     display: flex;
     justify-content: space-between;
@@ -63,6 +63,6 @@ body {
 .scale-labelY {
     right: 5px;
 }
-.scale-labelZ {
+.scale-labelColorAxis {
     right: -25px;
 }

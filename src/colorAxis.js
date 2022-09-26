@@ -1,4 +1,4 @@
-import { createLabelZ } from "./utility/methods"
+import { createLabelColorAxis } from "./utility/methods"
 /**
  * Render the vertical scale.
  * @param {number} max Max value on Y scale
@@ -7,14 +7,14 @@ import { createLabelZ } from "./utility/methods"
  * @param {Spotfire.Mod} mod API
  */
 export function rendercolorScale(max, yAxis,yAxisMode, mod) {
-    const zScaleDiv = document.getElementById("color-scale");
-    zScaleDiv.innerHTML = "";
+    const colorScaleDiv = document.getElementById("color-scale");
+    colorScaleDiv.innerHTML = "";
     yAxisMode.set("percentage")
     max = 100;
     let percent = 0;
     let value = Math.round((max * percent) / 100);
     do {
-        zScaleDiv.appendChild(createLabelZ(value + "%"));
+        colorScaleDiv.appendChild(createLabelColorAxis(value + "%"));
 
         percent += 10;
         value = Math.round((max * percent) / 100);
@@ -22,7 +22,7 @@ export function rendercolorScale(max, yAxis,yAxisMode, mod) {
             break;
         }
     } while (percent <= 100);
-    zScaleDiv.onmouseenter = () => mod.controls.tooltip.show(yAxis.name + ": " + yAxis.expression);
-    zScaleDiv.onmouseleave = () => mod.controls.tooltip.hide();
+    colorScaleDiv.onmouseenter = () => mod.controls.tooltip.show(yAxis.name + ": " + yAxis.expression);
+    colorScaleDiv.onmouseleave = () => mod.controls.tooltip.hide();
 
 }
