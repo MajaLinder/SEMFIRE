@@ -3,8 +3,9 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import { calculateMaxYValue } from "./utility/methods";
+import {calculateMaxYValue} from "./utility/methods";
 import {renderYScale} from "./yScale"
+import {rendercolorScale} from "./colorAxis"
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
@@ -20,7 +21,7 @@ import {renderYScale} from "./yScale"
      const reader = mod.createReader(
         mod.visualization.data(),
         mod.property("y-axis-mode"),
-        mod.property("split-bars"),
+        mod.property("stacked-bars"),
         mod.visualization.axis("Y"),
         mod.windowSize()
     );
@@ -81,6 +82,7 @@ import {renderYScale} from "./yScale"
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
+        rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
         /**
          * Signal that the mod is ready for export.
          */
