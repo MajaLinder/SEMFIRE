@@ -11,7 +11,7 @@
             "defaultValue": "numeric"
         },
         {
-            "name": "split-bars",
+            "name": "stacked-bars",
             "type": "boolean",
             "defaultValue": false
         }

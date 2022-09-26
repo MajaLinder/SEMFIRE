@@ -21,7 +21,7 @@ import {renderZScale} from "./zScale"
      const reader = mod.createReader(
         mod.visualization.data(),
         mod.property("y-axis-mode"),
-        mod.property("split-bars"),
+        mod.property("stacked-bars"),
         mod.visualization.axis("Y"),
         mod.windowSize()
     );
