@@ -34,8 +34,8 @@
  * Render a scale label
  * @param {number} value
  */
- export function createLabelZ(value) {
-    let label = createDiv("scale-labelZ", "" + value);
+ export function createLabelColorAxis(value) {
+    let label = createDiv("scale-labelColorAxis", "" + value);
     let tick = createDiv("tick", "")
     tick.style.width = "5px";
     tick.style.borderBottom = "1px solid black";

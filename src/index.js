@@ -5,7 +5,7 @@
  */
 import {calculateMaxYValue} from "./utility/methods";
 import {renderYScale} from "./yScale"
-import {renderZScale} from "./zScale"
+import {rendercolorScale} from "./colorAxis"
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
@@ -82,7 +82,7 @@ import {renderZScale} from "./zScale"
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
-        renderZScale(maxYValue, yAxis, yAxisMode, mod)
+        rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
         /**
          * Signal that the mod is ready for export.
          */

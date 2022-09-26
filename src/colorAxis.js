@@ -6,8 +6,8 @@ import { createLabelZ } from "./utility/methods"
  * @param {Spotfire.ModProperty<string>} yAxisMode - Property used to determine if the scale should be rendered in percent.
  * @param {Spotfire.Mod} mod API
  */
-export function renderZScale(max, yAxis,yAxisMode, mod) {
-    const zScaleDiv = document.getElementById("z-scale");
+export function rendercolorScale(max, yAxis,yAxisMode, mod) {
+    const zScaleDiv = document.getElementById("color-scale");
     zScaleDiv.innerHTML = "";
     yAxisMode.set("percentage")
     max = 100;
