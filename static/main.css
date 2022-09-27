@@ -26,6 +26,34 @@ body {
     margin-left: 40px;
 }
 
+#canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.bar {
+    border: 1px solid transparent;
+    border-bottom-width: 0;
+    flex-shrink: 1;
+    max-width: 100px;
+    flex-grow: 1;
+    min-width: 3px;
+    border-radius: 4px 4px 0 0;
+    text-align: center;
+    overflow: hidden;
+}
+
+.segment {
+    width: 100%;
+    display: block;
+}
+
 #color-scale,
 #y-scale {
     height: 85%;

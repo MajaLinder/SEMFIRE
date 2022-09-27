@@ -4,6 +4,7 @@
  * in the license file that is distributed with this file.
  */
 import {calculateMaxYValue} from "./utility/methods";
+import {renderBars} from "./stackedBars"
 import {renderYScale} from "./yScale"
 import {rendercolorScale} from "./colorAxis"
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
@@ -38,10 +39,10 @@ import {rendercolorScale} from "./colorAxis"
     /**
      * @param {Spotfire.DataView} dataView
      * @param {Spotfire.ModProperty<string>} yAxisMode
-     * @param {Spotfire.ModProperty<boolean>} stackedBars
+     * @param {Spotfire.ModProperty<boolean>} splitBars
      * @param {Spotfire.Axis} yAxis
      */
-    async function render(dataView, yAxisMode, stackedBars, yAxis) {
+    async function render(dataView, yAxisMode, splitBars, yAxis) {
         /**
          * Check the data view for errors
          */
@@ -81,6 +82,11 @@ import {rendercolorScale} from "./colorAxis"
          */
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
+        // TODO: look up this
+        let colorHierarchy = await dataView.hierarchy("Color");
+        let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
+
+        renderBars(dataView, xLeaves, categoricalColorCount, maxYValue, splitBars)
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
         /**
