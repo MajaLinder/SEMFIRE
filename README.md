@@ -13,6 +13,8 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 8. Navya Pulikandla Satyanarayanachetty 
 
 ## Pareto Chart ##
+
+![Pareto Chart Prototype](https://github.com/MajaLinder/SEMFIRE/blob/update-readme-1/Pareto_Chart_Prototype.png)
 Pareto Analysis is a technique used for decision making based on the Pareto Principle. Pareto Principle is based on 80/20 rule which says “80% of impacts are due to 20% of causes”. It emphasizes that a major number of issues are created by a relatively smaller number of underlying causes. You can focus on a vital few root causes of the problem and ignore the trivial many.
 
 This chart makes sense for data with counts for values of a nominal variable or category. They show the ordered frequency counts of values for the different levels of a categorical or nominal variable.
