@@ -5,12 +5,12 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 
 1. Maja Linder - Scrum Master 
 2. Bardha Ahmeti- Product Owner 
-3. Malik Hannan
-4. Astrid Berntsson
-5. Yuhan Li
-6. Malik Waleed 
-7. Mohammad Zandkarimi
-8. Navya Pulikandla Satyanarayanachetty 
+3. Malik Hannan - Developer
+4. Astrid Berntsson - Developer
+5. Yuhan Li - Developer
+6. Malik Waleed - Developer
+7. Mohammad Zandkarimi - Developer
+8. Navya Pulikandla Satyanarayanachetty - Developer 
 
 ## Pareto Chart ##
 
@@ -28,7 +28,7 @@ This repository has a protected main branch, with the latest stable version. We 
 
 The agreed syntax for branch name, commit messages and merge requests:
 
-* **Branch name:** #< short description of feature/topic >  
+* **Branch name:** < short description of feature/topic >  
   
 * **Commits:** #< nr of issue on board > < short descriptive message > {co-authors} 
   
