@@ -8,7 +8,7 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 3. Malik Hannan - Developer
 4. Astrid Berntsson - Developer
 5. Yuhan Li - Developer
-6. Malik Waleed - Developer
+6. Malik Waleed Mahboob - Developer
 7. Mohammad Zandkarimi - Developer
 8. Navya Pulikandla Satyanarayanachetty - Developer 
 
