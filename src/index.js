@@ -39,10 +39,10 @@ import {rendercolorScale} from "./colorAxis"
     /**
      * @param {Spotfire.DataView} dataView
      * @param {Spotfire.ModProperty<string>} yAxisMode
-     * @param {Spotfire.ModProperty<boolean>} splitBars
+     * @param {Spotfire.ModProperty<boolean>} stackedBars
      * @param {Spotfire.Axis} yAxis
      */
-    async function render(dataView, yAxisMode, splitBars, yAxis) {
+    async function render(dataView, yAxisMode, stackedBars, yAxis) {
         /**
          * Check the data view for errors
          */
@@ -86,9 +86,10 @@ import {rendercolorScale} from "./colorAxis"
         let colorHierarchy = await dataView.hierarchy("Color");
         let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
 
-        renderBars(dataView, xLeaves, categoricalColorCount, maxYValue, splitBars)
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
+        renderBars(dataView, xLeaves, categoricalColorCount, maxYValue, stackedBars, mod)
+
         /**
          * Signal that the mod is ready for export.
          */

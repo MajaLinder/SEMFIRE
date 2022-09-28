@@ -71,7 +71,7 @@
  * @param {Spotfire.DataViewRow[]} rows Rows to calculate the total value from
  * @param {string} axis Name of Axis to use to calculate the value.
  */
- function sumValue(rows, axis) {
+ export function sumValue(rows, axis) {
     return rows.reduce((p, c) => +c.continuous(axis).value() + p, 0);
 }
 
@@ -80,6 +80,11 @@
  * @param {Spotfire.DataViewRow[]} rows Rows to calculate the max value from
  * @param {string} axis Name of Axis to use to calculate the value.
  */
-function maxValue(rows, axis) {
+export function maxValue(rows, axis) {
     return rows.reduce((p, c) => Math.max(+c.continuous(axis).value(), p), 0);
+}
+
+/** @returns {HTMLElement} */
+export function findElem(selector) {
+    return document.querySelector(selector);
 }

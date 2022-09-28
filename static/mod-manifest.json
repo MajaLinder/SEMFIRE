@@ -13,7 +13,7 @@
         {
             "name": "stacked-bars",
             "type": "boolean",
-            "defaultValue": true
+            "defaultValue": false
         }
     ],
     "dataViewDefinition": {
