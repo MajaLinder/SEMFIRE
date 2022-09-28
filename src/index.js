@@ -86,9 +86,14 @@ import {rendercolorScale} from "./colorAxis"
         let colorHierarchy = await dataView.hierarchy("Color");
         let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
 
-        renderYScale(maxYValue, yAxis, yAxisMode, mod)
-        rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
-        renderBars(dataView, xLeaves, categoricalColorCount, maxYValue, stackedBars, mod)
+        renderYScale(maxYValue, yAxis, yAxisMode, mod);
+        rendercolorScale(maxYValue, yAxis, yAxisMode, mod);
+
+        xLeafNodes.sort((a, b) => 
+            Number(b.rows()[0].continuous("Y").value()) - Number(a.rows()[0].continuous("Y").value())
+        );
+
+        renderBars(dataView, xLeaves, categoricalColorCount, maxYValue, stackedBars, mod);
 
         /**
          * Signal that the mod is ready for export.
