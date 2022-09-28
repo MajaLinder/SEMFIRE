@@ -6,6 +6,7 @@
 import {calculateMaxYValue} from "./utility/methods";
 import {renderYScale} from "./yScale"
 import {rendercolorScale} from "./colorAxis"
+import {renderXScale} from "./xAxis";
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
@@ -76,6 +77,9 @@ import {rendercolorScale} from "./colorAxis"
 
         mod.controls.tooltip.hide();
         let xLeaves = xRoot.leaves();
+        console.log(xLeaves);
+        console.log(yAxis);
+
         /**
          * Print out to document
          */
@@ -83,6 +87,7 @@ import {rendercolorScale} from "./colorAxis"
         
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
+        renderXScale(xLeaves, yAxis, dataView);
         /**
          * Signal that the mod is ready for export.
          */

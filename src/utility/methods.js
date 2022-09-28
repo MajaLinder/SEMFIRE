@@ -46,6 +46,24 @@
     label.style.fontSize = 10 + "px";
     return label;
 }
+
+
+/**
+ * Render a scale label
+ * @param {number} value
+ */
+ export function createLabelX(value) {
+    let label = createDiv("scale-labelY", "" + value);
+    let tick = createDiv("tick", "")
+    tick.style.width = "5px";
+    tick.style.borderBottom = "1px solid black";
+    tick.style.marginRight = "-3px";
+    tick.style.marginLeft = "3px";
+    //label.appendChild(tick);
+    label.style.color = "#FA7864";
+    label.style.fontSize = 10 + "px";
+    return label;
+}
 /**
  * Calculate the maximum value from a hierarchy. 
  * @param {Spotfire.DataViewHierarchyNode[]} xLeaves
