@@ -89,7 +89,7 @@ import {rendercolorScale} from "./colorAxis"
         renderYScale(maxYValue, yAxis, yAxisMode, mod);
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod);
 
-        xLeafNodes.sort((a, b) => 
+        xLeaves.sort((a, b) => 
             Number(b.rows()[0].continuous("Y").value()) - Number(a.rows()[0].continuous("Y").value())
         );
 
