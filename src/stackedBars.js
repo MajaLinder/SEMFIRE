@@ -9,7 +9,7 @@ import {findElem} from "./utility/methods"
      * @param {number} maxYValue
      * @param {Spotfire.ModProperty<boolean>} stackedBars
      */
-     export function renderBars(dataView, xLeafNodes, categoricalColorCount, maxYValue, stackedBars, mod) {
+     export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars, mod) {
         const canvasDiv = findElem("#canvas");
         const xScaleHeight = 20;
         const yScaleWidth = 100;
@@ -17,12 +17,6 @@ import {findElem} from "./utility/methods"
         canvasDiv.style.left = yScaleWidth + "px";
         canvasDiv.style.bottom = xScaleHeight + "px";
         canvasDiv.style.right = "0px";
-
-        canvasDiv.onclick = (e) => {
-            if (e.target === canvasDiv) {
-                dataView.clearMarking();
-            }
-        };
 
         const canvasHeight = canvasDiv.offsetHeight;
 
@@ -51,7 +45,7 @@ import {findElem} from "./utility/methods"
                     fragment.appendChild(renderStackedBar(xLeafNode, row ? [row] : []));
                 });
             } else {
-                fragment.appendChild(renderStackedBar(xLeafNode, rows));
+                fragment.appendChild(renderStackedBar(rows));
             }
 
             return fragment;
@@ -62,7 +56,7 @@ import {findElem} from "./utility/methods"
          * @param {Spotfire.DataViewHierarchyNode} xLeafNode
          * @param {Spotfire.DataViewRow[]} rows
          */
-        function renderStackedBar(xLeafNode, rows) {
+        function renderStackedBar(rows) {
             let bar = createDiv("bar");
 
             let totalBarValue = sumValue(rows, "Y");
@@ -78,23 +72,6 @@ import {findElem} from "./utility/methods"
                 let segment = createDiv("segment");
                 segment.style.height = 5 /*(+y.value() / maxYValue)*/ * canvasHeight + "px";
                 segment.style.backgroundColor = row.color().hexCode;
-
-                segment.onmouseover = (e) => {
-                    mod.controls.tooltip.show(row);
-                };
-                segment.onmouseout = (e) => {
-                    mod.controls.tooltip.hide();
-                };
-
-                segment.onclick = (e) => {
-                    /** @type{Spotfire.MarkingOperation} */
-                    let mode = e.ctrlKey ? "Toggle" : "Replace";
-                    if (e.shiftKey) {
-                        rows.forEach((m) => m.mark(mode));
-                    } else {
-                        row.mark(mode);
-                    }
-                };
 
                 bar.appendChild(segment);
             });

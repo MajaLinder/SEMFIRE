@@ -93,7 +93,7 @@ import {rendercolorScale} from "./colorAxis"
             Number(b.rows()[0].continuous("Y").value()) - Number(a.rows()[0].continuous("Y").value())
         );
 
-        renderBars(dataView, xLeaves, categoricalColorCount, maxYValue, stackedBars, mod);
+        renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars, mod);
 
         /**
          * Signal that the mod is ready for export.
