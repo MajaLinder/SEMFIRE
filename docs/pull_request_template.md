@@ -1,3 +1,4 @@
  #[[issue Nr]] Descriptive message
   
-  Explanations: The merge request shall explain the implementation, with pictures as a complementation if necessary.
+ A description of the changes proposed in the pull request.
+ The merge request shall explain the implementation, with pictures as a complementation if necessary.
