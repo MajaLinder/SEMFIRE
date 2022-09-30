@@ -13,6 +13,7 @@ body {
     margin: 10px;
     overflow: hidden;
     position: relative;
+    display: flex;
 }
 
 #border {
@@ -41,6 +42,19 @@ body {
     align-items: flex-end;
     padding-right: 1px;
 }
+
+#x-scale{
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+   /* align-items: flex-start; */
+    align-self:flex-end;
+    border-top: 1px solid gray;
+    /* text-align: bottom; */
+}
+
 
 #color-scale {
     border-left: 1px solid currentColor;
