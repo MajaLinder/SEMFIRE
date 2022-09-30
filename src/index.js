@@ -85,7 +85,7 @@ import {renderXScale} from "./xAxis";
         
         renderYScale(maxYValue, yAxis, yAxisMode, mod)
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
-        renderXScale(xLeaves, yAxis, dataView);
+        renderXScale(xLeaves);
         /**
          * Signal that the mod is ready for export.
          */

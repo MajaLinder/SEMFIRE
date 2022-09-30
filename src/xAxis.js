@@ -1,19 +1,15 @@
 import {createLabelX} from "./utility/methods"
 
 /**
- * WIP
+ * Render the X scales and displays the categorical values
  * @param {*} xLeaves 
- * @param {*} axis 
- * @param {*} dataView 
  */
-export function renderXScale(xLeaves, axis, dataView) {
+export function renderXScale(xLeaves) {
 
-    // TODO: This is incomplete
     const xScaleDiv = document.getElementById("x-scale");
     xScaleDiv.innerHTML = "";
 
     xLeaves.forEach(node => {
         xScaleDiv.appendChild(createLabelX(node.key));
-        console.log(node.key);
     });
 }

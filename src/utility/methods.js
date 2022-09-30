@@ -54,14 +54,14 @@
  */
  export function createLabelX(value) {
     let label = createDiv("scale-labelX", "" + value);
-/*     let tick = createDiv("tick", "")
+    /*
+    let tick = createDiv("tick", "")
     tick.style.width = "5px";
     tick.style.borderBottom = "1px solid black";
     tick.style.marginRight = "-3px";
     tick.style.marginLeft = "3px";
-    label.appendChild(tick); */
-    //label.style.color = "#FA7864";
-    //label.style.fontSize = 10 + "px";
+    label.appendChild(tick);   
+    */
     return label;
 }
 /**

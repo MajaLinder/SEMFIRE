@@ -49,10 +49,8 @@ body {
     display: flex;
     flex-direction:row;
     justify-content: space-around;
-   /* align-items: flex-start; */
     align-self:flex-end;
     border-top: 1px solid gray;
-    /* text-align: bottom; */
 }
 
 
