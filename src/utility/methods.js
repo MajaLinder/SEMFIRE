@@ -84,7 +84,12 @@ export function maxValue(rows, axis) {
     return rows.reduce((p, c) => Math.max(+c.continuous(axis).value(), p), 0);
 }
 
-/** @returns {HTMLElement} */
-export function findElem(selector) {
-    return document.querySelector(selector);
+/**
+ * Sort the xLeaves in descending order
+ * @param {Spotfire.DataViewHierarchyNode[]} xLeaves
+ */
+export function sortDescending(xLeaves) {
+    xLeaves.sort((a, b) => 
+    Number(b.rows()[0].continuous("Y").value()) - Number(a.rows()[0].continuous("Y").value())
+);
 }

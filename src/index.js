@@ -4,9 +4,10 @@
  * in the license file that is distributed with this file.
  */
 import {calculateMaxYValue} from "./utility/methods";
-import {renderBars} from "./stackedBars"
-import {renderYScale} from "./yScale"
-import {rendercolorScale} from "./colorAxis"
+import {sortDescending} from "./utility/methods";
+import {renderBars} from "./stackedBars";
+import {renderYScale} from "./yScale";
+import {rendercolorScale} from "./colorAxis";
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
@@ -82,17 +83,12 @@ import {rendercolorScale} from "./colorAxis"
          */
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
-        // TODO: look up this
         let colorHierarchy = await dataView.hierarchy("Color");
         let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
 
+        sortDescending(xLeaves);
         renderYScale(maxYValue, yAxis, yAxisMode, mod);
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod);
-
-        xLeaves.sort((a, b) => 
-            Number(b.rows()[0].continuous("Y").value()) - Number(a.rows()[0].continuous("Y").value())
-        );
-
         renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
 
         /**

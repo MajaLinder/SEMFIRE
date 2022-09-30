@@ -1,6 +1,5 @@
 import {createDiv} from "./utility/methods"
 import {sumValue} from "./utility/methods"
-import {findElem} from "./utility/methods"
     
     /**
      * Render all bars on the canvas div.
@@ -10,7 +9,7 @@ import {findElem} from "./utility/methods"
      * @param {Spotfire.ModProperty<boolean>} stackedBars
      */
      export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars) {
-        const canvasDiv = findElem("#canvas");
+        const canvasDiv = document.getElementById("canvas");
         canvasDiv.innerHTML = "";
 
         const canvasHeight = canvasDiv.offsetHeight;
@@ -18,7 +17,7 @@ import {findElem} from "./utility/methods"
         xLeafNodes.forEach((leafNode) => canvasDiv.appendChild(renderBar(leafNode)));
 
         /**
-         * Renders bars/segments for a single x axis node.
+         * Render bars/segments for a single x axis node.
          * @param {Spotfire.DataViewHierarchyNode} xLeafNode
          */
         function renderBar(xLeafNode) {
