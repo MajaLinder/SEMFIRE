@@ -35,6 +35,9 @@ body {
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: flex-end;
+    left: 100px;
+    right: 0px;
+    bottom: 20px;
 }
 
 .bar {

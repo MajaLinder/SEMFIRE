@@ -9,14 +9,9 @@ import {findElem} from "./utility/methods"
      * @param {number} maxYValue
      * @param {Spotfire.ModProperty<boolean>} stackedBars
      */
-     export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars, mod) {
+     export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars) {
         const canvasDiv = findElem("#canvas");
-        const xScaleHeight = 20;
-        const yScaleWidth = 100;
         canvasDiv.innerHTML = "";
-        canvasDiv.style.left = yScaleWidth + "px";
-        canvasDiv.style.bottom = xScaleHeight + "px";
-        canvasDiv.style.right = "0px";
 
         const canvasHeight = canvasDiv.offsetHeight;
 
@@ -46,7 +41,7 @@ import {findElem} from "./utility/methods"
                 });
             } else {
                 fragment.appendChild(renderStackedBar(rows));
-            }
+            } 
 
             return fragment;
         }
@@ -63,14 +58,13 @@ import {findElem} from "./utility/methods"
             bar.style.height = Math.round((totalBarValue / maxYValue) * canvasHeight) + "px";
 
             rows.forEach((row) => {
-                // TODO: fix this code that makes the bars striped
-                //let y = row.continuous("Y");
-                //if (y.value() === null) {
-                    //return;
-                //}
+                let y = row.continuous("Y");
+                if (y.value() === null) {
+                    return;
+                }
 
                 let segment = createDiv("segment");
-                segment.style.height = 5 /*(+y.value() / maxYValue)*/ * canvasHeight + "px";
+                segment.style.height = (+y.value() / maxYValue) * canvasHeight + "px";
                 segment.style.backgroundColor = row.color().hexCode;
 
                 bar.appendChild(segment);
