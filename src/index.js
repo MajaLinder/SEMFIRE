@@ -77,8 +77,6 @@ import {renderXScale} from "./xAxis";
 
         mod.controls.tooltip.hide();
         let xLeaves = xRoot.leaves();
-        console.log(xLeaves);
-        console.log(yAxis);
 
         /**
          * Print out to document
