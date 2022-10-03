@@ -3,9 +3,10 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import {calculateMaxYValue} from "./utility/methods";
-import {renderYScale} from "./yScale"
-import {rendercolorScale} from "./colorAxis"
+import { calculateMaxYValue, sortDescending } from "./utility/methods";
+import {renderBars} from "./stackedBars";
+import {renderYScale} from "./yScale";
+import {rendercolorScale} from "./colorAxis";
 import {renderXScale} from "./xAxis";
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
@@ -83,8 +84,13 @@ import {renderXScale} from "./xAxis";
          */
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
         
-        renderYScale(maxYValue, yAxis, yAxisMode, mod)
-        rendercolorScale(maxYValue, yAxis, yAxisMode, mod)
+        let colorHierarchy = await dataView.hierarchy("Color");
+        let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
+
+        sortDescending(xLeaves);
+        renderYScale(maxYValue, yAxis, yAxisMode, mod);
+        rendercolorScale(maxYValue, yAxis, yAxisMode, mod);
+        renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
         renderXScale(xLeaves);
         /**
          * Signal that the mod is ready for export.
