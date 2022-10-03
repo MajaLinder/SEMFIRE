@@ -3,8 +3,7 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import {calculateMaxYValue} from "./utility/methods";
-import {sortDescending} from "./utility/methods";
+import { calculateMaxYValue, sortDescending } from "./utility/methods";
 import {renderBars} from "./stackedBars";
 import {renderYScale} from "./yScale";
 import {rendercolorScale} from "./colorAxis";
