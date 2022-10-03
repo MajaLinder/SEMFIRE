@@ -7,6 +7,7 @@ import { calculateMaxYValue, sortDescending } from "./utility/methods";
 import {renderBars} from "./stackedBars";
 import {renderYScale} from "./yScale";
 import {rendercolorScale} from "./colorAxis";
+import {renderXScale} from "./xAxis";
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
@@ -77,6 +78,7 @@ import {rendercolorScale} from "./colorAxis";
 
         mod.controls.tooltip.hide();
         let xLeaves = xRoot.leaves();
+
         /**
          * Print out to document
          */
@@ -89,7 +91,7 @@ import {rendercolorScale} from "./colorAxis";
         renderYScale(maxYValue, yAxis, yAxisMode, mod);
         rendercolorScale(maxYValue, yAxis, yAxisMode, mod);
         renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
-
+        renderXScale(xLeaves);
         /**
          * Signal that the mod is ready for export.
          */
