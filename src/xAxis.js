@@ -6,7 +6,7 @@ import {createLabelX} from "./utility/methods"
  */
 export function renderXScale(xLeaves) {
 
-    const xScaleDiv = document.getElementById("x-scale");
+    const xScaleDiv = document.getElementById("x-axis");
     xScaleDiv.innerHTML = "";
 
     xLeaves.forEach(node => {
