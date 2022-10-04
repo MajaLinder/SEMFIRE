@@ -3,10 +3,10 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import { calculateMaxYValue, sortDescending } from "./utility/methods";
+import {calculateMaxYValue, sortDescending} from "./utility/methods";
 import {renderBars} from "./stackedBars";
-import {renderYScale} from "./yScale";
-import {rendercolorScale} from "./colorAxis";
+import {renderYScale} from "./yAxis";
+import {renderPercentage} from "./percentage";
 import {renderXScale} from "./xAxis";
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
@@ -89,7 +89,7 @@ import {renderXScale} from "./xAxis";
 
         sortDescending(xLeaves);
         renderYScale(maxYValue, yAxis, yAxisMode, mod);
-        rendercolorScale(maxYValue, yAxis, yAxisMode, mod);
+        renderPercentage(maxYValue, yAxis, yAxisMode, mod);
         renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
         renderXScale(xLeaves);
         /**

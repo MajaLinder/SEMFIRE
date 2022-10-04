@@ -34,8 +34,8 @@
  * Render a scale label
  * @param {number} value
  */
- export function createLabelColorAxis(value) {
-    let label = createDiv("scale-labelColorAxis", "" + value);
+ export function createLabelPercentage(value) {
+    let label = createDiv("scale-labelPercentage", "" + value);
     let tick = createDiv("tick", "")
     tick.style.width = "5px";
     tick.style.borderBottom = "1px solid black";
@@ -54,14 +54,6 @@
  */
  export function createLabelX(value) {
     let label = createDiv("scale-labelX", "" + value);
-    /*
-    let tick = createDiv("tick", "")
-    tick.style.width = "5px";
-    tick.style.borderBottom = "1px solid black";
-    tick.style.marginRight = "-3px";
-    tick.style.marginLeft = "3px";
-    label.appendChild(tick);   
-    */
     return label;
 }
 /**
