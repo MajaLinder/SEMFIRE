@@ -3,24 +3,25 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import {calculateMaxYValue, sortDescending} from "./utility/methods";
-import {renderBars} from "./stackedBars";
-import {renderYScale} from "./yAxis";
-import {renderPercentage} from "./percentage";
-import {renderXScale} from "./xAxis";
+import { calculateMaxYValue, sortDescending } from "./utility/methods";
+import { renderBars } from "./stackedBars";
+import { renderYScale } from "./yAxis";
+import { renderPercentage } from "./percentage";
+import { renderXScale } from "./xAxis";
+import { line } from "./line"
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
 /**
  * Get access to the Spotfire Mod API by providing a callback to the initialize method.
  * @param {Spotfire.Mod} mod - mod api
  */
- Spotfire.initialize(async (mod) => {
+Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
 
     /**
      * Create the read function.
      */
-     const reader = mod.createReader(
+    const reader = mod.createReader(
         mod.visualization.data(),
         mod.property("y-axis-mode"),
         mod.property("stacked-bars"),
@@ -83,7 +84,7 @@ import {renderXScale} from "./xAxis";
          * Print out to document
          */
         let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
-        
+
         let colorHierarchy = await dataView.hierarchy("Color");
         let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
 
@@ -92,6 +93,7 @@ import {renderXScale} from "./xAxis";
         renderPercentage(maxYValue, yAxis, yAxisMode, mod);
         renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
         renderXScale(xLeaves);
+        line(dataView);
         /**
          * Signal that the mod is ready for export.
          */

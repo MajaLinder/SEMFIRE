@@ -26,6 +26,7 @@ body {
     align-items: center;
     margin-left: 40px;
 }
+
 #x-scale {
     display: flex;
     flex-direction: column;
@@ -53,20 +54,22 @@ body {
     overflow: hidden;
     cursor: pointer;
 }
-#x-axis{
+
+#x-axis {
     width: 100%;
     height: 0%;
     cursor: pointer;
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     justify-content: space-around;
-    align-self:flex-end;
+    align-self: flex-end;
     border-top: 1px solid gray;
 }
+
 .segment {
     width: 100%;
     display: block;
-} 
+}
 
 #percentage,
 #y-axis {
@@ -78,11 +81,12 @@ body {
     justify-content: space-between;
 }
 
-#y-axis{
+#y-axis {
     border-right: 1px solid currentColor;
     align-items: flex-end;
     padding-right: 1px;
 }
+
 #percentage {
     border-left: 1px solid currentColor;
     align-items: flex-start;
@@ -90,23 +94,25 @@ body {
 }
 
 .scale-labelY,
-.scale-labelPercentage{
+.scale-labelPercentage {
     font-size: 10px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
 
-.tick{
+.tick {
     margin-bottom: 6px;
 }
 
 .scale-labelY {
     right: 5px;
 }
+
 .scale-labelPercentage {
     right: -25px;
 }
+
 .scale-labelX {
     width: 100%;
     text-align: center;
@@ -114,4 +120,11 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     padding-bottom: 20px;
-} 
+}
+
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+}

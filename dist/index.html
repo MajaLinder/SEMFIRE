@@ -8,23 +8,29 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Spotfire ParetoChart Mod </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" media="all" href="main.css" />
-    </head>
-    <body>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Spotfire ParetoChart Mod </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="all" href="main.css" />
+</head>
+
+<body>
     <div id="border">
-            <div id="y-axis"></div>
+        <svg id="svg" style="z-index: 3;"></svg>
+        <div id="y-axis"></div>
         <div id="x-scale">
             <div id="stackedBars"></div>
             <div id="x-axis"></div>
         </div>
-            <div id="percentage"></div>
+        <div id="percentage"></div>
+
     </div>
-        <script id="spotfire-loader">var Spotfire=function(e){"use strict";return e.initialize=function(e){var t="sfTemp"+1e4*Math.random()+"Cb",r=window;r[t]=e;var a={subject:"GetUrl",callbackId:-1,options:{cbId:t}};r.addEventListener("message",(function e(t){if(t.source!==r.parent||!t.data.src)return;r.removeEventListener("message",e);var a=document,n=a.createElement("script");n.src=t.data.src,(a.head||a.body).appendChild(n)})),r.parent.postMessage(a,"*")},e}({});</script>
-        <script src="bundle.js"></script>
-    </body>
+    <script
+        id="spotfire-loader">var Spotfire = function (e) { "use strict"; return e.initialize = function (e) { var t = "sfTemp" + 1e4 * Math.random() + "Cb", r = window; r[t] = e; var a = { subject: "GetUrl", callbackId: -1, options: { cbId: t } }; r.addEventListener("message", (function e(t) { if (t.source !== r.parent || !t.data.src) return; r.removeEventListener("message", e); var a = document, n = a.createElement("script"); n.src = t.data.src, (a.head || a.body).appendChild(n) })), r.parent.postMessage(a, "*") }, e }({});</script>
+    <script src="bundle.js"></script>
+</body>
+
 </html>
