@@ -10,7 +10,7 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 - Run `npm run server` in a separate terminal. This will start a development server.
 - Start editing, for example `src/index.js`.
 - In Spotfire, follow the steps of creating a new mod and connecting to the development server.
-
+- TIBCO Spotfire Mod guide [documentation](https://tibcosoftware.github.io/spotfire-mods/docs/using-the-api/api-docs/).
 > Group members:
 
 1. Maja Linder - Scrum Master 
