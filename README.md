@@ -1,6 +1,16 @@
 # SEMFIRE #
 SEMFIRE is the name of the student group for the course DIT827 Software Innovation. 
 SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod for Pareto chart. 
+
+## How to get started (with development server)
+
+- Open a terminal at the location of this example.
+- Run `npm install`. This will install necessary tools. Run this command only the first time you are building the mod and skip this step for any subsequent builds.
+- Run `npm start`. This will compile JavaScript and place the bundle in the `dist` folder. This task will watch for changes in code and will continue running until it is stopped. Whenever you save a file, the changes will be reflected in the visualization mod.
+- Run `npm run server` in a separate terminal. This will start a development server.
+- Start editing, for example `src/index.js`.
+- In Spotfire, follow the steps of creating a new mod and connecting to the development server.
+- TIBCO Spotfire Mod guide [documentation](https://tibcosoftware.github.io/spotfire-mods/docs/using-the-api/api-docs/).
 > Group members:
 
 1. Maja Linder - Scrum Master 
