@@ -26,7 +26,6 @@
     tick.style.marginRight = "-3px";
     tick.style.marginLeft = "3px";
     label.appendChild(tick);
-    label.style.color = "#FA7864";
     label.style.fontSize = 10 + "px";
     return label;
 }
@@ -42,7 +41,6 @@
     tick.style.marginLeft = "-3px";
     tick.style.marginRight = "3px";
     label.prepend(tick);
-    label.style.color = "#375FDB";
     label.style.fontSize = 10 + "px";
     return label;
 }

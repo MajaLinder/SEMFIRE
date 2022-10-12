@@ -8,9 +8,11 @@ import {createLabelX} from "./utility/methods"
 export function renderXScale(xLeaves, mod) {
 
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
+    const xLabelColor = mod.getRenderContext().styling.scales.font.color
     const xScaleDiv = document.getElementById("x-axis");
 
     xScaleDiv.innerHTML = "";
+    xScaleDiv.style.color = xLabelColor;
     xScaleDiv.style.borderTop = "1px solid " + stroke;
 
     xLeaves.forEach(node => {

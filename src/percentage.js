@@ -9,10 +9,10 @@ import {createLabelPercentage} from "./utility/methods"
 export function renderPercentage(max, yAxis,yAxisMode, mod) {
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const percentageDiv = document.getElementById("percentage");
-
+    const persentageLabelColor = mod.getRenderContext().styling.scales.font.color;
     percentageDiv.innerHTML = "";
     percentageDiv.style.borderLeft = "1px solid " + stroke;
-
+    percentageDiv.style.color = persentageLabelColor;
     yAxisMode.set("percentage")
     max = 100;
     let percent = 0;

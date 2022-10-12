@@ -10,10 +10,11 @@ export function renderYScale(max, yAxis, yAxisMode, mod) {
 
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const yAxisDiv = document.getElementById("y-axis");
+    const yLableColor = mod.getRenderContext().styling.scales.font.color;
 
     yAxisDiv.innerHTML = "";
     yAxisDiv.style.borderRight = "1px solid " + stroke;
-
+    yAxisDiv.style.color = yLableColor;
     yAxisMode.set("numeric")
     if (max === 0) {
         return;
