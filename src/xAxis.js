@@ -10,10 +10,12 @@ export function renderXScale(xLeaves, mod) {
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const xLabelColor = mod.getRenderContext().styling.scales.font.color
     const xScaleDiv = document.getElementById("x-axis");
+    const xFontSize = mod.getRenderContext().styling.scales.font.fontSize + "px";
 
     xScaleDiv.innerHTML = "";
     xScaleDiv.style.color = xLabelColor;
     xScaleDiv.style.borderTop = "1px solid " + stroke;
+    xScaleDiv.style.fontSize = xFontSize;
 
     xLeaves.forEach(node => {
         xScaleDiv.appendChild(createLabelX(node.key));
