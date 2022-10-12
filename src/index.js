@@ -92,7 +92,7 @@ Spotfire.initialize(async (mod) => {
         renderYScale(maxYValue, yAxis, yAxisMode, mod);
         renderPercentage(maxYValue, yAxis, yAxisMode, mod);
         renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
-        renderXScale(xLeaves);
+        renderXScale(xLeaves, mod);
         drawLine(dataView);
         /**
          * Signal that the mod is ready for export.
