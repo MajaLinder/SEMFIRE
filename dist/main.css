@@ -19,12 +19,11 @@ body {
 #border {
     position: relative;
     height: calc(100vh - 30px);
-    max-width: 100%;
-    width: 78vw;
+    width: calc(100vw - 100px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 40px;
+    margin-left: 2%;
 }
 
 #x-scale {
