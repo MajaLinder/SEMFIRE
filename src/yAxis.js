@@ -7,8 +7,13 @@ import {createLabelY, createTick} from "./utility/methods"
  * @param {Spotfire.Mod} mod API
  */
 export function renderYScale(max, yAxis, yAxisMode, mod) {
+
+    const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const yAxisDiv = document.getElementById("y-axis");
+
     yAxisDiv.innerHTML = "";
+    yAxisDiv.style.borderRight = "1px solid " + stroke;
+
     yAxisMode.set("numeric")
     if (max === 0) {
         return;

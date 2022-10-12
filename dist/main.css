@@ -62,7 +62,6 @@ body {
     flex-direction: row;
     justify-content: space-around;
     align-self: flex-end;
-    border-top: 1px solid gray;
 }
 
 .segment {
@@ -81,13 +80,11 @@ body {
 }
 
 #y-axis {
-    border-right: 1px solid currentColor;
     align-items: flex-end;
     padding-right: 1px;
 }
 
 #percentage {
-    border-left: 1px solid currentColor;
     align-items: flex-start;
     padding-left: 1px;
 }
