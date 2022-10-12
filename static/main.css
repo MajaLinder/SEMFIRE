@@ -85,7 +85,6 @@ body {
 }
 
 #percentage {
-    border-left: 1px solid currentColor;
     align-items: flex-start;
     padding-left: 1px;
 }
