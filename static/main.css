@@ -80,7 +80,6 @@ body {
 }
 
 #y-axis {
-    border-right: 1px solid currentColor;
     align-items: flex-end;
     padding-right: 1px;
 }
