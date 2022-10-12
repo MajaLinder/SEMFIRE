@@ -50,7 +50,6 @@ body {
     max-width: 100%;
     flex-grow: 1;
     min-width: 3px;
-    border-radius: 4px 4px 0 0;
     overflow: hidden;
     cursor: pointer;
 }
