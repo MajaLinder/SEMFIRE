@@ -7,8 +7,12 @@ import {createLabelPercentage} from "./utility/methods"
  * @param {Spotfire.Mod} mod API
  */
 export function renderPercentage(max, yAxis,yAxisMode, mod) {
+    const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const percentageDiv = document.getElementById("percentage");
+
     percentageDiv.innerHTML = "";
+    percentageDiv.style.borderLeft = "1px solid " + stroke;
+
     yAxisMode.set("percentage")
     max = 100;
     let percent = 0;
