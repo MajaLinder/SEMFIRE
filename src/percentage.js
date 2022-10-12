@@ -1,4 +1,5 @@
 import {createLabelPercentage} from "./utility/methods"
+import {createTick} from "./utility/methods"
 /**
  * Render the percentage scale.
  * @param {number} max Max value on Y scale
@@ -14,7 +15,8 @@ export function renderPercentage(max, yAxis,yAxisMode, mod) {
     let percent = 0;
     let value = Math.round((max * percent) / 100);
     do {
-        percentageDiv.appendChild(createLabelPercentage(value + "%"));
+        percentageDiv.appendChild(createLabelPercentage(value + "%", percent));
+        percentageDiv.appendChild(createTick(percent));
 
         percent += 10;
         value = Math.round((max * percent) / 100);

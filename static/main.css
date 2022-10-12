@@ -45,6 +45,7 @@ body {
 
 .bar {
     border: 1px solid transparent;
+    border-top: 0px;
     border-bottom-width: 0;
     flex-shrink: 1;
     max-width: 100%;
@@ -73,43 +74,33 @@ body {
 #percentage,
 #y-axis {
     height: 100%;
-    text-align: right;
     cursor: pointer;
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
 }
 
 #y-axis {
     border-right: 1px solid currentColor;
-    align-items: flex-end;
-    padding-right: 1px;
+    position: absolute;
 }
 
 #percentage {
-    border-left: 1px solid currentColor;
-    align-items: flex-start;
-    padding-left: 1px;
+    border-right: 1px solid currentColor;
+    align-items: flex-end;
 }
 
 .scale-labelY,
 .scale-labelPercentage {
-    font-size: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    position: absolute;
+    padding: 0;
+    border: 0;
+}
+
+.label-span {
+    position: relative;
+    border: 0px;
 }
 
 .tick {
-    margin-bottom: 6px;
-}
-
-.scale-labelY {
-    right: 5px;
-}
-
-.scale-labelPercentage {
-    right: -25px;
+    position: absolute;
 }
 
 .scale-labelX {

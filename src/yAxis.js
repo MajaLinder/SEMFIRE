@@ -1,4 +1,4 @@
-import {createLabelY} from "./utility/methods"
+import {createLabelY, createTick} from "./utility/methods"
 /**
  * Render the vertical scale.
  * @param {number} max Max value on Y scale
@@ -16,7 +16,10 @@ export function renderYScale(max, yAxis, yAxisMode, mod) {
     let percent = 0;
     let value = Math.round((max * percent) / 100);
     do {
-        yAxisDiv.appendChild(createLabelY(value));
+        yAxisDiv.appendChild(createLabelY(value, percent));
+        let tick = createTick(percent);
+        tick.style.right = "0px";
+        yAxisDiv.appendChild(tick);
 
         percent += 10;
         value = Math.round((max * percent) / 100);

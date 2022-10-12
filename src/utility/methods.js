@@ -1,4 +1,11 @@
 /**
+ * Configuration variables
+ */
+let _tickWidth = 20;
+let _tickThickness = 1;
+let _labelFontSize = 10;
+
+/**
  * Create a div element.
  * @param {string} className class name of the div element.
  * @param {string | HTMLElement} [content] Content inside the div
@@ -17,33 +24,55 @@
 /**
  * Render a scale label
  * @param {number} value
+ * @param {number} yPosition
  */
- export function createLabelY(value) {
-    let label = createDiv("scale-labelY", "" + value);
-    let tick = createDiv("tick", "")
-    tick.style.width = "5px";
-    tick.style.borderBottom = "1px solid black";
-    tick.style.marginRight = "-3px";
-    tick.style.marginLeft = "3px";
-    label.appendChild(tick);
-    label.style.color = "#FA7864";
-    label.style.fontSize = 10 + "px";
+ export function createLabelY(value, yPosition) {
+    let label = createDiv("scale-labelY");
+    let labelSpan = document.createElement("span");
+    labelSpan.classList.add("label-span");
+    labelSpan.style.top = (_tickThickness + _labelFontSize/2) + "px";
+    labelSpan.appendChild(document.createTextNode(value.toString()));
+
+    label.appendChild(labelSpan);
+
+    label.style.color = "black";
+    label.style.fontSize = _labelFontSize + "px";
+    label.style.bottom = yPosition + "%";
+    label.style.right = 
+    label.style.right = _tickWidth + 2 + "px";
     return label;
+}
+
+/**
+ * Render a scale label
+ * @param {number} yPosition
+ */
+ export function createTick(yPosition) {
+    let tick = createDiv("tick", "")
+    tick.style.width = _tickWidth + "px";
+    tick.style.borderBottom = "1px solid black";
+    tick.style.height = "0xp";
+    tick.style.bottom = yPosition + "%";
+    return tick; 
 }
 /**
  * Render a scale label
  * @param {number} value
+ * @param {number} yPosition
  */
- export function createLabelPercentage(value) {
-    let label = createDiv("scale-labelPercentage", "" + value);
-    let tick = createDiv("tick", "")
-    tick.style.width = "5px";
-    tick.style.borderBottom = "1px solid black";
-    tick.style.marginLeft = "-3px";
-    tick.style.marginRight = "3px";
-    label.prepend(tick);
-    label.style.color = "#375FDB";
-    label.style.fontSize = 10 + "px";
+ export function createLabelPercentage(value, yPosition) {
+    let label = createDiv("scale-labelPercentage");
+    let labelSpan = document.createElement("span");
+    labelSpan.classList.add("label-span");
+    labelSpan.style.top = (_tickThickness + _labelFontSize/2) + "px";
+    labelSpan.appendChild(document.createTextNode(value.toString()));
+
+    label.appendChild(labelSpan);
+
+    label.style.color = "black";
+    label.style.fontSize = _labelFontSize + "px";
+    label.style.bottom = yPosition + "%";
+    label.style.paddingLeft = _tickWidth + 2 + "px";
     return label;
 }
 
