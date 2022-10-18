@@ -103,8 +103,9 @@ export function maxValue(rows, axis) {
  * Sort the xLeaves in descending order
  * @param {Spotfire.DataViewHierarchyNode[]} xLeaves
  */
-export function sortDescending(xLeaves) {
-    xLeaves.sort((a, b) => 
-    Number(b.rows()[0].continuous("Y").value()) - Number(a.rows()[0].continuous("Y").value())
-);
+ export function sortDescending(xLeaves) {
+    xLeaves.sort((a, b) => {
+            return Number(sumValue(b.rows(), "Y")) - Number(sumValue(a.rows(), "Y"));
+        }
+    );  
 }
