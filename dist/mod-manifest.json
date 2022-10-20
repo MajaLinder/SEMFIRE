@@ -23,6 +23,9 @@
             "dropTarget": {
                 "icon": "Color",
                 "description": "Color by {0}"
+            },
+            "automaticConfiguration": {
+                "expressionHeuristics": "none"
             }
         },
         "axes": [
