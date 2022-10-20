@@ -48,8 +48,8 @@
  * Render a scale label
  * @param {number} value
  */
- export function createLabelX(value) {
-    let label = createDiv("scale-labelX", "" + value);
+ export function createLabelCategory(value) {
+    let label = createDiv("scale-labelCategory", "" + value);
     // let tick = createDiv("tick", "")
     // tick.style.height = "5px";
     // tick.style.width = "1px";

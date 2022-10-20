@@ -1,4 +1,4 @@
-import {createLabelX} from "./utility/methods"
+import {createLabelCategory} from "./utility/methods"
 
 /**
  * Render the X scales and displays the categorical values
@@ -8,16 +8,16 @@ import {createLabelX} from "./utility/methods"
 export function renderCategoryScale(xLeaves, mod) {
 
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
-    const xLabelColor = mod.getRenderContext().styling.scales.font.color
-    const xScaleDiv = document.getElementById("category-axis");
-    const xFontSize = mod.getRenderContext().styling.scales.font.fontSize + "px";
+    const categoryLabelColor = mod.getRenderContext().styling.scales.font.color
+    const categoryAxisDiv = document.getElementById("category-axis");
+    const categoryFontSize = mod.getRenderContext().styling.scales.font.fontSize + "px";
 
-    xScaleDiv.innerHTML = "";
-    xScaleDiv.style.color = xLabelColor;
-    xScaleDiv.style.borderTop = "1px solid " + stroke;
-    xScaleDiv.style.fontSize = xFontSize;
+    categoryAxisDiv.innerHTML = "";
+    categoryAxisDiv.style.color = categoryLabelColor;
+    categoryAxisDiv.style.borderTop = "1px solid " + stroke;
+    categoryAxisDiv.style.fontSize = categoryFontSize;
 
     xLeaves.forEach(node => {
-        xScaleDiv.appendChild(createLabelX(node.key));
+        categoryAxisDiv.appendChild(createLabelCategory(node.key));
     });
 }
