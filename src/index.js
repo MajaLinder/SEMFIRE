@@ -7,7 +7,7 @@ import { calculateMaxValue, sortDescending } from "./utility/methods";
 import { renderBars } from "./stackedBars";
 import { renderValueScale } from "./valueAxis";
 import { renderPercentage } from "./percentage";
-import { renderXScale } from "./xAxis";
+import { renderCategoryScale } from "./categoryAxis";
 import { drawLine } from "./cumulativeLine";
 //@ts-check - Get type warnings from the TypeScript language server. Remove if not wanted.
 
@@ -92,7 +92,7 @@ Spotfire.initialize(async (mod) => {
         renderValueScale(maxValue, valueAxis, valueAxisMode, mod);
         renderPercentage(maxValue, valueAxis, valueAxisMode, mod);
         renderBars(xLeaves, categoricalColorCount, maxValue, stackedBars);
-        renderXScale(xLeaves, mod);
+        renderCategoryScale(xLeaves, mod);
         drawLine(dataView);
         /**
          * Signal that the mod is ready for export.

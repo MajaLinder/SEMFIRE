@@ -5,11 +5,11 @@ import {createLabelX} from "./utility/methods"
  * @param {*} xLeaves 
  * @param {*} mod mod api
  */
-export function renderXScale(xLeaves, mod) {
+export function renderCategoryScale(xLeaves, mod) {
 
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const xLabelColor = mod.getRenderContext().styling.scales.font.color
-    const xScaleDiv = document.getElementById("x-axis");
+    const xScaleDiv = document.getElementById("category-axis");
     const xFontSize = mod.getRenderContext().styling.scales.font.fontSize + "px";
 
     xScaleDiv.innerHTML = "";

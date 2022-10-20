@@ -74,18 +74,18 @@ export async function drawLine(dataView) {
     var svg = d3.select("svg");
     const valueAxisHeight = document.querySelector("#y-axis");
     const valuePixels = valueAxisHeight.offsetHeight;
-    const xAxisWidth = document.querySelector("#x-axis");
-    const xPixels = xAxisWidth.offsetWidth;
+    const categoryAxisWidth = document.querySelector("#category-axis");
+    const categoryPixels = categoryAxisWidth.offsetWidth;
 
-    var xScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, xPixels]),
+    var categoryScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, categoryPixels]),
         valueScale = d3.scaleLinear().domain([0, maxValueHeight]).range([valuePixels, 0]);
-    console.log(xScale(1));
+    console.log(categoryScale(1));
     var g = svg.append("g").attr("transform", "translate(" + 10 + "," + 100 + ")");
 
     var line = d3
         .line()
         .x(function (d) {
-            return xScale(d[0]);
+            return categoryScale(d[0]);
         })
         .y(function (d) {
             return valueScale(d[1]);
