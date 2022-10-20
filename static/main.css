@@ -76,7 +76,7 @@ body {
 }
 
 #percentage,
-#y-axis {
+#value-axis {
     height: 100%;
     text-align: right;
     cursor: pointer;
@@ -85,7 +85,7 @@ body {
     justify-content: space-between;
 }
 
-#y-axis {
+#value-axis {
     align-items: flex-end;
     padding-right: 1px;
 }
@@ -95,7 +95,7 @@ body {
     padding-left: 1px;
 }
 
-.scale-labelY,
+.scale-labelValue,
 .scale-labelPercentage {
     display: flex;
     justify-content: space-between;
@@ -106,7 +106,7 @@ body {
     margin-bottom: 6px;
 }
 
-.scale-labelY {
+.scale-labelValue {
     right: 5px;
 }
 

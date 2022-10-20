@@ -5,10 +5,10 @@ import {sumValue} from "./utility/methods"
      * Render all bars on the stackedBars div.
      * @param {Spotfire.DataView} dataView
      * @param {Spotfire.DataViewHierarchyNode[]} xLeafNodes
-     * @param {number} maxYValue
+     * @param {number} maxValue
      * @param {Spotfire.ModProperty<boolean>} stackedBars
      */
-     export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars) {
+     export function renderBars(xLeafNodes, categoricalColorCount, maxValue, stackedBars) {
         const stackedBarsDiv = document.getElementById("stackedBars");
         stackedBarsDiv.innerHTML = "";
 
@@ -53,17 +53,17 @@ import {sumValue} from "./utility/methods"
         function renderStackedBar(rows) {
             let bar = createDiv("bar");
 
-            let totalBarValue = sumValue(rows, "Y");
-            bar.style.height = Math.round((totalBarValue / maxYValue) * stackedBarsHeight) + "px";
+            let totalBarValue = sumValue(rows, "Value");
+            bar.style.height = Math.round((totalBarValue / maxValue) * stackedBarsHeight) + "px";
 
             rows.forEach((row) => {
-                let y = row.continuous("Y");
-                if (y.value() === null) {
+                let value = row.continuous("Value");
+                if (value.value() === null) {
                     return;
                 }
 
                 let segment = createDiv("segment");
-                segment.style.height = (+y.value() / maxYValue) * stackedBarsHeight + "px";
+                segment.style.height = (+value.value() / maxValue) * stackedBarsHeight + "px";
                 segment.style.backgroundColor = row.color().hexCode;
 
                 bar.appendChild(segment);

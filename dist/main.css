@@ -42,24 +42,18 @@ body {
     padding-left: 1.5%;
     padding-right: 1.5%;
     align-items: flex-end;
-    /* position: absolute; */
     justify-content:center;
 }
 
 .bar {
-    /* border: 1px solid transparent; */
     border-bottom-width: 0;
     flex-shrink: 1;
     max-width: 100%;
     padding: 0.1%;
-    /* position: absolute; */
-    /* margin-left: 0.5%;
-    margin-right: 0.5%; */
     flex-grow: 1;
     min-width: 3px;
     overflow: hidden;
     cursor: pointer;
-    /* margin: 0px 5px 0px 5px; */
 }
 
 #x-axis {
@@ -82,7 +76,7 @@ body {
 }
 
 #percentage,
-#y-axis {
+#value-axis {
     height: 100%;
     text-align: right;
     cursor: pointer;
@@ -91,7 +85,7 @@ body {
     justify-content: space-between;
 }
 
-#y-axis {
+#value-axis {
     align-items: flex-end;
     padding-right: 1px;
 }
@@ -101,7 +95,7 @@ body {
     padding-left: 1px;
 }
 
-.scale-labelY,
+.scale-labelValue,
 .scale-labelPercentage {
     display: flex;
     justify-content: space-between;
@@ -112,7 +106,7 @@ body {
     margin-bottom: 6px;
 }
 
-.scale-labelY {
+.scale-labelValue {
     right: 5px;
 }
 

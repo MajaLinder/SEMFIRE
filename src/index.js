@@ -3,9 +3,9 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-import { calculateMaxYValue, sortDescending } from "./utility/methods";
+import { calculateMaxValue, sortDescending } from "./utility/methods";
 import { renderBars } from "./stackedBars";
-import { renderYScale } from "./yAxis";
+import { renderValueScale } from "./valueAxis";
 import { renderPercentage } from "./percentage";
 import { renderXScale } from "./xAxis";
 import { drawLine } from "./cumulativeLine";
@@ -23,9 +23,9 @@ Spotfire.initialize(async (mod) => {
      */
     const reader = mod.createReader(
         mod.visualization.data(),
-        mod.property("y-axis-mode"),
+        mod.property("value-axis-mode"),
         mod.property("stacked-bars"),
-        mod.visualization.axis("Y"),
+        mod.visualization.axis("Value"),
         mod.windowSize()
     );
 
@@ -40,11 +40,11 @@ Spotfire.initialize(async (mod) => {
 
     /**
      * @param {Spotfire.DataView} dataView
-     * @param {Spotfire.ModProperty<string>} yAxisMode
+     * @param {Spotfire.ModProperty<string>} valueAxisMode
      * @param {Spotfire.ModProperty<boolean>} stackedBars
-     * @param {Spotfire.Axis} yAxis
+     * @param {Spotfire.Axis} valueAxis
      */
-    async function render(dataView, yAxisMode, stackedBars, yAxis) {
+    async function render(dataView, valueAxisMode, stackedBars, valueAxis) {
         /**
          * Check the data view for errors
          */
@@ -69,12 +69,12 @@ Spotfire.initialize(async (mod) => {
             // Don't clear the mod content here to avoid flickering.
             return;
         }
-        let dataViewYAxis = await dataView.continuousAxis("Y");
-        if (dataViewYAxis == null) {
-            mod.controls.errorOverlay.show("No data on y axis.", "y");
+        let dataViewValueAxis = await dataView.continuousAxis("Value");
+        if (dataViewValueAxis == null) {
+            mod.controls.errorOverlay.show("No data on value axis.", "Value");
             return;
         } else {
-            mod.controls.errorOverlay.hide("y");
+            mod.controls.errorOverlay.hide("Value");
         }
 
         mod.controls.tooltip.hide();
@@ -83,15 +83,15 @@ Spotfire.initialize(async (mod) => {
         /**
          * Print out to document
          */
-        let maxYValue = calculateMaxYValue(xLeaves, stackedBars);
+        let maxValue = calculateMaxValue(xLeaves, stackedBars);
 
         let colorHierarchy = await dataView.hierarchy("Color");
         let categoricalColorCount = colorHierarchy ? colorHierarchy.leafCount : 0;
 
         sortDescending(xLeaves);
-        renderYScale(maxYValue, yAxis, yAxisMode, mod);
-        renderPercentage(maxYValue, yAxis, yAxisMode, mod);
-        renderBars(xLeaves, categoricalColorCount, maxYValue, stackedBars);
+        renderValueScale(maxValue, valueAxis, valueAxisMode, mod);
+        renderPercentage(maxValue, valueAxis, valueAxisMode, mod);
+        renderBars(xLeaves, categoricalColorCount, maxValue, stackedBars);
         renderXScale(xLeaves, mod);
         drawLine(dataView);
         /**

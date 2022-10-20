@@ -72,13 +72,13 @@ export async function drawLine(dataView) {
     const dataSet = createDataSet(finalData);
 
     var svg = d3.select("svg");
-    const yAxisHeight = document.querySelector("#y-axis");
-    const yPixels = yAxisHeight.offsetHeight;
+    const valueAxisHeight = document.querySelector("#y-axis");
+    const valuePixels = valueAxisHeight.offsetHeight;
     const xAxisWidth = document.querySelector("#x-axis");
     const xPixels = xAxisWidth.offsetWidth;
 
     var xScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, xPixels]),
-        yScale = d3.scaleLinear().domain([0, maxValueHeight]).range([yPixels, 0]);
+        valueScale = d3.scaleLinear().domain([0, maxValueHeight]).range([valuePixels, 0]);
     console.log(xScale(1));
     var g = svg.append("g").attr("transform", "translate(" + 10 + "," + 100 + ")");
 
@@ -88,7 +88,7 @@ export async function drawLine(dataView) {
             return xScale(d[0]);
         })
         .y(function (d) {
-            return yScale(d[1]);
+            return valueScale(d[1]);
         })
         .curve(d3.curveMonotoneX);
 
