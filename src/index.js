@@ -59,7 +59,7 @@ Spotfire.initialize(async (mod) => {
         mod.controls.errorOverlay.hide("dataView");
 
         /**
-         * Get the hierarchy of the categorical X-axis.
+         * Get the hierarchy of the categorical Category-axis.
          */
         let xHierarchy = await dataView.hierarchy("Category");
         let xRoot = await xHierarchy.root();

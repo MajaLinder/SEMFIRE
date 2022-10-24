@@ -17,7 +17,7 @@ import {sumValue} from "./utility/methods"
         xLeafNodes.forEach((leafNode) => stackedBarsDiv.appendChild(renderBar(leafNode)));
 
         /**
-         * Render bars/segments for a single x axis node.
+         * Render bars/segments for a single category axis node.
          * @param {Spotfire.DataViewHierarchyNode} xLeafNode
          */
         function renderBar(xLeafNode) {
