@@ -1,6 +1,6 @@
 {
     "name": "js-pareto-chart-d3",
-    "version": "1.0.1",
+    "version": "0.1.0",
     "description": "",
     "main": "index.js",
     "scripts": {
