@@ -72,23 +72,23 @@ export async function drawLine(dataView) {
     const dataSet = createDataSet(finalData);
 
     var svg = d3.select("svg");
-    const yAxisHeight = document.querySelector("#y-axis");
-    const yPixels = yAxisHeight.offsetHeight;
-    const xAxisWidth = document.querySelector("#x-axis");
-    const xPixels = xAxisWidth.offsetWidth;
+    const valueAxisHeight = document.querySelector("#value-axis");
+    const valuePixels = valueAxisHeight.offsetHeight;
+    const categoryAxisWidth = document.querySelector("#category-axis");
+    const categoryPixels = categoryAxisWidth.offsetWidth;
 
-    var xScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, xPixels]),
-        yScale = d3.scaleLinear().domain([0, maxValueHeight]).range([yPixels, 0]);
-    console.log(xScale(1));
+    var categoryScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, categoryPixels]),
+        valueScale = d3.scaleLinear().domain([0, maxValueHeight]).range([valuePixels, 0]);
+    console.log(categoryScale(1));
     var g = svg.append("g").attr("transform", "translate(" + 10 + "," + 100 + ")");
 
     var line = d3
         .line()
         .x(function (d) {
-            return xScale(d[0]);
+            return categoryScale(d[0]);
         })
         .y(function (d) {
-            return yScale(d[1]);
+            return valueScale(d[1]);
         })
         .curve(d3.curveMonotoneX);
 

@@ -18,8 +18,8 @@
  * Render a scale label
  * @param {number} value
  */
- export function createLabelY(value) {
-    let label = createDiv("scale-labelY", "" + value);
+ export function createLabelValue(value) {
+    let label = createDiv("scale-labelValue", "" + value);
     let tick = createDiv("tick", "")
     tick.style.width = "5px";
     tick.style.borderBottom = "1px solid black";
@@ -48,8 +48,8 @@
  * Render a scale label
  * @param {number} value
  */
- export function createLabelX(value) {
-    let label = createDiv("scale-labelX", "" + value);
+ export function createLabelCategory(value) {
+    let label = createDiv("scale-labelCategory", "" + value);
     // let tick = createDiv("tick", "")
     // tick.style.height = "5px";
     // tick.style.width = "1px";
@@ -66,20 +66,20 @@
  * @param {Spotfire.DataViewHierarchyNode[]} xLeaves
  * @param {Spotfire.ModProperty<boolean>} stackedBars
  */
- export function calculateMaxYValue(xLeaves, stackedBars) {
-    let maxYValue = 0;
+ export function calculateMaxValue(xLeaves, stackedBars) {
+    let maxValue = 0;
     if (stackedBars.value()) {
         xLeaves.forEach((node) => {git 
-            maxYValue = Math.max(maxValue(node.rows(), "Y"), maxYValue);
+            maxValue = Math.max(maxValue(node.rows(), "Value"), maxValue);
         });
     } else {
         xLeaves.forEach((node) => {
-            let sum = sumValue(node.rows(), "Y");
-            maxYValue = Math.max(maxYValue, sum);
+            let sum = sumValue(node.rows(), "Value");
+            maxValue = Math.max(maxValue, sum);
         });
     }
 
-    return maxYValue;
+    return maxValue;
 }
 /**
  * Calculate the total value for an axis from a set of rows. Null values are treated a 0.
@@ -105,7 +105,7 @@ export function maxValue(rows, axis) {
  */
  export function sortDescending(xLeaves) {
     xLeaves.sort((a, b) => {
-            return Number(sumValue(b.rows(), "Y")) - Number(sumValue(a.rows(), "Y"));
+            return Number(sumValue(b.rows(), "Value")) - Number(sumValue(a.rows(), "Value"));
         }
     );  
 }

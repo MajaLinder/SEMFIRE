@@ -6,7 +6,12 @@
     "icon": "icon.svg",
     "properties": [
         {
-            "name": "y-axis-mode",
+            "name": "value-axis-mode",
+            "type": "string",
+            "defaultValue": "numeric"
+        },
+        {
+            "name": "category-axis-mode",
             "type": "string",
             "defaultValue": "numeric"
         },
@@ -23,23 +28,38 @@
             "dropTarget": {
                 "icon": "Color",
                 "description": "Color by {0}"
+            },
+            "automaticConfiguration": {
+                "expressionHeuristics": "none"
             }
         },
         "axes": [
             {
-                "name": "X",
+                "name": "Category",
                 "mode": "categorical",
                 "placement": "bottom",
                 "dropTarget": {
-                    "icon": "XAxis3D",
+                    "icon": "XAxis",
                     "description": "Use {0} on the mod's X-axis"
+                },
+                "legendItem": {
+                    "title": "Category-axis",
+                    "defaultVisibility": "hidden"
                 }
             },
             {
-                "name": "Y",
+                "name": "Value",
                 "mode": "continuous",
                 "placement": "left",
-                "allowMultipleMeasures": true
+                "allowMultipleMeasures": true,
+                "dropTarget": {
+                    "icon": "YAxis",
+                    "description": "Use {0} on the mod's Y-axis"
+                },
+                "legendItem": {
+                    "title": "Value-axis",
+                    "defaultVisibility": "hidden"
+                }
             }
         ]
     },
