@@ -72,7 +72,7 @@ export async function drawLine(dataView) {
     const dataSet = createDataSet(finalData);
 
     var svg = d3.select("svg");
-    const valueAxisHeight = document.querySelector("#y-axis");
+    const valueAxisHeight = document.querySelector("#value-axis");
     const valuePixels = valueAxisHeight.offsetHeight;
     const categoryAxisWidth = document.querySelector("#category-axis");
     const categoryPixels = categoryAxisWidth.offsetWidth;
