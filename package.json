@@ -1,7 +1,7 @@
 {
     "name": "js-pareto-chart-d3",
-    "version": "1.0.1",
-    "description": "",
+    "version": "0.1.0",
+    "description": "The SEMFIRE team draws cumulative lines through d3, and the bar chart combination enables users to draw Pareto charts in Tibco Spotfire.",
     "main": "index.js",
     "scripts": {
         "server": "mods-dev-server dist",

@@ -1,4 +1,4 @@
-import {createLabelPercentage} from "./utility/methods"
+import { createLabelPercentage } from "./utility/methods";
 /**
  * Render the percentage scale.
  * @param {number} max Max value on Y scale
@@ -6,7 +6,7 @@ import {createLabelPercentage} from "./utility/methods"
  * @param {Spotfire.ModProperty<string>} yAxisMode - Property used to determine if the scale should be rendered in percent.
  * @param {Spotfire.Mod} mod API
  */
-export function renderPercentage(max, yAxis,yAxisMode, mod) {
+export function renderPercentage(max, yAxis, yAxisMode, mod) {
     const stroke = mod.getRenderContext().styling.scales.line.stroke;
     const percentageDiv = document.getElementById("percentage");
     const persentageLabelColor = mod.getRenderContext().styling.scales.font.color;
@@ -15,7 +15,7 @@ export function renderPercentage(max, yAxis,yAxisMode, mod) {
     percentageDiv.style.borderLeft = "1px solid " + stroke;
     percentageDiv.style.color = persentageLabelColor;
     percentageDiv.style.fontSize = percentageFontSize;
-    yAxisMode.set("percentage")
+    yAxisMode.set("percentage");
     max = 100;
     let percent = 0;
     let value = Math.round((max * percent) / 100);
@@ -30,5 +30,4 @@ export function renderPercentage(max, yAxis,yAxisMode, mod) {
     } while (percent <= 100);
     percentageDiv.onmouseenter = () => mod.controls.tooltip.show(yAxis.name + ": " + yAxis.expression);
     percentageDiv.onmouseleave = () => mod.controls.tooltip.hide();
-
 }

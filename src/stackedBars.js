@@ -1,74 +1,74 @@
-import {createDiv} from "./utility/methods"
-import {sumValue} from "./utility/methods"
-    
+import { createDiv } from "./utility/methods";
+import { sumValue } from "./utility/methods";
+
+/**
+ * Render all bars on the stackedBars div.
+ * @param {Spotfire.DataView} dataView
+ * @param {Spotfire.DataViewHierarchyNode[]} xLeafNodes
+ * @param {number} maxYValue
+ * @param {Spotfire.ModProperty<boolean>} stackedBars
+ */
+export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars) {
+    const stackedBarsDiv = document.getElementById("stackedBars");
+    stackedBarsDiv.innerHTML = "";
+
+    const stackedBarsHeight = stackedBarsDiv.offsetHeight;
+
+    xLeafNodes.forEach((leafNode) => stackedBarsDiv.appendChild(renderBar(leafNode)));
+
     /**
-     * Render all bars on the stackedBars div.
-     * @param {Spotfire.DataView} dataView
-     * @param {Spotfire.DataViewHierarchyNode[]} xLeafNodes
-     * @param {number} maxYValue
-     * @param {Spotfire.ModProperty<boolean>} stackedBars
+     * Render bars/segments for a single x axis node.
+     * @param {Spotfire.DataViewHierarchyNode} xLeafNode
      */
-     export function renderBars(xLeafNodes, categoricalColorCount, maxYValue, stackedBars) {
-        const stackedBarsDiv = document.getElementById("stackedBars");
-        stackedBarsDiv.innerHTML = "";
+    function renderBar(xLeafNode) {
+        let fragment = document.createDocumentFragment();
+        let rows = xLeafNode.rows();
 
-        const stackedBarsHeight = stackedBarsDiv.offsetHeight;
-
-        xLeafNodes.forEach((leafNode) => stackedBarsDiv.appendChild(renderBar(leafNode)));
-
-        /**
-         * Render bars/segments for a single x axis node.
-         * @param {Spotfire.DataViewHierarchyNode} xLeafNode
-         */
-        function renderBar(xLeafNode) {
-            let fragment = document.createDocumentFragment();
-            let rows = xLeafNode.rows();
-
-            if (stackedBars.value() && categoricalColorCount > 1) {
-                // Render bars side by side. We need to add one bar per color to
-                // keep all groups equally wide. So we create a sparse array where
-                // we store the rows per color index, and render a bar for each
-                // element in the array.
-                let bars = new Array(categoricalColorCount).fill(null);
-                rows.forEach((row) => {
-                    let colorValue = row.categorical("Color");
-                    bars[colorValue.leafIndex] = row;
-                });
-
-                bars.forEach((row) => {
-                    fragment.appendChild(renderStackedBar(xLeafNode, row ? [row] : []));
-                });
-            } else {
-                fragment.appendChild(renderStackedBar(rows));
-            } 
-
-            return fragment;
-        }
-
-        /**
-         * Render a stacked bar in the bar chart from a set of source rows.
-         * @param {Spotfire.DataViewHierarchyNode} xLeafNode
-         * @param {Spotfire.DataViewRow[]} rows
-         */
-        function renderStackedBar(rows) {
-            let bar = createDiv("bar");
-
-            let totalBarValue = sumValue(rows, "Y");
-            bar.style.height = Math.round((totalBarValue / maxYValue) * stackedBarsHeight) + "px";
-
+        if (stackedBars.value() && categoricalColorCount > 1) {
+            // Render bars side by side. We need to add one bar per color to
+            // keep all groups equally wide. So we create a sparse array where
+            // we store the rows per color index, and render a bar for each
+            // element in the array.
+            let bars = new Array(categoricalColorCount).fill(null);
             rows.forEach((row) => {
-                let y = row.continuous("Y");
-                if (y.value() === null) {
-                    return;
-                }
-
-                let segment = createDiv("segment");
-                segment.style.height = (+y.value() / maxYValue) * stackedBarsHeight + "px";
-                segment.style.backgroundColor = row.color().hexCode;
-
-                bar.appendChild(segment);
+                let colorValue = row.categorical("Color");
+                bars[colorValue.leafIndex] = row;
             });
 
-            return bar;
+            bars.forEach((row) => {
+                fragment.appendChild(renderStackedBar(xLeafNode, row ? [row] : []));
+            });
+        } else {
+            fragment.appendChild(renderStackedBar(rows));
         }
+
+        return fragment;
     }
+
+    /**
+     * Render a stacked bar in the bar chart from a set of source rows.
+     * @param {Spotfire.DataViewHierarchyNode} xLeafNode
+     * @param {Spotfire.DataViewRow[]} rows
+     */
+    function renderStackedBar(rows) {
+        let bar = createDiv("bar");
+
+        let totalBarValue = sumValue(rows, "Y");
+        bar.style.height = Math.round((totalBarValue / maxYValue) * stackedBarsHeight) + "px";
+
+        rows.forEach((row) => {
+            let y = row.continuous("Y");
+            if (y.value() === null) {
+                return;
+            }
+
+            let segment = createDiv("segment");
+            segment.style.height = (+y.value() / maxYValue) * stackedBarsHeight + "px";
+            segment.style.backgroundColor = row.color().hexCode;
+
+            bar.appendChild(segment);
+        });
+
+        return bar;
+    }
+}
