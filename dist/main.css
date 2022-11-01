@@ -4,9 +4,23 @@
 * in the license file that is distributed with this file.
 */
 
+   
+  button {
+    margin-top: 1rem;
+  }
+   
+
 * {
     box-sizing: border-box;
 }
+
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+}
+
 
 body {
     white-space: pre-line;
@@ -45,16 +59,6 @@ body {
     justify-content:center;
 }
 
-.bar {
-    border-bottom-width: 0;
-    flex-shrink: 1;
-    max-width: 100%;
-    padding: 0.1%;
-    flex-grow: 1;
-    min-width: 3px;
-    overflow: hidden;
-    cursor: pointer;
-}
 
 #category-axis {
     width: 100%;
@@ -123,9 +127,3 @@ body {
     padding-bottom: 20px;
 }
 
-svg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-
-}

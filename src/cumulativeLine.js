@@ -56,6 +56,7 @@ export async function drawLine(dataView) {
         return mapedPercentage;
     }
     const finalData = calcValOfPercantages(calculatedValue, cumulativePercentage);
+    console.log(finalData);
     const maxValueHeight = Math.max(...finalData);
     const maxValueWidth = finalData.length;
 
@@ -95,7 +96,7 @@ export async function drawLine(dataView) {
     svg.append("path")
         .datum(dataSet)
         .attr("class", "line")
-        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+        .attr("transform", "translate(" + 0 + "," + 0 + ")") // TODO: first value should be -(width of the bar/2)
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#4916ea")

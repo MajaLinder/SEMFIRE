@@ -91,7 +91,7 @@ Spotfire.initialize(async (mod) => {
         sortDescending(xLeaves);
         renderValueScale(maxValue, valueAxis, valueAxisMode, mod);
         renderPercentage(maxValue, valueAxis, valueAxisMode, mod);
-        renderBars(xLeaves, categoricalColorCount, maxValue, stackedBars);
+        renderBars();
         renderCategoryScale(xLeaves, mod);
         drawLine(dataView);
         /**
