@@ -6,6 +6,7 @@ import * as d3 from "d3";
 
 export async function drawLine(dataView) {
     d3.selectAll("path").remove();
+    d3.selectAll("g").remove();
 
     console.log(dataView);
 
@@ -69,35 +70,133 @@ export async function drawLine(dataView) {
         }
         return dataSet;
     }
-    const dataSet = createDataSet(finalData);
+    const dataset1 = createDataSet(finalData);
 
     var svg = d3.select("svg");
-    const valueAxisHeight = document.querySelector("#value-axis");
-    const valuePixels = valueAxisHeight.offsetHeight;
-    const categoryAxisWidth = document.querySelector("#category-axis");
-    const categoryPixels = categoryAxisWidth.offsetWidth;
+    const valueAxisHeight = document.querySelector("#svg");
+    const valuePixels = valueAxisHeight.getBoundingClientRect();
+    const categoryAxisWidth = document.querySelector("#svg");
+    const categoryPixels = categoryAxisWidth.getBoundingClientRect();
+    console.log(categoryPixels.width);
+    console.log(valuePixels.height);
+    var svg = d3.select("svg");
+    // margin = 200,
+    // width = svg.attr("width") - margin, //300
+    // height = svg.attr("height") - margin //200
 
-    var categoryScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, categoryPixels]),
-        valueScale = d3.scaleLinear().domain([0, maxValueHeight]).range([valuePixels, 0]);
-    console.log(categoryScale(1));
-    var g = svg.append("g").attr("transform", "translate(" + 10 + "," + 100 + ")");
+    // Step 4
+    var xScale = d3
+            .scaleLinear()
+            .domain([0, maxValueWidth])
+            .range([0, categoryPixels.width - 50]),
+        yScale = d3
+            .scaleLinear()
+            .domain([0, maxValueHeight])
+            .range([valuePixels.height - 50, 0]);
 
+    var g = svg
+        .append("g") //move bars
+        .attr("transform", "translate(" + 20 + "," + 0 + ")");
+
+    // Step 5
+    //Title
+    // svg.append("text")
+    //     .attr("x", maxValueWidth / 2 + 100)
+    //     .attr("y", 100)
+    //     .attr("text-anchor", "middle")
+    //     .style("font-family", "Helvetica")
+    //     .style("font-size", 20)
+    //     .text("Line Chart");
+
+    // // X label
+    // svg.append("text")
+    //     .attr("x", maxValueWidth / 2 + 100)
+    //     .attr("y", maxValueHeight - 15 + 150)
+    //     .attr("text-anchor", "middle")
+    //     .style("font-family", "Helvetica")
+    //     .style("font-size", 12)
+    //     .text("Independant");
+
+    // // Y label
+    // svg.append("text")
+    //     .attr("text-anchor", "middle")
+    //     .attr("transform", "translate(60," + maxValueHeight + ")rotate(-90)")
+    //     .style("font-family", "Helvetica")
+    //     .style("font-size", 12)
+    //     .text("Dependant");
+
+    // Step 6
+    g.append("g")
+        .attr("transform", "translate(0," + (valuePixels.height - 50) + ")")
+        .call(d3.axisBottom(xScale));
+
+    g.append("g").call(d3.axisLeft(yScale));
+    g.append("g")
+        .attr("transform", "translate(" + (categoryPixels.width - 50) + " ,0)")
+        .call(d3.axisRight(yScale));
+
+    // Step 7
+    svg.append("g")
+        .selectAll("dot")
+        .data(dataset1)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            return xScale(d[0]);
+        })
+        .attr("cy", function (d) {
+            return yScale(d[1]);
+        })
+        .attr("r", 3)
+        .attr("transform", "translate(" + 10 + "," + 0 + ")") //moves dots
+        .style("fill", "#CC0000");
+
+    // Step 8
     var line = d3
         .line()
         .x(function (d) {
-            return categoryScale(d[0]);
+            return xScale(d[0]);
         })
         .y(function (d) {
-            return valueScale(d[1]);
-        })
-        .curve(d3.curveMonotoneX);
+            return yScale(d[1]);
+        });
+    //.curve(d3.curveMonotoneX);
 
     svg.append("path")
-        .datum(dataSet)
+        .datum(dataset1)
         .attr("class", "line")
-        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+        .attr("transform", "translate(" + 10 + "," + 0 + ")") //move lines
         .attr("d", line)
         .style("fill", "none")
-        .style("stroke", "#4916ea")
+        .style("stroke", "#CC0000")
         .style("stroke-width", "2");
 }
+// var categoryScale = d3.scaleLinear().domain([0, maxValueWidth]).range([0, categoryPixels]),
+//     valueScale = d3.scaleLinear().domain([0, maxValueHeight]).range([valuePixels, 0]);
+// console.log(categoryScale(1));
+// //var g = svg.append("g").attr("transform", "translate(" + 10 + "," + 100 + ")");
+// var g = svg.append("g");
+// g.append("g")
+//     .attr("transform", "translate(0," + valuePixels + ")")
+//     .call(d3.axisBottom(categoryScale));
+
+// g.append("g").call(d3.axisLeft(valueScale));
+
+// var line = d3
+//     .line()
+//     .x(function (d) {
+//         return categoryScale(d[0]);
+//     })
+//     .y(function (d) {
+//         return valueScale(d[1]);
+//     })
+//     .curve(d3.curveMonotoneX);
+
+// svg.append("path")
+//     .datum(dataset)
+//     .attr("class", "line")
+//     .attr("transform", "translate(" + 0 + "," + 0 + ")")
+//     .attr("d", line)
+//     .style("fill", "none")
+//     .style("stroke", "#4916ea")
+//     .style("stroke-width", "2");
