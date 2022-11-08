@@ -4,7 +4,7 @@ import { resources } from "./resources";
 import {Pareto, StackedBar, Bar } from "./pareto";
 import { renderPareto, renderParetoAsTextInConsole, Settings } from "./renderer";
 
-const hierarchyAxisName = "CategoryAxis";
+const categoryAxisName = "CategoryAxis";
 const colorAxisName = "Color";
 const valueAxisName = "ValueAxis";
 
@@ -14,7 +14,7 @@ window.Spotfire.initialize(async (mod) => {
     const reader = mod.createReader(
         mod.visualization.data(),
         mod.windowSize(),
-        mod.visualization.axis(hierarchyAxisName),
+        mod.visualization.axis(categoryAxisName),
         mod.visualization.axis(colorAxisName),
         mod.visualization.axis(valueAxisName),
         mod.property<boolean>("showCumulativeFrequencyLine"),
@@ -29,7 +29,7 @@ window.Spotfire.initialize(async (mod) => {
     ) 
     {
         let rootNode: DataViewHierarchyNode;
-        rootNode = (await (await dataView.hierarchy(hierarchyAxisName))!.root()) as DataViewHierarchyNode;
+        rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
 
         //validate data before transformation
         validateDataView(rootNode);
