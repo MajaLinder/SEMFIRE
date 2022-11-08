@@ -28,7 +28,7 @@
         },
         "axes": [
             {
-                "name": "HierarchyAxis",
+                "name": "CategoryAxis",
                 "mode": "categorical",
                 "placement": "bottom",
                 "dropTarget": {
@@ -51,19 +51,6 @@
                 },
                 "legendItem": {
                     "title": "Value-axis",
-                    "defaultVisibility": "hidden"
-                }
-            },
-            {
-                "name": "PercentageAxis",
-                "mode": "continuous",
-                "placement": "right",
-                "dropTarget": {
-                    "icon": "YAxis",
-                    "description": "Use {0} on the mod's Y-axis"
-                },
-                "legendItem": {
-                    "title": "Percetange-axis",
                     "defaultVisibility": "hidden"
                 }
             }
