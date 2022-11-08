@@ -2,9 +2,13 @@
 import * as d3 from "d3";
 
 export interface Pareto {
-    stackedBars: StackedBar[];
+    /** A single bar */
+    stackedBars: StackedBar[]; 
+    /** The largest value among bars */
     maxValue: number;
+    /** The smallest value among bars */
     minValue: number;
+    /** sum of all bar values */
     grandTotal: number;
 }
 
@@ -19,7 +23,7 @@ export interface StackedBar {
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage: number
 }
-
+/** A sector of a bar */
 export interface Bar {
     value: number;
     label: string;
