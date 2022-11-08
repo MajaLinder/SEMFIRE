@@ -2,12 +2,11 @@ import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, S
 //import * as d3 from "d3";
 import { resources } from "./resources";
 import {Pareto, StackedBar, Bar } from "./pareto";
-import { renderPareto } from "./renderer";
+import { renderPareto, renderParetoAsTextInConsole, Settings } from "./renderer";
 
-const hierarchyAxisName = "HierarchyAxis";
+const hierarchyAxisName = "CategoryAxis";
 const colorAxisName = "Color";
 const valueAxisName = "ValueAxis";
-const percentageAxisName = "PercentageAxis";
 
 window.Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
@@ -18,7 +17,6 @@ window.Spotfire.initialize(async (mod) => {
         mod.visualization.axis(hierarchyAxisName),
         mod.visualization.axis(colorAxisName),
         mod.visualization.axis(valueAxisName),
-        mod.visualization.axis(percentageAxisName),
         mod.property<boolean>("showCumulativeFrequencyLine"),
         mod.property<boolean>("showLineMarkers")
     );
@@ -27,7 +25,7 @@ window.Spotfire.initialize(async (mod) => {
 
     async function onChange(
         dataView: DataView, windowSize: Size, hierarchyAxis: Axis, colorAxis: Axis,
-        valueAxis: Axis, percentageAxis: Axis, showCumulativeFrequencyLine: ModProperty<boolean>, showLineMarkers: ModProperty<boolean>
+        valueAxis: Axis, showCumulativeFrequencyLine: ModProperty<boolean>, showLineMarkers: ModProperty<boolean>
     ) 
     {
         let rootNode: DataViewHierarchyNode;
@@ -37,7 +35,7 @@ window.Spotfire.initialize(async (mod) => {
         validateDataView(rootNode);
 
         //transform data into data model objects
-        let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
+        let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => { 
             let totalValue = 0; 
             let bars: Bar[] = leaf.rows().map((row) => {
                 let barValue = row.continuous(valueAxisName).value<number>() || 0;
@@ -77,17 +75,11 @@ window.Spotfire.initialize(async (mod) => {
         } as Pareto
 
         //to do: render Pareto
-        pareto.stackedBars.forEach((p) => {
-            console.log(p.label + " - " + p.totalValue + " (" + p.cumulativePercentage.toFixed(2)+ "%)");
-        });
-   
-        console.log("Max value: " + pareto.maxValue);
-        console.log("Min value: " + pareto.minValue);
-
-
         //when renderPareto method has been implemented it should be invoked here
-        //renderPareto(paret, settings);
+        //renderPareto(pareto, settings);
 
+        //for testing purposes
+        renderParetoAsTextInConsole(pareto, {} as Settings); 
 
         context.signalRenderComplete();
     }
@@ -96,13 +88,12 @@ window.Spotfire.initialize(async (mod) => {
 /**
  * Validate that no empty path element is followed by a value and that all values are positive.
  * @param rootNode - The hierarchy root.
- * @param warnings - The warnings array
  */
- function validateDataView(rootNode: DataViewHierarchyNode) {
+ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
     let warnings: string[] = [];
     let rows = rootNode.rows();
 
-    //validate data, check if there are negative values, or values outside some range, etc
+    //to do: validate data, check if there are negative values, or values outside some range, etc
 
     return warnings;
 }
