@@ -1,131 +1,73 @@
-/*
-* Copyright © 2020. TIBCO Software Inc.
-* This file is subject to the license terms contained
-* in the license file that is distributed with this file.
-*/
-
 * {
     box-sizing: border-box;
 }
 
-body {
-    white-space: pre-line;
-    margin: 10px;
-    overflow: hidden;
-    position: relative;
+html,
+body,
+#border,
+#mod-container {
+    position: absolute;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    user-select: none;
     display: flex;
-}
-
-#border {
-    position: relative;
-    height: calc(100vh - 30px);
-    width: calc(100vw - 100px);
-    display: flex;
-    justify-content: space-between;
+    justify-self: center;
     align-items: center;
-    margin-left: 2%;
+    overflow-y: auto;
 }
 
-#category-scale {
+#explanation {
+    position: absolute;
+    margin: 0 43%;
+    height: 20%;
+    width: 14%;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-#stackedBars {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-evenly;
-    padding-left: 1.5%;
-    padding-right: 1.5%;
-    align-items: flex-end;
-    justify-content:center;
-}
-
-.bar {
-    border-bottom-width: 0;
-    flex-shrink: 1;
-    max-width: 100%;
-    padding: 0.1%;
-    flex-grow: 1;
-    min-width: 3px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-#category-axis {
-    width: 100%;
-    height: 0%;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-self: flex-end;
-}
-
-.segment {
-    width: 100%;
-    display: block;
-    margin: 0px auto;
-    width: 80%;
-    display: block;
-    position: none;
-}
-
-#percentage,
-#value-axis {
-    height: 100%;
-    text-align: right;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
-}
-
-#value-axis {
-    align-items: flex-end;
-    padding-right: 1px;
-}
-
-#percentage {
-    align-items: flex-start;
-    padding-left: 1px;
-}
-
-.scale-labelValue,
-.scale-labelPercentage {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.tick {
-    margin-bottom: 6px;
-}
-
-.scale-labelValue {
-    right: 5px;
-}
-
-.scale-labelPercentage {
-    right: -25px;
-}
-
-.scale-labelCategory {
-    width: 100%;
-    text-align: center;
+#explanation #percentage {
+    font-size: max(5vmin, 10px);
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-bottom: 20px;
+}
+
+#explanation #value{
+    font-size: 2vmin;
+}
+
+@media (max-width: 20em)   
+{
+    #explanation #value{
+        display: none;
+    }
+}
+
+@media (max-height: 20em)   
+{
+    #explanation #value{
+        display: none;
+    }
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    text-align: center;
+    cursor: default;
 }
 
 svg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    display: block;
+}
 
+.settings {
+    right: 0;
+    color: #ccc;
+}
+
+.settings:hover {
+    color: #ddd;
 }
