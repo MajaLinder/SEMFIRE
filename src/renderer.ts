@@ -21,7 +21,12 @@ export async function renderPareto(pareto: Pareto, settings: Settings) {
  */
 export async function renderParetoAsTextInConsole(pareto: Pareto, settings: Settings) {
     pareto.stackedBars.forEach((p) => {
-        console.log(p.label + " - " + p.totalValue + " (" + p.cumulativePercentage.toFixed(2)+ "%)");
+        console.log(p.label + " - " + p.totalValue + " (" + p.cumulativePercentage.toFixed(2)+ "%)"); 
+        if(p.bars?.length > 1) {
+            p.bars.forEach((bar) => {
+                console.log("     " + bar.label + " - " + bar.value + " (" + bar.color + ")"); 
+            });
+        }
     });
 
     console.log("Max value: " + pareto.maxValue);

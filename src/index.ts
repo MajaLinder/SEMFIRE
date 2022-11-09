@@ -21,7 +21,7 @@ window.Spotfire.initialize(async (mod) => {
         mod.property<boolean>("showLineMarkers")
     );
 
-    reader.subscribe(onChange);
+    reader.subscribe(onChange); 
 
     async function onChange(
         dataView: DataView, windowSize: Size, hierarchyAxis: Axis, colorAxis: Axis,
@@ -30,8 +30,8 @@ window.Spotfire.initialize(async (mod) => {
     {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
-
-        //validate data before transformation
+        const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
+         //validate data before transformation
         validateDataView(rootNode);
 
         //transform data into data model objects
@@ -40,14 +40,17 @@ window.Spotfire.initialize(async (mod) => {
             let bars: Bar[] = leaf.rows().map((row) => {
                 let barValue = row.continuous(valueAxisName).value<number>() || 0;
                 totalValue += barValue;
+                let barLabel = hasColorExpression? row.categorical(colorAxisName).formattedValue() : leaf.key;
                 return {
-                    color: "red", //to do: get the color automatically from color axis
+                    color: row.color().hexCode, //to do: get the color automatically from color axis
                     value: barValue,
+                    label: barLabel
                 } as Bar
             })
+
             return {
                 bars: bars,
-                label: leaf.key,
+                label: leaf.formattedPath(),
                 totalValue: totalValue,
                 cumulativeValue: 0
             } as StackedBar
