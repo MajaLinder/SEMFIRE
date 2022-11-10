@@ -1,4 +1,5 @@
 import {Pareto, StackedBar, Bar } from "./pareto";
+import { drawLine } from "./axis";
 
 export interface Settings {
     //here you define all settings that have an effect on how the pareto chart will be rendered and look like, 
