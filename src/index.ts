@@ -76,7 +76,7 @@ window.Spotfire.initialize(async (mod) => {
 
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
-        //renderPareto(pareto, settings);
+        renderPareto(pareto, {} as Settings);
 
         //for testing purposes
         renderParetoAsTextInConsole(pareto, {} as Settings); 

@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+import { NumberValue } from "d3";
 import {Pareto, StackedBar, Bar } from "./pareto";
 
 export interface Settings {
@@ -12,6 +14,7 @@ export interface Settings {
  */
 export async function renderPareto(pareto: Pareto, settings: Settings) {
     
+    renderStackedBars(pareto, settings);
 }
 
 /**
@@ -26,4 +29,61 @@ export async function renderParetoAsTextInConsole(pareto: Pareto, settings: Sett
 
     console.log("Max value: " + pareto.maxValue);
     console.log("Min value: " + pareto.minValue);
+}
+
+/**
+ * Render the bars using d3
+ * @param pareto 
+ * @param settings 
+ */
+function renderStackedBars(pareto: Pareto, settings: Settings) {
+
+    // Maybe we should move this function to another file? 
+    const stackedBars = pareto.stackedBars
+    
+    // TODO: Add some Margins and padding
+    const margin = 20;
+
+    // select the svg
+    let svg = d3.select("svg");
+
+    //Get width and height from svg. cast to Number 
+    const width = Number(svg.style("width").replace("px", ""));
+    const height = Number(svg.style("height").replace("px", ""));
+
+    // TODO: Add margin and padding  
+    // scales are the same as before
+    let xScale = d3.scaleLinear()
+        .domain([0, stackedBars.length])
+        .range([0, width])
+
+    let yScale = d3.scaleLinear()
+        .domain([0, d3.max(stackedBars, d => d.totalValue) as Number])
+        .range([height, 0])
+
+    const groups = svg.selectAll('.bar')
+        .data(stackedBars)
+        .join(enter => {
+            const groups = enter.append('g').attr('class', 'bar');
+
+            groups
+                .append('rect')
+                .attr('height', 0)
+                .attr('y', height);
+
+            return groups;
+    
+        });
+
+    groups.attr('transform', (_, i) => `translate(${xScale(i)}, 0)`)
+
+    let barWidth = width / stackedBars.length;
+    let barPadding = Math.ceil(30 / stackedBars.length);
+
+    groups.select('rect')
+        .attr('fill', "steelblue")
+        .attr('width', barWidth)
+        .attr('height', d => height - Number(yScale(d.totalValue)))
+        .attr('x', barPadding)
+        .attr('y', d => Number(yScale(d.totalValue)));
 }
