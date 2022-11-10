@@ -39,7 +39,7 @@ export async function renderParetoAsTextInConsole(pareto: Pareto, settings: Sett
 function renderStackedBars(pareto: Pareto, settings: Settings) {
 
     // Maybe we should move this function to another file? 
-    const stackedBars = pareto.stackedBars
+    const stackedBars = pareto.stackedBars;
     
     // TODO: Add some Margins and padding
     const margin = {"top": 20, "left": 20, "right": 20, "bottom": 20};
@@ -57,11 +57,11 @@ function renderStackedBars(pareto: Pareto, settings: Settings) {
     // scales are the same as before
     let xScale = d3.scaleLinear()
         .domain([0, stackedBars.length])
-        .range([0, usableWidth])
+        .range([margin.left, usableWidth - margin.right]);
 
     let yScale = d3.scaleLinear()
         .domain([0, d3.max(stackedBars, d => d.totalValue) as Number])
-        .range([usableHeight, 0])
+        .range([usableHeight - margin.bottom, margin.top]);
 
     const groups = svg.selectAll('.bar')
         .data(stackedBars)
@@ -77,7 +77,7 @@ function renderStackedBars(pareto: Pareto, settings: Settings) {
     
         });
 
-    groups.attr('transform', (_, i) => `translate(${xScale(i)}, 0)`)
+    groups.attr('transform', (_, i) => `translate(${xScale(i)}, 0)`);
 
     let barWidth = usableWidth / stackedBars.length;
     let barPadding = Math.ceil(50 / stackedBars.length);
