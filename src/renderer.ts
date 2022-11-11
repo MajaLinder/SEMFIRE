@@ -1,5 +1,5 @@
-import {Pareto, StackedBar, Bar } from "./pareto";
-
+import {Pareto} from "./pareto";
+import {renderStackedBars} from "./stackedBars";
 export interface Settings {
     //here you define all settings that have an effect on how the pareto chart will be rendered and look like, 
     //for example: tick stroke width, tick length, etc
@@ -12,6 +12,7 @@ export interface Settings {
  */
 export async function renderPareto(pareto: Pareto, settings: Settings) {
     
+    renderStackedBars(pareto);
 }
 
 /**
@@ -32,3 +33,4 @@ export async function renderParetoAsTextInConsole(pareto: Pareto, settings: Sett
     console.log("Max value: " + pareto.maxValue);
     console.log("Min value: " + pareto.minValue);
 }
+
