@@ -55,11 +55,11 @@ function renderStackedBars(pareto: Pareto, settings: Settings) {
     const usableHeight = height - margin.top - margin.bottom;
     // TODO: Add margin and padding  
     // scales are the same as before
-    let xScale = d3.scaleLinear()
+    let categoryScale = d3.scaleLinear()
         .domain([0, stackedBars.length])
         .range([margin.left, usableWidth - margin.right]);
 
-    let yScale = d3.scaleLinear()
+    let valueScale = d3.scaleLinear()
         .domain([0, d3.max(stackedBars, d => d.totalValue) as Number])
         .range([usableHeight - margin.bottom, margin.top]);
 
@@ -71,13 +71,13 @@ function renderStackedBars(pareto: Pareto, settings: Settings) {
             groups
                 .append('rect')
                 .attr('height', 0)
-                .attr('y', usableHeight);
+                .attr('value', usableHeight);
 
             return groups;
     
         });
 
-    groups.attr('transform', (_, i) => `translate(${xScale(i)}, 0)`);
+    groups.attr('transform', (_, i) => `translate(${categoryScale(i)}, 0)`);
 
     let barWidth = usableWidth / stackedBars.length;
     let barPadding = Math.ceil(50 / stackedBars.length);
@@ -86,7 +86,7 @@ function renderStackedBars(pareto: Pareto, settings: Settings) {
         // TODO: use color from pareto/settings
         .attr('fill', "steelblue")
         .attr('width', barWidth - barPadding * 2)
-        .attr('height', d => usableHeight - Number(yScale(d.totalValue)))
-        .attr('x', barPadding)
-        .attr('y', d => Number(yScale(d.totalValue)));
+        .attr('height', d => usableHeight - Number(valueScale(d.totalValue)))
+        .attr('category', barPadding)
+        .attr('value', d => Number(valueScale(d.totalValue)));
 }
