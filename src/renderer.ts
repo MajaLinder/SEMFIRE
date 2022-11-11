@@ -1,5 +1,7 @@
 import {Pareto} from "./pareto";
 import {renderStackedBars} from "./stackedBars";
+import { renderCumulativeLine } from "./cumulativeLine";
+
 export interface Settings {
     //here you define all settings that have an effect on how the pareto chart will be rendered and look like, 
     //for example: tick stroke width, tick length, etc
@@ -13,6 +15,7 @@ export interface Settings {
 export async function renderPareto(pareto: Pareto, settings: Settings) {
     
     renderStackedBars(pareto);
+    renderCumulativeLine(pareto);
 }
 
 /**

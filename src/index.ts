@@ -24,7 +24,7 @@ window.Spotfire.initialize(async (mod) => {
     reader.subscribe(onChange); 
 
     async function onChange(
-        dataView: DataView, windowSize: Size, hierarchyAxis: Axis, colorAxis: Axis,
+        dataView: DataView, windowSize: Size, categoryAxis: Axis, colorAxis: Axis,
         valueAxis: Axis, showCumulativeFrequencyLine: ModProperty<boolean>, showLineMarkers: ModProperty<boolean>
     ) 
     {
