@@ -13,10 +13,11 @@ import {Pareto} from "./pareto";
 
     // select the svg
     let svg = d3.select("svg");
-
+    let svgContainer = document.querySelector("#svg");
+    
     //Get width and height from svg. cast to Number 
-    const width = Number(svg.style("width").replace("px", ""));
-    const height = Number(svg.style("height").replace("px", ""));
+    const width = svgContainer?.getBoundingClientRect().width as number;
+    const height = svgContainer?.getBoundingClientRect().height as number;
 
     const usableWidth = width - margin.left - margin.right;
     const usableHeight = height - margin.top - margin.bottom;
