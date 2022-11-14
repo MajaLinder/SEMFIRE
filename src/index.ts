@@ -6,7 +6,7 @@ import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
 
 const categoryAxisName = "CategoryAxis";
-const colorAxisName = "ColorAxis";
+const colorAxisName = "Color";
 const valueAxisName = "ValueAxis";
 
 window.Spotfire.initialize(async (mod) => {
