@@ -85,10 +85,10 @@ window.Spotfire.initialize(async (mod) => {
 
                 ticks: {
                     stroke: context.styling.scales.line.stroke,
-                 },
+                },
 
                 background: {
-                     color: context.styling.general.backgroundColor },
+                    color: context.styling.general.backgroundColor },
 
                 label: {
                     fontFamily: context.styling.general.font.fontFamily,
@@ -99,7 +99,7 @@ window.Spotfire.initialize(async (mod) => {
                 },
 
                 lines: {
-                    color: context.styling.general.font.color,
+                    color: context.styling.scales.line.stroke, 
                     weight: context.styling.scales.line.stroke
                 }
                 

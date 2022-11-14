@@ -35,4 +35,4 @@ export function renderSettings(setting: Settings) {
         width: setStyle.windowSize.width - (margin.left + margin.right),
         height: setStyle.windowSize.height - (margin.top + margin.bottom)
     };
- }
+}
