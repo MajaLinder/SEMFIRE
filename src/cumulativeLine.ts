@@ -23,13 +23,12 @@ export function renderCumulativeLine(pareto: Pareto) {
     // TODO: get the data from API
     let bars: number[][] = [];
 
-    let test = 1;
     pareto.stackedBars.forEach(stackedBar => {
-        bars.push([test, stackedBar.cumulativeValue]);
-        test += 1;
+        bars.push([stackedBar.position * (100 / pareto.stackedBars.length), stackedBar.cumulativePercentage]);
+        
     });
 
-    console.log(bars);
+    console.log(bars); 
 
     let svg = d3.select("svg")
     let svgContainer = document.querySelector("#svg");
@@ -39,7 +38,7 @@ export function renderCumulativeLine(pareto: Pareto) {
     
 
     var categoryScale:any = d3.scaleLinear().domain([0, 100]).range([0, width]),
-        valueScale:any = d3.scaleLinear().domain([0, 200]).range([height, 0]);
+        valueScale:any = d3.scaleLinear().domain([0, 100]).range([height, 0]);
 
     var line = d3.line<any>()
         .x(function (d) { return categoryScale(d[0]); })
