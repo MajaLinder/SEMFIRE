@@ -61,11 +61,14 @@ window.Spotfire.initialize(async (mod) => {
         });
 
         let prevCumulative = 0;
-        
+        let pos = 0;
         sortedStackedBars.forEach((stackedBar) => {
             stackedBar.cumulativeValue += prevCumulative + stackedBar.totalValue;
             stackedBar.cumulativePercentage = 100 * stackedBar.cumulativeValue / paretoGrandTotal;
             prevCumulative = stackedBar.cumulativeValue;
+            stackedBar.position = pos; 
+            pos++;
+
         });
         let paretoGrandTotal = sortedStackedBars?.length? sortedStackedBars[sortedStackedBars.length - 1].cumulativeValue: 0;
         sortedStackedBars.forEach(stackedBar => stackedBar.cumulativePercentage = 100 * stackedBar.cumulativeValue / paretoGrandTotal);
