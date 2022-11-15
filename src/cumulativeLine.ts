@@ -38,12 +38,12 @@ export function renderCumulativeLine(pareto: Pareto) {
     const height = svgContainer?.getBoundingClientRect().height as number;
     
 
-    var xScale:any = d3.scaleLinear().domain([0, 100]).range([0, width]),
-        yScale:any = d3.scaleLinear().domain([0, 200]).range([height, 0]);
+    var categoryScale:any = d3.scaleLinear().domain([0, 100]).range([0, width]),
+        valueScale:any = d3.scaleLinear().domain([0, 200]).range([height, 0]);
 
     var line = d3.line<any>()
-        .x(function (d) { return xScale(d[0]); })
-        .y(function (d) { return yScale(d[1]); })
+        .x(function (d) { return categoryScale(d[0]); })
+        .y(function (d) { return valueScale(d[1]); })
 
     svg.append("path")
         .datum(bars)
