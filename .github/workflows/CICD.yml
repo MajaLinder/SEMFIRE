@@ -24,6 +24,7 @@ jobs:
         cache: 'npm'
 
     - run: npm install
+    - run: npm audit fix --force
     - run: npm start & 
     - run: ls '/home/runner/work/SEMFIRE'
     - run: ls '/home/runner/work/SEMFIRE/SEMFIRE'
