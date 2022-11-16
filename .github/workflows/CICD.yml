@@ -22,7 +22,7 @@ jobs:
       with:
        # node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        path: '/home/runner/work/SEMFIRE'
+        path: '/home/runner/work/SEMFIRE/SEMFIRE'
 
     - run: npm install
     - run: npm start & 
