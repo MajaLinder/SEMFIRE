@@ -28,4 +28,4 @@ jobs:
     - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm run build
     - run: ls '/home/runner/work/SEMFIRE'
     - run: ls '/home/runner/work/SEMFIRE/SEMFIRE'
-    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm run server
+    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm test
