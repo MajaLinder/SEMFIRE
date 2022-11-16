@@ -26,7 +26,7 @@ jobs:
         
     - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm install
     - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm audit fix --force
-    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm start & 
+    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm start
     - run: ls '/home/runner/work/SEMFIRE'
     - run: ls '/home/runner/work/SEMFIRE/SEMFIRE'
     - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm run server
