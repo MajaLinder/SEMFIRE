@@ -67,7 +67,7 @@ svg {
     width: 70vw;
    
 }
-.xScale:first-of-type line{
+.categoryScale:first-of-type line{
     fill: none;
     stroke: none;
 

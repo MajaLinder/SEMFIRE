@@ -19,8 +19,9 @@ export interface Settings {
 
 export async function renderPareto(pareto: Pareto, settings: Settings) {
     
-    renderStackedBars(pareto);
     renderAxes(pareto)
+    renderStackedBars(pareto);
+
 }
 
 /**
