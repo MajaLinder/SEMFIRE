@@ -60,6 +60,7 @@ body {
     padding: 20px;
 }
 
+
 svg {
     position: relative;
     height: calc(100vh - 60px);
@@ -69,6 +70,7 @@ svg {
 .xScale:first-of-type line{
     fill: none;
     stroke: none;
+
 }
 .settings {
     right: 0;
