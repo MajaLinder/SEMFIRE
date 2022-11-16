@@ -5,9 +5,9 @@ import { Pareto} from "./pareto";
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
-    const paretoCategoryAxes:any = [];
+    const paretoCategoryValues:any = [];
     pareto.stackedBars.forEach((p) => {
-        paretoCategoryAxes.push(p.label);
+        paretoCategoryValues.push(p.label);
     });
 
     let ticks:number = 0;
@@ -25,16 +25,16 @@ import { Pareto} from "./pareto";
 
     var svg = d3.select("svg");
 
-    var categoryAxes = d3
+    var categoryAxis = d3
             .scaleBand()
-            .domain(paretoCategoryAxes)           
+            .domain(paretoCategoryValues)           
             .range([0, valueInPixels.width - 100]),
-        valueAxes = d3
+        valueAxis = d3
             .scaleLinear()
             .domain([0, pareto.maxValue]).nice(ticks)
             .range([valueInPixels.height - 50, 100])
             ,
-        percentageAxes = d3
+        percentageAxis = d3
             .scaleLinear()
             .domain([0 , 100 ])
             .range([valueInPixels.height - 50, 100]);
@@ -45,13 +45,13 @@ import { Pareto} from "./pareto";
   
     g.append("g")
         .attr("transform", "translate(0," + (valueInPixels.height - 50) + ")")
-        .call(d3.axisBottom(categoryAxes).scale(categoryAxes).tickSize(0).tickPadding(3))
+        .call(d3.axisBottom(categoryAxis).scale(categoryAxis).tickSize(0).tickPadding(3))
         
 
-    g.append("g").call(d3.axisLeft(valueAxes).ticks(ticks));
+    g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
         .attr("transform", "translate(" + (valueInPixels.width - 100) + " ,0)")
-        .call(d3.axisRight(percentageAxes).tickPadding(2).ticks(10)
+        .call(d3.axisRight(percentageAxis).tickPadding(2).ticks(10)
         .tickFormat(function(d) {
           return d + "%";
         }));
