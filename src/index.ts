@@ -3,7 +3,6 @@ import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, S
 import { resources } from "./resources";
 import {Pareto, StackedBar, Bar } from "./pareto";
 import { renderPareto, renderParetoAsTextInConsole, Settings } from "./renderer";
-import { renderAxes } from "./axis";
 
 
 const categoryAxisName = "CategoryAxis";
