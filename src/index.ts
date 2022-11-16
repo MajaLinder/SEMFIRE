@@ -3,7 +3,8 @@ import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, S
 import { resources } from "./resources";
 import {Pareto, StackedBar, Bar } from "./pareto";
 import { renderPareto, renderParetoAsTextInConsole, Settings } from "./renderer";
-import { drawLine } from "./axis";
+import { renderAxes } from "./axis";
+
 
 const categoryAxisName = "CategoryAxis";
 const colorAxisName = "Color";
@@ -77,11 +78,11 @@ window.Spotfire.initialize(async (mod) => {
 
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
-        //renderPareto(pareto, settings);
+        renderPareto(pareto,{} as Settings);
 
         //for testing purposes
         renderParetoAsTextInConsole(pareto, {} as Settings); 
-        drawLine(pareto)
+       
 
         context.signalRenderComplete();
     }

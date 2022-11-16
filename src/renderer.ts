@@ -1,5 +1,5 @@
 import {Pareto, StackedBar, Bar } from "./pareto";
-import { drawLine } from "./axis";
+import { renderAxes } from "./axis";
 
 export interface Settings {
     //here you define all settings that have an effect on how the pareto chart will be rendered and look like, 
@@ -11,8 +11,8 @@ export interface Settings {
  * @param pareto - Pareto to write in console
  * @param settings - Settings that should be used
  */
-export async function renderPareto(pareto: Pareto, settings: Settings) {
-    
+export async function renderPareto(pareto: Pareto, settings: Settings, ) {
+    renderAxes(pareto)
 }
 
 /**
