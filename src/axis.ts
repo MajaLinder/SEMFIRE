@@ -45,7 +45,7 @@ import { Pareto} from "./pareto";
   
     g.append("g")
         .attr("transform", "translate(0," + (valueInPixels.height - 50) + ")")
-        .call(d3.axisBottom(categoryAxes).scale(categoryAxes).tickSizeInner(1).tickPadding(3))
+        .call(d3.axisBottom(categoryAxes).scale(categoryAxes).tickSize(0).tickPadding(3))
         
 
     g.append("g").call(d3.axisLeft(valueAxes).ticks(ticks));
