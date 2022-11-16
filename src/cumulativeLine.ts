@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { stack } from "d3";
 import {Pareto} from "./pareto";
 
 
@@ -19,20 +20,23 @@ export function renderCumulativeLine(pareto: Pareto) {
     let categoryPositions: number[] = [];
     let cumulativePercentages: number[] = [];
 
-    pareto.stackedBars.forEach(stackedBar => {
-        positions.push([stackedBar.position * (100 / pareto.stackedBars.length), stackedBar.cumulativePercentage]);
-        categoryPositions.push(stackedBar.position * (100 / pareto.stackedBars.length));
-        cumulativePercentages.push(stackedBar.cumulativePercentage);
-    });
-
     let svg = d3.select("svg")
     let svgContainer = document.querySelector("#svg");
     
     const width = svgContainer?.getBoundingClientRect().width as number;
     const height = svgContainer?.getBoundingClientRect().height as number;
-    
 
-    var categoryScale:any = d3.scaleLinear().domain([0, categoryPositions[categoryPositions.length -1]]).range([0, width]),
+    pareto.stackedBars.forEach(stackedBar => {
+        let stackedBarWidth = 1 / pareto.stackedBars.length;
+        //segments' start position should be aligned with the center of their respective stacked bars (horizontally)
+        let xPosition = stackedBar.position * stackedBarWidth + stackedBarWidth/2; 
+        positions.push([xPosition, stackedBar.cumulativePercentage]);
+
+        categoryPositions.push(stackedBar.position * (stackedBarWidth));
+        cumulativePercentages.push(stackedBar.cumulativePercentage);
+    });
+
+    var categoryScale:any = d3.scaleLinear().domain([0, 1]).range([0, width]),
         valueScale:any = d3.scaleLinear().domain([0, cumulativePercentages[cumulativePercentages.length -1]]).range([height, 0]);
 
     var line = d3.line<any>()
