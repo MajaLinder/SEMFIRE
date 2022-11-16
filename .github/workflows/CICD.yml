@@ -10,9 +10,9 @@ jobs:
     
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-       node-version: [14.x, 16.x, 18.x]
+    #strategy:
+     # matrix:
+       #node-version: [14.x, 16.x, 18.x]
         #See supported Node.js release schedule at https://nodejs.org/en/about/releases/
   
     steps:
@@ -25,8 +25,8 @@ jobs:
         path: '/home/runner/work/SEMFIRE/SEMFIRE'
         
     - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm install
-    - run: npm audit fix --force
-    - run: npm start & 
+    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm audit fix --force
+    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm start & 
     - run: ls '/home/runner/work/SEMFIRE'
     - run: ls '/home/runner/work/SEMFIRE/SEMFIRE'
-    - run: npm run server
+    - run: cd '/home/runner/work/SEMFIRE/SEMFIRE' && npm run server
