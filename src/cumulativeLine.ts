@@ -1,8 +1,5 @@
 import * as d3 from "d3";
-import { stack } from "d3";
 import {Pareto} from "./pareto";
-
-
 
 /**
  * Render the cumulative line using d3
@@ -17,7 +14,6 @@ export function renderCumulativeLine(pareto: Pareto) {
     let positions: number[][] = [];
 
     // store these to use later when setting the domain of the scale
-    let categoryPositions: number[] = [];
     let cumulativePercentages: number[] = [];
 
     let svg = d3.select("svg")
@@ -32,7 +28,6 @@ export function renderCumulativeLine(pareto: Pareto) {
         let xPosition = stackedBar.position * stackedBarWidth + stackedBarWidth/2; 
         positions.push([xPosition, stackedBar.cumulativePercentage]);
 
-        categoryPositions.push(stackedBar.position * (stackedBarWidth));
         cumulativePercentages.push(stackedBar.cumulativePercentage);
     });
 
