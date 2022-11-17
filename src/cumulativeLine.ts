@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import {Pareto} from "./pareto";
+import{moduleCategoryAxis,moduleCategories, modulePercentageAxis} from "./axis"
 
 /**
  * Render the cumulative line using d3
@@ -8,35 +9,43 @@ import {Pareto} from "./pareto";
 export function renderCumulativeLine(pareto: Pareto) {
 
     // removes previously rendered line
-    d3.selectAll("path").remove();
+    //d3.selectAll("path").remove();
 
     // store the x and y positions for the line
-    let positions: number[][] = [];
+    let positions: any[][] = [];
 
     // store these to use later when setting the domain of the scale
     let cumulativePercentages: number[] = [];
 
+    const paretoCategoryValues:string[] = moduleCategories(pareto)
+
     let svg = d3.select("svg")
-    let svgContainer = document.querySelector("#svg");
+    const svgBoundingClientRect:any = document.querySelector("#svg");
+    const valueInPixels:any = svgBoundingClientRect.getBoundingClientRect();
+    const categoryAxis = moduleCategoryAxis(paretoCategoryValues, valueInPixels.width);
+    const valueAxis = modulePercentageAxis(valueInPixels.height);
     
-    const width = svgContainer?.getBoundingClientRect().width as number;
-    const height = svgContainer?.getBoundingClientRect().height as number;
+    //const width = svgBoundingClientRect?.getBoundingClientRect().width as number;
+    //const height = svgBoundingClientRect?.getBoundingClientRect().height as any;
 
     pareto.stackedBars.forEach(stackedBar => {
-        let stackedBarWidth = 1 / pareto.stackedBars.length;
+        //let stackedBarWidth = 1 / pareto.stackedBars.length;
         //segments' start position should be aligned with the center of their respective stacked bars (horizontally)
-        let xPosition = stackedBar.position * stackedBarWidth + stackedBarWidth/2; 
-        positions.push([xPosition, stackedBar.cumulativePercentage]);
+        //let xPosition = stackedBar.position * stackedBarWidth + stackedBarWidth/2; 
+        //positions.push([xPosition, stackedBar.cumulativePercentage]);
+        positions.push([stackedBar.label, stackedBar.cumulativePercentage]);
 
         cumulativePercentages.push(stackedBar.cumulativePercentage);
     });
 
-    var categoryScale:any = d3.scaleLinear().domain([0, 1]).range([0, width]),
-        valueScale:any = d3.scaleLinear().domain([0, cumulativePercentages[cumulativePercentages.length -1]]).range([height, 0]);
+    console.log(positions)
+
+    //var categoryScale:any = d3.scaleLinear().domain([0, pareto.stackedBars.length]).range([0, width]),
+       // valueScale:any = d3.scaleLinear().domain([0, cumulativePercentages[cumulativePercentages.length -1]]).range([height, 0]);
 
     var line = d3.line<any>()
-        .x(function (d) { return categoryScale(d[0]); })
-        .y(function (d) { return valueScale(d[1]); })
+        .x(function (d):any { return categoryAxis(d[0]); })
+        .y(function (d):any { return valueAxis(d[1]); })
 
     svg.append("path")
         .datum(positions)
