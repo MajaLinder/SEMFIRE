@@ -1,3 +1,5 @@
+
+import { renderAxes } from "./axis";
 import {Pareto} from "./pareto";
 import {renderStackedBars} from "./stackedBars";
 import {Settings, renderSettings} from "./Settings"
@@ -14,8 +16,13 @@ import {Settings, renderSettings} from "./Settings"
  * @param pareto - Pareto to write in console
  * @param settings - Settings that should be used
  */
+
+
+    
+
 export async function renderPareto(pareto: Pareto, settings: Settings) {
     
+    renderAxes(pareto)
     renderStackedBars(pareto);
     renderSettings(settings);
 }
@@ -37,5 +44,6 @@ export async function renderParetoAsTextInConsole(pareto: Pareto, settings: Sett
 
     console.log("Max value: " + pareto.maxValue);
     console.log("Min value: " + pareto.minValue);
+
 }
 

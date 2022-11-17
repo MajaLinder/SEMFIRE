@@ -1,9 +1,10 @@
 import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size } from "spotfire-api";
 //import * as d3 from "d3";
 import { resources } from "./resources";
-import { Pareto, StackedBar, Bar } from "./pareto";
+import {Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
+
 
 const categoryAxisName = "CategoryAxis";
 const colorAxisName = "Color";
@@ -112,7 +113,9 @@ window.Spotfire.initialize(async (mod) => {
 
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
+
         renderPareto(pareto, {} as Settings);
+
 
         //for testing purposes
         renderParetoAsTextInConsole(pareto, {} as Settings);
