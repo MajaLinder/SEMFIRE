@@ -3,7 +3,7 @@ name: Node.js CI
 on: [push]
 
 jobs:
-  test:
+  build:
     
     runs-on: ubuntu-latest
   
@@ -18,5 +18,4 @@ jobs:
     - run: npm install
     - run: npm audit fix --force
     - run: npm run build
-    - run: npm test
-    - run: ls '/home/runner/work/SEMFIRE/index.ts'
+    - run: ls '/home/runner/work/SEMFIRE/SEMFIRE'
