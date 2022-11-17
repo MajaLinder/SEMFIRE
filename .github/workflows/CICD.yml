@@ -18,5 +18,5 @@ jobs:
     - run: npm install
     - run: npm audit fix --force
     - run: npm run build
-    - run: npm run test
+    - run: npm test
     - run: ls '/home/runner/work/SEMFIRE/index.ts'
