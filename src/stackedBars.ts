@@ -8,8 +8,6 @@ import {Pareto} from "./pareto";
  export function renderStackedBars(pareto: Pareto) {
 
     const stackedBars = pareto.stackedBars;
-    
-    const margin = {"top": 20, "left": 20, "right": 20, "bottom": 20};
 
     // select the svg
     let svg = d3.select("svg");
@@ -19,16 +17,13 @@ import {Pareto} from "./pareto";
     const width = svgContainer?.getBoundingClientRect().width as number;
     const height = svgContainer?.getBoundingClientRect().height as number;
 
-    const usableWidth = width - margin.left - margin.right;
-    const usableHeight = height - margin.top - margin.bottom;
-
     let categoryScale = d3.scaleLinear()
         .domain([0, stackedBars.length])
-        .range([margin.left, usableWidth - margin.right]);
+        .range([0, width]);
 
     let valueScale = d3.scaleLinear()
         .domain([0, d3.max(stackedBars, d => d.totalValue) as Number])
-        .range([usableHeight - margin.bottom, margin.top]);
+        .range([height, 0]);
 
     const groups = svg.selectAll('.bar')
         .data(stackedBars)
@@ -38,7 +33,7 @@ import {Pareto} from "./pareto";
             groups
                 .append('rect')
                 .attr('height', 0)
-                .attr('y', usableHeight);
+                .attr('y', height);
 
             return groups;
     
@@ -46,14 +41,14 @@ import {Pareto} from "./pareto";
 
     groups.attr('transform', (_, i) => `translate(${categoryScale(i)}, 0)`);
 
-    let barWidth = usableWidth / stackedBars.length;
+    let barWidth = width / stackedBars.length;
     let barPadding = Math.ceil(50 / stackedBars.length);
 
     groups.select('rect')
         // TODO: use color from pareto/settings
         .attr('fill', "steelblue")
         .attr('width', barWidth - barPadding * 2)
-        .attr('height', d => usableHeight - Number(valueScale(d.totalValue)))
+        .attr('height', d => height - Number(valueScale(d.totalValue)))
         .attr('x', barPadding)
         .attr('y', d => Number(valueScale(d.totalValue)));
 }
