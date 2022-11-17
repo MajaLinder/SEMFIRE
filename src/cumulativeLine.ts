@@ -38,7 +38,7 @@ export function renderCumulativeLine(pareto: Pareto) {
         cumulativePercentages.push(stackedBar.cumulativePercentage);
     });
 
-    console.log(positions)
+    console.log(categoryAxis.bandwidth()/2)
 
     //var categoryScale:any = d3.scaleLinear().domain([0, pareto.stackedBars.length]).range([0, width]),
        // valueScale:any = d3.scaleLinear().domain([0, cumulativePercentages[cumulativePercentages.length -1]]).range([height, 0]);
@@ -50,7 +50,7 @@ export function renderCumulativeLine(pareto: Pareto) {
     svg.append("path")
         .datum(positions)
         .attr("class", "line")
-        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+        .attr("transform", "translate(" + 65 + "," + 0 + ")")
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#4916ea")

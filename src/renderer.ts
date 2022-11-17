@@ -25,7 +25,7 @@ export async function renderPareto(pareto: Pareto, settings: Settings) {
     renderAxes(pareto)
     renderStackedBars(pareto);
     renderCumulativeLine(pareto);
-    renderSettings(settings);
+    //renderSettings(settings);
 }
 
 /**
