@@ -2,11 +2,14 @@
 import { renderAxes } from "./axis";
 import {Pareto} from "./pareto";
 import {renderStackedBars} from "./stackedBars";
+import {Settings, renderSettings} from "./Settings"
 
-export interface Settings {
-    //here you define all settings that have an effect on how the pareto chart will be rendered and look like, 
-    //for example: tick stroke width, tick length, etc
-}
+//Added the settings interface in settings.ts
+// export interface Settings {
+//     //here you define all settings that have an effect on how the pareto chart will be rendered and look like, 
+//     //for example: tick stroke width, tick length, etc
+// }
+
 
 /**
  * Draws pareto with the given settings
@@ -21,7 +24,7 @@ export async function renderPareto(pareto: Pareto, settings: Settings) {
     
     renderAxes(pareto)
     renderStackedBars(pareto);
-
+    renderSettings(settings);
 }
 
 /**
