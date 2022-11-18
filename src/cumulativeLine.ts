@@ -22,24 +22,13 @@ export function renderCumulativeLine(pareto: Pareto) {
     let categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width); //used to get bandwidth later
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, valueInPixels.width + (categoryAxisBandwidth.bandwidth()/2));
     const valueAxis = modulePercentageAxis(valueInPixels.height);
-    
-    //const width = svgBoundingClientRect?.getBoundingClientRect().width as number;
-    //const height = svgBoundingClientRect?.getBoundingClientRect().height as any;
 
     pareto.stackedBars.forEach(stackedBar => {
-        //let stackedBarWidth = 1 / pareto.stackedBars.length;
-        //segments' start position should be aligned with the center of their respective stacked bars (horizontally)
-        //let xPosition = stackedBar.position * stackedBarWidth + stackedBarWidth/2; 
-        //positions.push([xPosition, stackedBar.cumulativePercentage]);
         positions.push([stackedBar.label, stackedBar.cumulativePercentage]);
-
         cumulativePercentages.push(stackedBar.cumulativePercentage);
     });
 
     console.log(categoryAxis.bandwidth()/2)
-
-    //var categoryScale:any = d3.scaleLinear().domain([0, pareto.stackedBars.length]).range([0, width]),
-       // valueScale:any = d3.scaleLinear().domain([0, cumulativePercentages[cumulativePercentages.length -1]]).range([height, 0]);
 
     var line = d3.line<any>()
         .x(function (d):any { return categoryAxis(d[0]); })
