@@ -13,7 +13,7 @@ import { Pareto} from "./pareto";
     const valueInPixels:any = svgBoundingClientRect.getBoundingClientRect();
 
     var svg = d3.select("svg");
-    const categoryAxis= moduleCategoryAxis(paretoCategoryValues,valueInPixels.width);
+    const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width);
     const valueAxis = moduleValueAxis(pareto.maxValue,valueInPixels.height,ticks);
     const percentageAxis =  modulePercentageAxis(valueInPixels.height)
    
@@ -23,7 +23,7 @@ import { Pareto} from "./pareto";
   
     g.append("g")
         .attr("transform", "translate(0," + (valueInPixels.height - 50) + ")")
-        .call(d3.axisBottom(categoryAxis).scale(categoryAxis).tickSize(0).tickPadding(3))
+        .call(d3.axisBottom(categoryAxis).scale(categoryAxis))
         
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
@@ -35,12 +35,12 @@ import { Pareto} from "./pareto";
         }));
 }
 
-const moduleCategoryAxis =(domain:any,rangeWidth:number)=>{
+const moduleCategoryAxis =(domain:any, rangeStart:number , rangeWidth:number)=>{
 
     let categoryAxis = d3
             .scaleBand()
             .domain(domain)           
-            .range([0, rangeWidth - 100])
+            .range([rangeStart, rangeWidth - 100])
             .paddingInner(0.13)
             .paddingOuter(0.26)
     return(categoryAxis);

@@ -28,8 +28,9 @@ window.Spotfire.initialize(async (mod) => {
 
     async function onChange(
         dataView: DataView, windowSize: Size, categoryAxis: Axis, colorAxis: Axis,
-        valueAxis: Axis, showCumulativeFrequencyLine: ModProperty<boolean>, showLineMarkers: ModProperty<boolean>, 
-    ) {
+        valueAxis: Axis, showCumulativeFrequencyLine: ModProperty<boolean>, showLineMarkers: ModProperty<boolean>
+    ) 
+    {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
@@ -63,11 +64,14 @@ window.Spotfire.initialize(async (mod) => {
         });
 
         let prevCumulative = 0;
-
+        let pos = 0;
         sortedStackedBars.forEach((stackedBar) => {
             stackedBar.cumulativeValue += prevCumulative + stackedBar.totalValue;
             stackedBar.cumulativePercentage = 100 * stackedBar.cumulativeValue / paretoGrandTotal;
             prevCumulative = stackedBar.cumulativeValue;
+            stackedBar.position = pos; 
+            pos++;
+
         });
         let paretoGrandTotal = sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].cumulativeValue : 0;
         sortedStackedBars.forEach(stackedBar => stackedBar.cumulativePercentage = 100 * stackedBar.cumulativeValue / paretoGrandTotal);

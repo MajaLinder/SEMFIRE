@@ -12,7 +12,7 @@ import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from ".
     let ticks=moduleTicks(pareto)
     const svgBoundingClientRect:any = document.querySelector("#svg");
     const valueInPixels:any = svgBoundingClientRect.getBoundingClientRect();
-    const categoryAxis= moduleCategoryAxis(paretoCategoryValues,valueInPixels.width);
+    const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width);
     const valueAxis = moduleValueAxis(pareto.maxValue,valueInPixels.height,ticks);
    
     var svg = d3.select("svg");
