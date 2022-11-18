@@ -19,7 +19,7 @@ export function renderCumulativeLine(pareto: Pareto) {
     let svg = d3.select("svg")
     const svgBoundingClientRect:any = document.querySelector("#svg");
     const valueInPixels:any = svgBoundingClientRect.getBoundingClientRect();
-    let categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width); //used to get bandwidth later
+    const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width); //used to get bandwidth later
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, valueInPixels.width + (categoryAxisBandwidth.bandwidth()/2));
     const valueAxis = modulePercentageAxis(valueInPixels.height);
 
