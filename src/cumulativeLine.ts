@@ -8,9 +8,6 @@ import{moduleCategoryAxis,moduleCategories, modulePercentageAxis} from "./axis"
  */
 export function renderCumulativeLine(pareto: Pareto) {
 
-    // removes previously rendered line
-    //d3.selectAll("path").remove();
-
     // store the x and y positions for the line
     let positions: any[][] = [];
 
@@ -22,7 +19,8 @@ export function renderCumulativeLine(pareto: Pareto) {
     let svg = d3.select("svg")
     const svgBoundingClientRect:any = document.querySelector("#svg");
     const valueInPixels:any = svgBoundingClientRect.getBoundingClientRect();
-    const categoryAxis = moduleCategoryAxis(paretoCategoryValues, valueInPixels.width);
+    let categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width); //used to get bandwidth later
+    const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, valueInPixels.width + (categoryAxisBandwidth.bandwidth()/2));
     const valueAxis = modulePercentageAxis(valueInPixels.height);
     
     //const width = svgBoundingClientRect?.getBoundingClientRect().width as number;
