@@ -20,7 +20,7 @@ import {Settings, renderSettings} from "./Settings"
 
     
 
-export async function renderPareto(pareto: Pareto, settings: Settings) {
+export function renderPareto(pareto: Pareto, settings: Settings) {
     
     renderAxes(pareto)
     renderStackedBars(pareto);
@@ -33,7 +33,7 @@ export async function renderPareto(pareto: Pareto, settings: Settings) {
  * @param pareto - Pareto to write in console
  * @param settings - Settings that should be used
  */
-export async function renderParetoAsTextInConsole(pareto: Pareto, settings: Settings) {
+export function renderParetoAsTextInConsole(pareto: Pareto, settings: Settings) {
     pareto.stackedBars.forEach((p) => {
         console.log("(" + p.position + ") " + p.label + " - " + p.totalValue + " (" + p.cumulativePercentage.toFixed(2)+ "%)"); 
         if(p.bars?.length > 1) {

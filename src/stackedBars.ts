@@ -10,13 +10,13 @@ import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from ".
     const paretoCategoryValues:string[] = moduleCategories(pareto)
 
     let ticks=moduleTicks(pareto)
-    const svgBoundingClientRect:any = document.querySelector("#svg");
-    const valueInPixels:any = svgBoundingClientRect.getBoundingClientRect();
-    const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, valueInPixels.width);
-    const valueAxis = moduleValueAxis(pareto.maxValue,valueInPixels.height,ticks);
+    const svg:any = document.querySelector("#svg");
+    const svgBoundingClientRect:any = svg.getBoundingClientRect();
+    const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
+    const valueAxis = moduleValueAxis(pareto.maxValue,svgBoundingClientRect.height,ticks);
    
-    var svg = d3.select("svg");
-    let g =svg.select("g")
+    var d3svg = d3.select("svg");
+    let g =d3svg.select("g")
 
     g.selectAll(".bar")
          .data(pareto.stackedBars)
@@ -26,6 +26,6 @@ import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from ".
          .attr("x", function(d):any { return categoryAxis(d.label); })
          .attr("y", function(d):any { return valueAxis(d.totalValue); })
          .attr("width", categoryAxis.bandwidth())
-         .attr("height", function(d) { return ((valueInPixels.height -50) - Number (valueAxis (d.totalValue))) });
+         .attr("height", function(d) { return ((svgBoundingClientRect.height -50) - Number (valueAxis (d.totalValue))) });
 
 }
