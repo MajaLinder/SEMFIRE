@@ -8,9 +8,6 @@ import{moduleCategoryAxis, moduleCategories, modulePercentageAxis} from "./axis"
  */
 export function renderCumulativeLine(pareto: Pareto) {
 
-    // store the x and y positions for the line
-    let positions: any[][] = [];
-
     const paretoCategoryValues:string[] = moduleCategories(pareto)
 
     let d3svg = d3.select("svg")
@@ -20,9 +17,9 @@ export function renderCumulativeLine(pareto: Pareto) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, svgBoundingClientRect.width + (categoryAxisBandwidth.bandwidth()/2));
     const valueAxis = modulePercentageAxis(svgBoundingClientRect.height);
 
-    pareto.stackedBars.forEach(stackedBar => {
-        positions.push([stackedBar.label, stackedBar.cumulativePercentage]);
-    });
+    const positions = pareto.stackedBars.map((stackedBar) => {
+        return [stackedBar.label, stackedBar.cumulativePercentage];
+    })
 
     var line = d3.line<any>()
         .x(function (d):any { return categoryAxis(d[0]); })
