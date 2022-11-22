@@ -16,12 +16,12 @@ export interface Pareto {
  * A collection of bars composing one stacked bar
  */
 export interface StackedBar {
-    position: number; //zero-based position in the sorted array of StackedBar's
+    position?: number; //zero-based position in the sorted array of StackedBar's
     bars: Bar[];
     totalValue: number;
     label: string;
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
-    cumulativePercentage: number
+    cumulativePercentage?: number
 }
 /** A sector of a bar */
 export interface Bar {
