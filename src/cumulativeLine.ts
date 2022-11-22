@@ -8,9 +8,6 @@ import{moduleCategoryAxis,moduleCategories, modulePercentageAxis} from "./axis"
  */
 export function renderCumulativeLine(pareto: Pareto) {
 
-    // store the x and y positions for the line
-    let positions: any[][] = [];
-
     // store these to use later when setting the domain of the scale
     let cumulativePercentages: number[] = [];
 
@@ -23,10 +20,10 @@ export function renderCumulativeLine(pareto: Pareto) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, valueInPixels.width + (categoryAxisBandwidth.bandwidth()/2));
     const valueAxis = modulePercentageAxis(valueInPixels.height);
 
-    pareto.stackedBars.forEach(stackedBar => {
-        positions.push([stackedBar.label, stackedBar.cumulativePercentage]);
-        cumulativePercentages.push(stackedBar.cumulativePercentage);
-    });
+    const positions = pareto.stackedBars.map((stackedBar) => {
+        return [stackedBar.label, stackedBar.cumulativePercentage];
+    })
+    console.log(positions);
 
     console.log(categoryAxis.bandwidth()/2)
 
