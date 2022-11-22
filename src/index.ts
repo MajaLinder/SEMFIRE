@@ -1,5 +1,4 @@
 import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size } from "spotfire-api";
-//import * as d3 from "d3";
 import { resources } from "./resources";
 import {Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
@@ -43,9 +42,9 @@ window.Spotfire.initialize(async (mod) => {
             let bars: Bar[] = leaf.rows().map((row) => {
                 let barValue = row.continuous(valueAxisName).value<number>() || 0;
                 totalValue += barValue;
-                let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.key;
+                let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();;
                 return {
-                    color: row.color().hexCode, //to do: get the color automatically from color axis
+                    color: row.color().hexCode,
                     value: barValue,
                     label: barLabel
                 } as Bar
