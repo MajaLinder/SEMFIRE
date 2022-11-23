@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import {Pareto} from "./pareto";
-import{moduleCategoryAxis, moduleCategories, modulePercentageAxis} from "./axis"
+import{moduleCategoryAxis, moduleIndices, modulePercentageAxis} from "./axis"
 
 /**
  * Render the cumulative line using d3
@@ -8,17 +8,17 @@ import{moduleCategoryAxis, moduleCategories, modulePercentageAxis} from "./axis"
  */
 export function renderCumulativeLine(pareto: Pareto) {
 
-    const paretoCategoryValues:string[] = moduleCategories(pareto)
+    const paretoCategoryIndices:number[] = moduleIndices(pareto)
 
     let d3svg = d3.select("svg")
     const svg:any = document.querySelector("#svg");
     const svgBoundingClientRect:any = svg.getBoundingClientRect();
-    const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width); //used to get bandwidth later
-    const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, svgBoundingClientRect.width + (categoryAxisBandwidth.bandwidth()/2));
+    const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryIndices, 0, svgBoundingClientRect.width); //used to get bandwidth later
+    const categoryAxis = moduleCategoryAxis(paretoCategoryIndices, categoryAxisBandwidth.bandwidth()/2, svgBoundingClientRect.width + (categoryAxisBandwidth.bandwidth()/2));
     const valueAxis = modulePercentageAxis(svgBoundingClientRect.height);
 
     const positions = pareto.stackedBars.map((stackedBar) => {
-        return [stackedBar.label, stackedBar.cumulativePercentage];
+        return [stackedBar.index, stackedBar.cumulativePercentage];
     })
 
     var line = d3.line<any>()
