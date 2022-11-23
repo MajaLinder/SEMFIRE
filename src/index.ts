@@ -43,19 +43,16 @@ window.Spotfire.initialize(async (mod) => {
                 let barValue = row.continuous(valueAxisName).value<number>() || 0;
                 totalValue += barValue;
                 let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();;
-                let barIndex = hasColorExpression ? row.categorical(colorAxisName).leafIndex : leaf.leafIndex;
                 return {
                     color: row.color().hexCode,
                     value: barValue,
-                    label: barLabel,
-                    index: barIndex
+                    label: barLabel
                 } as Bar
             })
 
             return {
                 bars: bars,
                 label: leaf.formattedPath(),
-                index: leaf.leafIndex,
                 totalValue: totalValue,
                 cumulativeValue: 0
             } as StackedBar
