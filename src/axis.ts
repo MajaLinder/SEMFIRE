@@ -9,8 +9,8 @@ import { Pareto} from "./pareto";
 
     let ticks=moduleTicks(pareto)
     var d3svg = d3.select("svg");
-    const svg:any = document.querySelector("#svg");
-    const svgBoundingClientRect:any = svg.getBoundingClientRect();
+    const svg:SVGElement = document.querySelector("#svg")!;
+    const svgBoundingClientRect:SVGRect = svg.getBoundingClientRect();
 
     var d3svg = d3.select("svg");
     const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
@@ -35,7 +35,7 @@ import { Pareto} from "./pareto";
         }));
 }
 
-const moduleCategoryAxis =(domain:any, rangeStart:number , rangeWidth:number)=>{
+const moduleCategoryAxis =(domain:string[], rangeStart:number , rangeWidth:number)=>{
 
     let categoryAxis = d3
             .scaleBand()
@@ -46,7 +46,7 @@ const moduleCategoryAxis =(domain:any, rangeStart:number , rangeWidth:number)=>{
     return categoryAxis;
 
 }
-const moduleValueAxis = (domain:any,rangeHeight:number,ticks:number)=>{
+const moduleValueAxis = (domain:number,rangeHeight:number,ticks:number)=>{
     let valueAxis = d3
             .scaleLinear()
             .domain([0, domain]).nice(ticks)

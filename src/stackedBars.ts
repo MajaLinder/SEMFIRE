@@ -10,8 +10,8 @@ import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from ".
     const paretoCategoryValues:string[] = moduleCategories(pareto)
 
     let ticks=moduleTicks(pareto)
-    const svg:any = document.querySelector("#svg");
-    const svgBoundingClientRect:any = svg.getBoundingClientRect();
+    const svg:SVGElement = document.querySelector("#svg")!;
+    const svgBoundingClientRect:SVGRect = svg.getBoundingClientRect();
     const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue,svgBoundingClientRect.height,ticks);
    
@@ -23,8 +23,8 @@ import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from ".
          .enter().append("rect")
          .attr("fill", "pink")
          .attr("class", "bar")
-         .attr("x", function(d):any { return categoryAxis(d.label); })
-         .attr("y", function(d):any { return valueAxis(d.totalValue); })
+         .attr("x", function(d):number { return categoryAxis(d.label)!; })
+         .attr("y", function(d):number { return valueAxis(d.totalValue)!; })
          .attr("width", categoryAxis.bandwidth())
          .attr("height", function(d) { return ((svgBoundingClientRect.height -50) - Number (valueAxis (d.totalValue))) });
 
