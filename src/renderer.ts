@@ -1,4 +1,3 @@
-
 import { renderAxes } from "./axis";
 import {Pareto} from "./pareto";
 import {renderStackedBars} from "./stackedBars";
@@ -47,5 +46,3 @@ export function renderParetoAsTextInConsole(pareto: Pareto, settings: Settings) 
     console.log("Min value: " + pareto.minValue);
 
 }
-
- 
