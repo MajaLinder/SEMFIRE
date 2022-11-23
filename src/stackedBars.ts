@@ -12,9 +12,9 @@ import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from ".
 
     const svg:any = document.querySelector("#svg");
     const svgBoundingClientRect:any = svg.getBoundingClientRect();
-    let ticks=moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
+    const ticks=moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
     const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
-    const valueAxis = moduleValueAxis(pareto.maxValue,svgBoundingClientRect.height,ticks);
+    const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 
     var d3svg = d3.select("svg");
     let g =d3svg.select("g")
