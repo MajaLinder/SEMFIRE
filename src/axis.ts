@@ -1,22 +1,25 @@
 import * as d3 from "d3";
 import { Pareto} from "./pareto";
+import { Settings } from "./settings";
 
- export function renderAxes(pareto: Pareto) {
+ export function renderAxes(pareto: Pareto, settings: Settings) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
     const paretoCategoryValues:string[] = moduleCategories(pareto)
 
-    let ticks=moduleTicks(pareto)
     var d3svg = d3.select("svg");
     const svg:any = document.querySelector("#svg");
     const svgBoundingClientRect:any = svg.getBoundingClientRect();
+    let ticks=moduleTicks( svgBoundingClientRect.height, settings.style.label.size)
+
 
     var d3svg = d3.select("svg");
     const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue,svgBoundingClientRect.height,ticks);
     const percentageAxis =  modulePercentageAxis(svgBoundingClientRect.height)
-   
+    const valueScaleTickNumber = svgBoundingClientRect.height / (settings.style.label.size * 2 + 6);
+
     var g = d3svg
         .append("g") 
         .attr("transform", "translate(" + 65 + "," + 0 + ")");
@@ -67,15 +70,26 @@ const moduleCategories = (pareto: Pareto)=>{
     });
     return paretoCategoryValues;
 }
-const moduleTicks = (pareto: Pareto)=>{
-    let ticks:number = 0;
-    if(pareto.maxValue <= 50){
+
+/**
+ * Calculates ticks
+ * @param pareto 
+ * @param height
+ * @param labelSize The size of the label font
+ * @returns Tick number 
+ */
+const moduleTicks = (height: number, labelSize: number) =>{
+
+    let ticks = height / (labelSize * 2 + 6);
+
+    if(height <= 500){
         ticks = 5;
-    }else if (pareto.maxValue >50 && pareto.maxValue <= 100){
-        ticks= 10;
-    }else {
-        ticks= 20;
+    } else if (height > 500 && height < 1000 ){
+        ticks = 10;
+    } else {
+        ticks = 20;
     }
+
     return ticks;
 }
 export {moduleCategoryAxis,modulePercentageAxis,moduleValueAxis, moduleTicks,moduleCategories};
