@@ -67,6 +67,13 @@ const moduleCategories = (pareto: Pareto)=>{
     });
     return paretoCategoryValues;
 }
+const moduleIndices = (pareto: Pareto)=>{
+    const paretoCategoryIndices:number[] = [];
+    pareto.stackedBars.forEach((p) => {
+        paretoCategoryIndices.push(p.index);
+    });
+    return paretoCategoryIndices;
+}
 const moduleTicks = (pareto: Pareto)=>{
     let ticks:number = 0;
     if(pareto.maxValue <= 50){
@@ -78,4 +85,4 @@ const moduleTicks = (pareto: Pareto)=>{
     }
     return ticks;
 }
-export {moduleCategoryAxis,modulePercentageAxis,moduleValueAxis, moduleTicks,moduleCategories};
+export {moduleCategoryAxis,modulePercentageAxis,moduleValueAxis, moduleTicks,moduleCategories, moduleIndices};
