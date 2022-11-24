@@ -43,20 +43,22 @@ window.Spotfire.initialize(async (mod) => {
                 let barValue = row.continuous(valueAxisName).value<number>() || 0;
                 totalValue += barValue;
                 let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();;
-                let barIndex = leaf.leafIndex;
+                let barIndex = leaf.leafIndex ?? -1;
                 return {
                     color: row.color().hexCode,
                     value: barValue,
                     label: barLabel,
                     index: barIndex
-                } as Bar
+                }
             })
             let stackedBar: StackedBar = {
+                position: -1, //to be filled in when array of StackedBar's gets sorted
                 bars: bars,
                 label: leaf.formattedPath(),
-                index: leaf.leafIndex,
+                index: leaf.leafIndex ?? -1,
                 totalValue: totalValue,
-                cumulativeValue: 0
+                cumulativeValue: 0,
+                cumulativePercentage: 0
             };
             return stackedBar;
         });
@@ -83,7 +85,7 @@ window.Spotfire.initialize(async (mod) => {
             maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
             minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
             grandTotal: paretoGrandTotal
-        } as Pareto
+        }
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -114,7 +116,7 @@ window.Spotfire.initialize(async (mod) => {
             },
 
 
-        } as Settings
+        }
 
 
         //to do: render Pareto
