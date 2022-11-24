@@ -20,6 +20,7 @@ export interface StackedBar {
     bars: Bar[];
     totalValue: number;
     label: string;
+    index: number;
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage?: number
 }
@@ -27,5 +28,6 @@ export interface StackedBar {
 export interface Bar {
     value: number;
     label: string;
+    index: number;
     color: string;
 }
