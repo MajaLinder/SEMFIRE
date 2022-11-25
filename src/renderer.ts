@@ -16,9 +16,9 @@ import { Settings, renderSettings } from "./Settings";
  * @param settings - Settings that should be used
  */
 
-export function renderPareto(pareto: Pareto, settings: Settings) {
-    renderAxes(pareto);
-    renderStackedBars(pareto);
+export function renderPareto(pareto: Pareto, settings: Settings) {    
+    renderAxes(pareto, settings)
+    renderStackedBars(pareto, settings);
     renderCumulativeLine(pareto);
     //renderSettings(settings);
 }

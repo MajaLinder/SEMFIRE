@@ -1,16 +1,17 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
+import { Settings } from "./settings";
 
-export function renderAxes(pareto: Pareto) {
+export function renderAxes(pareto: Pareto, settings: Settings) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
-    let ticks = moduleTicks(pareto);
     var d3svg = d3.select("svg");
     const svg: any = document.querySelector("#svg");
     const svgBoundingClientRect: any = svg.getBoundingClientRect();
+    let ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
 
     var d3svg = d3.select("svg");
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
@@ -68,22 +69,28 @@ const moduleCategories = (pareto: Pareto) => {
     });
     return paretoCategoryValues;
 };
+
 const moduleIndices = (pareto: Pareto) => {
     const paretoCategoryIndices: number[] = [];
+
     pareto.stackedBars.forEach((p) => {
         paretoCategoryIndices.push(p.index);
     });
     return paretoCategoryIndices;
-};
-const moduleTicks = (pareto: Pareto) => {
-    let ticks: number = 0;
-    if (pareto.maxValue <= 50) {
-        ticks = 5;
-    } else if (pareto.maxValue > 50 && pareto.maxValue <= 100) {
-        ticks = 10;
-    } else {
-        ticks = 20;
-    }
+
+}
+
+/**
+ * Calculates ticks based on height and font
+ * @param pareto
+ * @param height
+ * @param labelSize The size of the label font
+ * @returns Tick number
+ */
+const moduleTicks = (height: number, labelSize: number) => {
+ let    ticks = height / (labelSize * 2 + 6);
+
     return ticks;
 };
-export { moduleCategoryAxis, modulePercentageAxis, moduleValueAxis, moduleTicks, moduleCategories, moduleIndices };
+export { moduleCategoryAxis, modulePercentageAxis, moduleValueAxis, moduleTicks, moduleCategories, moduleIndices};
+
