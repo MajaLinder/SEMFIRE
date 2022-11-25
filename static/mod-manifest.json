@@ -33,7 +33,7 @@
                 "placement": "bottom",
                 "dropTarget": {
                     "icon": "XAxis",
-                    "description": "Use {0} on the mod's X-axis"
+                    "description": "Use {0} on the category axis"
                 },
                 "legendItem": {
                     "title": "Category-axis",
@@ -47,7 +47,7 @@
                 "allowMultipleMeasures": true,
                 "dropTarget": {
                     "icon": "YAxis",
-                    "description": "Use {0} on the mod's Y-axis"
+                    "description": "Use {0} on the value axis"
                 },
                 "legendItem": {
                     "title": "Value-axis",
