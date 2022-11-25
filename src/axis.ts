@@ -69,13 +69,15 @@ const moduleCategories = (pareto: Pareto) => {
     });
     return paretoCategoryValues;
 };
-const moduleIndices = (pareto: Pareto)=>{
-    const paretoCategoryIndices:number[] = [];
+
+const moduleIndices = (pareto: Pareto) => {
+    const paretoCategoryIndices: number[] = [];
+
     pareto.stackedBars.forEach((p) => {
         paretoCategoryIndices.push(p.index);
     });
     return paretoCategoryIndices;
-}
+};
 
 /**
  * Calculates ticks based on height and font
@@ -85,8 +87,8 @@ const moduleIndices = (pareto: Pareto)=>{
  * @returns Tick number
  */
 const moduleTicks = (height: number, labelSize: number) => {
- let    ticks = height / (labelSize * 2 + 6);
+    let ticks = height / (labelSize * 2 + 6);
 
     return ticks;
 };
-export { moduleCategoryAxis, modulePercentageAxis, moduleValueAxis, moduleTicks, moduleCategories, moduleIndices};
+export { moduleCategoryAxis, modulePercentageAxis, moduleValueAxis, moduleTicks, moduleCategories, moduleIndices };
