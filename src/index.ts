@@ -4,9 +4,9 @@ import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
 
-const categoryAxisName = "CategoryAxis";
+const categoryAxisName = "Category Axis";
 const colorAxisName = "Color";
-const valueAxisName = "ValueAxis";
+const valueAxisName = "Value Axis";
 
 window.Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
