@@ -28,7 +28,7 @@
         },
         "axes": [
             {
-                "name": "CategoryAxis",
+                "name": "Category Axis",
                 "mode": "categorical",
                 "placement": "bottom",
                 "dropTarget": {
@@ -41,7 +41,7 @@
                 }
             },
             {
-                "name": "ValueAxis",
+                "name": "Value Axis",
                 "mode": "continuous",
                 "placement": "left",
                 "allowMultipleMeasures": true,
