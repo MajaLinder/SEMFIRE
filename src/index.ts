@@ -38,61 +38,7 @@ window.Spotfire.initialize(async (mod) => {
         //validate data before transformation
         validateDataView(rootNode);
 
-        //transform data into data model objects
-        let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
-            let totalValue = 0;
-            let bars: Bar[] = leaf.rows().map((row) => {
-                let barValue = row.continuous(valueAxisName).value<number>() || 0;
-                totalValue += barValue;
-                let barLabel = hasColorExpression
-                    ? row.categorical(colorAxisName).formattedValue()
-                    : leaf.formattedValue();
-                let barIndex = leaf.leafIndex ?? -1;
-                return {
-                    color: row.color().hexCode,
-                    value: barValue,
-                    label: barLabel,
-                    index: barIndex
-                };
-            });
-            let stackedBar: StackedBar = {
-                position: -1, //to be filled in when array of StackedBar's gets sorted
-                bars: bars,
-                label: leaf.formattedPath(),
-                index: leaf.leafIndex ?? -1,
-                totalValue: totalValue,
-                cumulativeValue: 0,
-                cumulativePercentage: 0
-            };
-            return stackedBar;
-        });
-
-        let sortedStackedBars: StackedBar[] = unSortedStackedBars.sort((a, b) => {
-            return b.totalValue - a.totalValue;
-        });
-
-        let prevCumulative = 0;
-        let pos = 0;
-        sortedStackedBars.forEach((stackedBar) => {
-            stackedBar.cumulativeValue += prevCumulative + stackedBar.totalValue;
-            stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal;
-            prevCumulative = stackedBar.cumulativeValue;
-            stackedBar.position = pos;
-            pos++;
-        });
-        let paretoGrandTotal = sortedStackedBars?.length
-            ? sortedStackedBars[sortedStackedBars.length - 1].cumulativeValue
-            : 0;
-        sortedStackedBars.forEach(
-            (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
-        );
-
-        let pareto: Pareto = {
-            stackedBars: sortedStackedBars,
-            maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
-            minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-            grandTotal: paretoGrandTotal
-        };
+        let pareto = transformData(rootNode, hasColorExpression);
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -144,4 +90,65 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
     //to do: validate data, check if there are negative values, or values outside some range, etc
 
     return warnings;
+}
+
+/**
+ * Transform data into data model objects
+ * @param rootNode - The hierarchy root.
+ * @param hasColorExpression - Checks the color axis
+ */
+function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
+    let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
+        let totalValue = 0;
+        let bars: Bar[] = leaf.rows().map((row) => {
+            let barValue = row.continuous(valueAxisName).value<number>() || 0;
+            totalValue += barValue;
+            let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();
+            let barIndex = leaf.leafIndex ?? -1;
+            return {
+                color: row.color().hexCode,
+                value: barValue,
+                label: barLabel,
+                index: barIndex
+            };
+        });
+        let stackedBar: StackedBar = {
+            position: -1, //to be filled in when array of StackedBar's gets sorted
+            bars: bars,
+            label: leaf.formattedPath(),
+            index: leaf.leafIndex ?? -1,
+            totalValue: totalValue,
+            cumulativeValue: 0,
+            cumulativePercentage: 0
+        };
+        return stackedBar;
+    });
+
+    let sortedStackedBars: StackedBar[] = unSortedStackedBars.sort((a, b) => {
+        return b.totalValue - a.totalValue;
+    });
+
+    let prevCumulative = 0;
+    let pos = 0;
+    sortedStackedBars.forEach((stackedBar) => {
+        stackedBar.cumulativeValue += prevCumulative + stackedBar.totalValue;
+        stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal;
+        prevCumulative = stackedBar.cumulativeValue;
+        stackedBar.position = pos;
+        pos++;
+    });
+    let paretoGrandTotal = sortedStackedBars?.length
+        ? sortedStackedBars[sortedStackedBars.length - 1].cumulativeValue
+        : 0;
+    sortedStackedBars.forEach(
+        (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
+    );
+
+    let pareto: Pareto = {
+        stackedBars: sortedStackedBars,
+        maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
+        minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
+        grandTotal: paretoGrandTotal
+    };
+    return pareto;
 }
