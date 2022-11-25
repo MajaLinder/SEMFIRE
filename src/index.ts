@@ -92,7 +92,11 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
     return warnings;
 }
 
-//transform data into data model objects
+/**
+ * Transform data into data model objects
+ * @param rootNode - The hierarchy root.
+ * @param hasColorExpression - Checks the color axis
+ */
 function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
