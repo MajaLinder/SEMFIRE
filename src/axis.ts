@@ -1,13 +1,6 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
-
-// margins to keep the chart and its elements visible
-const MARGINWIDTH = 80;
-const MARGINHEIGHT = 20;
-const MARGINLEFT = 40;
-const MARGINRIGHT = 0;
-const MARGINTOP = 10;
-const MARGINBOTTOM = 0;
+import { resources } from "./resources";
 
 export function renderAxes(pareto: Pareto) {
     d3.selectAll("path").remove();
@@ -27,15 +20,23 @@ export function renderAxes(pareto: Pareto) {
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
     const percentageAxis = modulePercentageAxis(svgBoundingClientRect.height);
 
-    var g = d3svg.append("g").attr("transform", "translate(" + MARGINLEFT + "," + MARGINBOTTOM + ")");
+    var g = d3svg
+        .append("g")
+        .attr("transform", "translate(" + resources.MARGINLEFT + "," + resources.MARGINBOTTOM + ")");
 
     g.append("g")
-        .attr("transform", "translate(" + MARGINRIGHT + "," + (svgBoundingClientRect.height - MARGINHEIGHT) + ")")
+        .attr(
+            "transform",
+            "translate(" + resources.MARGINRIGHT + "," + (svgBoundingClientRect.height - resources.MARGINHEIGHT) + ")"
+        )
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
-        .attr("transform", "translate(" + (svgBoundingClientRect.width - MARGINWIDTH) + " ," + MARGINBOTTOM + ")")
+        .attr(
+            "transform",
+            "translate(" + (svgBoundingClientRect.width - resources.MARGINWIDTH) + " ," + resources.MARGINBOTTOM + ")"
+        )
         .call(
             d3
                 .axisRight(percentageAxis)
@@ -51,7 +52,7 @@ const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number)
     let categoryAxis = d3
         .scaleBand()
         .domain(domain)
-        .range([rangeStart, rangeWidth - MARGINWIDTH])
+        .range([rangeStart, rangeWidth - resources.MARGINWIDTH])
         .paddingInner(0.13)
         .paddingOuter(0.26);
     return categoryAxis;
@@ -61,14 +62,14 @@ const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
         .scaleLinear()
         .domain([0, domain])
         .nice(ticks)
-        .range([rangeHeight - MARGINHEIGHT, MARGINTOP]);
+        .range([rangeHeight - resources.MARGINHEIGHT, resources.MARGINTOP]);
     return valueAxis;
 };
 const modulePercentageAxis = (rangeHeight: number) => {
     let percentageAxis = d3
         .scaleLinear()
         .domain([0, 100])
-        .range([rangeHeight - MARGINHEIGHT, MARGINTOP]);
+        .range([rangeHeight - resources.MARGINHEIGHT, resources.MARGINTOP]);
     return percentageAxis;
 };
 const moduleCategories = (pareto: Pareto) => {
