@@ -43,8 +43,8 @@ const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number)
         .scaleBand()
         .domain(domain)
         .range([rangeStart, rangeWidth - 100])
-        .paddingInner(0.13)
-        .paddingOuter(0.26);
+        .paddingInner(0.18)
+        .paddingOuter(0.18);
     return categoryAxis;
 };
 const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
