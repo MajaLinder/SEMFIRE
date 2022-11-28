@@ -39,12 +39,15 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
 }
 
 const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number) => {
+    const padding: number = 0.18;
+
     let categoryAxis = d3
         .scaleBand()
         .domain(domain)
         .range([rangeStart, rangeWidth - 100])
-        .paddingInner(0.18)
-        .paddingOuter(0.18);
+        .paddingInner(padding)
+        .paddingOuter(padding);
+
     return categoryAxis;
 };
 const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
