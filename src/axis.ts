@@ -1,7 +1,14 @@
 import * as d3 from "d3";
 import { Pareto} from "./pareto";
+import { Settings } from "./settings";
 
- export function renderAxes(pareto: Pareto) {
+/**
+ * Render the bars using d3
+ * * @param settings Settingd data Structure
+ */
+
+
+ export function renderAxes(pareto: Pareto, settings: Settings) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
@@ -23,8 +30,10 @@ import { Pareto} from "./pareto";
   
     g.append("g")
         .attr("transform", "translate(0," + (svgBoundingClientRect.height - 50) + ")")
+        //.attr("font-family", settings.style.label.fontFamily)
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis))
         
+
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
@@ -33,6 +42,20 @@ import { Pareto} from "./pareto";
         .tickFormat(function(d) {
           return d + "%";
         }));
+
+     g.select('g')
+    //  .attr("font-family", "Times New Roman");\
+    .attr("fontFamily", settings.style.label.fontFamily)
+    .attr("color", settings.style.label.color)
+
+     
+    // .attr("color", settings.style.label.color)
+    // .attr("weight", settings.style.label.weight)
+    
+    // .attr("font-family", settings.style.label.fontFamily)
+    // .attr("font-style", settings.style.label.fontStyle)
+    // .attr("font-weight",settings.style.label.fontWeight)
+    // .attr("font-size", settings.style.label.fontSize)
 }
 
 const moduleCategoryAxis =(domain:any, rangeStart:number , rangeWidth:number)=>{
