@@ -9,6 +9,8 @@ import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } fr
  */
 
 export function renderStackedBars(pareto: Pareto, settings: Settings) {
+    const STROKEWIDTH = 0.5;
+
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
     const svg: any = document.querySelector("#svg");
@@ -36,4 +38,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("height", function (d) {
             return svgBoundingClientRect.height - 50 - Number(valueAxis(d.totalValue));
         });
+    g.selectAll("rect").on("click", function () {
+        d3.select(this).style("stroke", settings.style.marking.color).style("stroke-width", STROKEWIDTH);
+    });
 }

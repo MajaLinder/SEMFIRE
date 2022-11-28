@@ -63,7 +63,8 @@ window.Spotfire.initialize(async (mod) => {
                 lines: {
                     color: context.styling.scales.line.stroke,
                     weight: context.styling.scales.line.stroke
-                }
+                },
+                marking: { color: context.styling.scales.font.color }
             }
         };
 
