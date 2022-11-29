@@ -10,6 +10,8 @@ export interface Pareto {
     minValue: number;
     /** sum of all bar values */
     grandTotal: number;
+    colorIndices: number[];
+    colorRange: string[];
 }
 
 /**
@@ -23,6 +25,7 @@ export interface StackedBar {
     index: number;
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage: number;
+    key: string;
 }
 /** A sector of a bar */
 export interface Bar {
@@ -30,4 +33,5 @@ export interface Bar {
     label: string;
     index: number;
     color: string;
+    key: string;
 }

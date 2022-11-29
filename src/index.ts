@@ -35,10 +35,13 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
+
+        let colorRootNode:DataViewHierarchyNode = (await (await dataView.hierarchy(colorAxisName))!.root()) as DataViewHierarchyNode;
+
         //validate data before transformation
         validateDataView(rootNode);
 
-        let pareto = transformData(rootNode, hasColorExpression);
+        let pareto = transformData(rootNode, colorRootNode, hasColorExpression); 
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -73,7 +76,7 @@ window.Spotfire.initialize(async (mod) => {
         renderPareto(pareto, settings);
 
         //for testing purposes
-        renderParetoAsTextInConsole(pareto, {} as Settings);
+        //renderParetoAsTextInConsole(pareto, {} as Settings);
 
         context.signalRenderComplete();
     }
@@ -97,19 +100,27 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  * @param rootNode - The hierarchy root.
  * @param hasColorExpression - Checks the color axis
  */
-function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
+function transformData(rootNode: DataViewHierarchyNode, colorRootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
+
+    let tempColorIndices = hasColorExpression ? colorRootNode.rows().map(x => x.leafNode(colorAxisName)?.leafIndex ?? 0) : [0];
+    let tempColorRange = hasColorExpression ? colorRootNode.rows().map(x => x.color().hexCode) : ["#6489FA"];
+    let colorIndices:number[] = tempColorIndices.filter((item, index) => tempColorIndices.indexOf(item) === index); 
+    let colorRange:string[] = tempColorRange.filter((item, index) => tempColorRange.indexOf(item) === index);
+
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
             let barValue = row.continuous(valueAxisName).value<number>() || 0;
             totalValue += barValue;
-            let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();
-            let barIndex = leaf.leafIndex ?? -1;
+            let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue(); 
+            let barIndex = hasColorExpression ? row.leafNode(colorAxisName)?.leafIndex ?? -1 : 0; 
+            let barKey = hasColorExpression ? row.leafNode(colorAxisName)?.key ?? "" : "All values";
             return {
                 color: row.color().hexCode,
                 value: barValue,
-                label: barLabel,
-                index: barIndex
+                label: barLabel, 
+                index: barIndex,
+                key: barKey
             };
         });
         let stackedBar: StackedBar = {
@@ -119,7 +130,8 @@ function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: bool
             index: leaf.leafIndex ?? -1,
             totalValue: totalValue,
             cumulativeValue: 0,
-            cumulativePercentage: 0
+            cumulativePercentage: 0,
+            key: leaf.key ?? "",
         };
         return stackedBar;
     });
@@ -148,7 +160,9 @@ function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: bool
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-        grandTotal: paretoGrandTotal
+        grandTotal: paretoGrandTotal,
+        colorIndices: colorIndices,
+        colorRange: colorRange 
     };
     return pareto;
 }

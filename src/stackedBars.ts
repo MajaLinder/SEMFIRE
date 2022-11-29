@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { Pareto } from "./pareto";
+import { Pareto, StackedBar } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 
@@ -17,23 +17,36 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 
-    var d3svg = d3.select("svg");
-    let g = d3svg.select("g");
+    let colorKeys = pareto.colorIndices.map((x) => (x ?? 0).toString());
+    console.log(colorKeys);
+    var colorScale = d3.scaleOrdinal<string>().domain(colorKeys).range(pareto.colorRange);
 
-    g.selectAll(".bar")
-        .data(pareto.stackedBars)
-        .enter()
-        .append("rect")
-        .attr("fill", "pink")
-        .attr("class", "bar")
-        .attr("x", function (d): any {
-            return categoryAxis(d.label);
-        })
-        .attr("y", function (d): any {
-            return valueAxis(d.totalValue);
-        })
-        .attr("width", categoryAxis.bandwidth())
-        .attr("height", function (d) {
-            return svgBoundingClientRect.height - 50 - Number(valueAxis(d.totalValue));
+    let stackGenerator = d3
+        .stack<StackedBar>()
+        .keys(colorKeys)
+        .value((stackedBar, key: string) => {
+            let bar = stackedBar.bars.find((x) => x.index.toString() === key);
+            return bar?.value ?? 0;
         });
+    
+    let stackedSeries = stackGenerator(pareto.stackedBars);
+    
+    // Create a group group for each series
+    var sel = d3
+        .select("#svg")
+        .select("g")
+        .selectAll("g.series")
+        .data(stackedSeries)
+        .join("g")
+        .classed("series", true)
+        .style("fill", (d) => colorScale(d.key));
+
+    //For each series, create a rectangle for each color key
+    sel.selectAll("rect")
+        .data((d) => d)
+        .join("rect") 
+        .attr("y", (d) => valueAxis(d[1]) ?? 0)
+        .attr("x", (d) => categoryAxis(d.data.key) ?? 0)
+        .attr("height", (d) => (valueAxis(d[0]) ?? 0) - (valueAxis(d[1]) ?? 0))
+        .attr("width", categoryAxis.bandwidth());
 }
