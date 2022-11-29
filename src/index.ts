@@ -1,9 +1,8 @@
 import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size } from "spotfire-api";
 import { resources } from "./resources";
-import {Pareto, StackedBar, Bar } from "./pareto";
+import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
-
 
 const categoryAxisName = "CategoryAxis";
 const colorAxisName = "Color";
@@ -19,17 +18,20 @@ window.Spotfire.initialize(async (mod) => {
         mod.visualization.axis(colorAxisName),
         mod.visualization.axis(valueAxisName),
         mod.property<boolean>("showCumulativeFrequencyLine"),
-        mod.property<boolean>("showLineMarkers"),
-
+        mod.property<boolean>("showLineMarkers")
     );
 
     reader.subscribe(onChange);
 
     async function onChange(
-        dataView: DataView, windowSize: Size, categoryAxis: Axis, colorAxis: Axis,
-        valueAxis: Axis, showCumulativeFrequencyLine: ModProperty<boolean>, showLineMarkers: ModProperty<boolean>
-    ) 
-    {
+        dataView: DataView,
+        windowSize: Size,
+        categoryAxis: Axis,
+        colorAxis: Axis,
+        valueAxis: Axis,
+        showCumulativeFrequencyLine: ModProperty<boolean>,
+        showLineMarkers: ModProperty<boolean>
+    ) {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
@@ -42,20 +44,22 @@ window.Spotfire.initialize(async (mod) => {
             let bars: Bar[] = leaf.rows().map((row) => {
                 let barValue = row.continuous(valueAxisName).value<number>() || 0;
                 totalValue += barValue;
-                let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();;
+                let barLabel = hasColorExpression
+                    ? row.categorical(colorAxisName).formattedValue()
+                    : leaf.formattedValue();
                 return {
                     color: row.color().hexCode,
                     value: barValue,
                     label: barLabel
-                } as Bar
-            })
+                } as Bar;
+            });
 
             return {
                 bars: bars,
                 label: leaf.formattedPath(),
                 totalValue: totalValue,
                 cumulativeValue: 0
-            } as StackedBar
+            } as StackedBar;
         });
 
         let sortedStackedBars: StackedBar[] = unSortedStackedBars.sort((a, b) => {
@@ -66,62 +70,58 @@ window.Spotfire.initialize(async (mod) => {
         let pos = 0;
         sortedStackedBars.forEach((stackedBar) => {
             stackedBar.cumulativeValue += prevCumulative + stackedBar.totalValue;
-            stackedBar.cumulativePercentage = 100 * stackedBar.cumulativeValue / paretoGrandTotal;
+            stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal;
             prevCumulative = stackedBar.cumulativeValue;
-            stackedBar.position = pos; 
+            stackedBar.position = pos;
             pos++;
-
         });
-        let paretoGrandTotal = sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].cumulativeValue : 0;
-        sortedStackedBars.forEach(stackedBar => stackedBar.cumulativePercentage = 100 * stackedBar.cumulativeValue / paretoGrandTotal);
+        let paretoGrandTotal = sortedStackedBars?.length
+            ? sortedStackedBars[sortedStackedBars.length - 1].cumulativeValue
+            : 0;
+        sortedStackedBars.forEach(
+            (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
+        );
 
         let pareto: Pareto = {
             stackedBars: sortedStackedBars,
             maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
             minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
             grandTotal: paretoGrandTotal
-        } as Pareto
+        } as Pareto;
 
         let settings: Settings = {
             windowSize: windowSize,
             clearMarking: dataView.clearMarking,
             style: {
-
                 ticks: {
-                    stroke: context.styling.scales.line.stroke,
+                    stroke: context.styling.scales.line.stroke
                 },
 
                 background: {
-                    color: context.styling.general.backgroundColor },
+                    color: context.styling.general.backgroundColor
+                },
 
                 label: {
                     fontFamily: context.styling.general.font.fontFamily,
-                    color: context.styling.general.font.color,
+                    color: context.styling.general.font.color
                     // size: context.styling.general.font.fontSize,
                     // style: context.styling.general.font.fontStyle,
                     // weight: context.styling.general.font.fontWeight
                 },
 
                 lines: {
-                    color: context.styling.scales.line.stroke, 
+                    color: context.styling.scales.line.stroke,
                     weight: context.styling.scales.line.stroke
                 },
 
-                font: {
-
-                }                
-
-            },
-
-
-        } as Settings
-
+                font: {}
+            }
+        } as Settings;
 
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
 
-        renderPareto(pareto, {} as Settings);
-
+        renderPareto(pareto, settings);
 
         //for testing purposes
         renderParetoAsTextInConsole(pareto, {} as Settings);
