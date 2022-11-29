@@ -22,12 +22,16 @@ export function renderAxes(pareto: Pareto) {
 
     var g = d3svg
         .append("g")
-        .attr("transform", "translate(" + resources.MARGINLEFT + "," + resources.MARGINBOTTOM + ")");
+        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")");
 
     g.append("g")
         .attr(
             "transform",
-            "translate(" + resources.MARGINRIGHT + "," + (svgBoundingClientRect.height - resources.MARGINHEIGHT) + ")"
+            "translate(" +
+                resources.PADDINGCATEGORYLEFT +
+                "," +
+                (svgBoundingClientRect.height - resources.PADDINGBOTTOMUP) +
+                ")"
         )
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
 
@@ -35,7 +39,11 @@ export function renderAxes(pareto: Pareto) {
     g.append("g")
         .attr(
             "transform",
-            "translate(" + (svgBoundingClientRect.width - resources.MARGINWIDTH) + " ," + resources.MARGINBOTTOM + ")"
+            "translate(" +
+                (svgBoundingClientRect.width - resources.PADDINGRIGHT) +
+                " ," +
+                resources.PADDINGPERCENTAGEDOWN +
+                ")"
         )
         .call(
             d3
@@ -52,7 +60,7 @@ const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number)
     let categoryAxis = d3
         .scaleBand()
         .domain(domain)
-        .range([rangeStart, rangeWidth - resources.MARGINWIDTH])
+        .range([rangeStart, rangeWidth - resources.PADDINGRIGHT])
         .paddingInner(0.13)
         .paddingOuter(0.26);
     return categoryAxis;
@@ -62,14 +70,14 @@ const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
         .scaleLinear()
         .domain([0, domain])
         .nice(ticks)
-        .range([rangeHeight - resources.MARGINHEIGHT, resources.MARGINTOP]);
+        .range([rangeHeight - resources.PADDINGBOTTOMUP, resources.PADDINGTOPDOWN]);
     return valueAxis;
 };
 const modulePercentageAxis = (rangeHeight: number) => {
     let percentageAxis = d3
         .scaleLinear()
         .domain([0, 100])
-        .range([rangeHeight - resources.MARGINHEIGHT, resources.MARGINTOP]);
+        .range([rangeHeight - resources.PADDINGBOTTOMUP, resources.PADDINGTOPDOWN]);
     return percentageAxis;
 };
 const moduleCategories = (pareto: Pareto) => {

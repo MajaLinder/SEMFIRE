@@ -33,6 +33,6 @@ export function renderStackedBars(pareto: Pareto) {
         })
         .attr("width", categoryAxis.bandwidth())
         .attr("height", function (d) {
-            return svgBoundingClientRect.height - resources.MARGINHEIGHT - Number(valueAxis(d.totalValue));
+            return svgBoundingClientRect.height - resources.PADDINGBOTTOMUP - Number(valueAxis(d.totalValue));
         });
 }
