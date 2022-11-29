@@ -24,6 +24,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     let stackGenerator = d3
         .stack<StackedBar>()
         .keys(colorKeys)
+        .order(d3.stackOrderReverse)
         .value((stackedBar, key: string) => {
             let bar = stackedBar.bars.find((x) => x.index.toString() === key);
             return bar?.value ?? 0;
