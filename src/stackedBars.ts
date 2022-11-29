@@ -2,17 +2,19 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 import { resources } from "./resources";
+import { Settings } from "./settings";
 
 /**
  * Render the bars using d3
  * @param pareto Pareto data structure
  */
-export function renderStackedBars(pareto: Pareto) {
+
+export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
-    let ticks = moduleTicks(pareto);
     const svg: any = document.querySelector("#svg");
     const svgBoundingClientRect: any = svg.getBoundingClientRect();
+    const ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 

@@ -2,7 +2,7 @@
 
 // for example: tick stroke width, tick length, etc
 export interface Settings {
-    svg: undefined;
+    svg?: undefined;
     clearMarking?(): void;
     windowSize: { width: number; height: number };
     style: {
@@ -10,7 +10,7 @@ export interface Settings {
         label: { size: number; weight: string; style: string; color: string; fontFamily: string };
         lines: { weight: string; color: string };
         //font: { size: number; weight: string; style: string; color: string; fontFamily: string };
-        marking: { color: string };
+        marking?: { color: string };
         background: { color: string };
     };
 }

@@ -17,8 +17,8 @@ import { Settings, renderSettings } from "./Settings";
  */
 
 export function renderPareto(pareto: Pareto, settings: Settings) {
-    renderAxes(pareto);
-    renderStackedBars(pareto);
+    renderAxes(pareto, settings);
+    renderStackedBars(pareto, settings);
     renderCumulativeLine(pareto);
     //renderSettings(settings);
 }
