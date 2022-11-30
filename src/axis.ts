@@ -67,9 +67,9 @@ const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number)
 };
 const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
     let valueAxis = d3
-        .scaleLinear()
-        .domain([0, domain])
-        .nice(ticks)
+        .scaleLog()
+        .domain([1, domain])
+        .nice()
         .range([rangeHeight - resources.PADDINGBOTTOMUP, resources.PADDINGTOPDOWN]);
     return valueAxis;
 };
