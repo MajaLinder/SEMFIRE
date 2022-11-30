@@ -29,8 +29,16 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
 
     g.append("g")
         .attr("transform", "translate(0," + (svgBoundingClientRect.height - 50) + ")")
-        .style("font-family", settings.style.label.fontFamily)
+        // .style("font-family", settings.style.label.fontFamily)
+        // .style("color", settings.style.label.color)
+        //.style("font-style", settings.style.label.fontStyle)
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
+
+    g.append("g")
+        .style("font-family", settings.style.label.fontFamily)
+        .style("color", settings.style.label.color);
+        //.style("font-style", settings.style.label.fontStyle)
+       
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")

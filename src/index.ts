@@ -104,6 +104,7 @@ window.Spotfire.initialize(async (mod) => {
                 label: {
                     fontFamily: context.styling.general.font.fontFamily,
                     color: context.styling.general.font.color
+                    //fontStyle: context.styling.general.font.fontStyle
                     // size: context.styling.general.font.fontSize,
                     // style: context.styling.general.font.fontStyle,
                     // weight: context.styling.general.font.fontWeight
