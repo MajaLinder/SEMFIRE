@@ -103,7 +103,7 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
 function transformData(rootNode: DataViewHierarchyNode, colorRootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
 
     let tempColorIndices = hasColorExpression ? colorRootNode.rows().map(x => x.leafNode(colorAxisName)?.leafIndex ?? 0) : [0];
-    let tempColorRange = hasColorExpression ? colorRootNode.rows().map(x => x.color().hexCode) : ["#6489FA"];
+    let tempColorRange = hasColorExpression ? colorRootNode.rows().map(x => x.color().hexCode) : [colorRootNode.rows()[0].color().hexCode];
     let colorIndices:number[] = tempColorIndices.filter((item, index) => tempColorIndices.indexOf(item) === index); 
     let colorRange:string[] = tempColorRange.filter((item, index) => tempColorRange.indexOf(item) === index);
 
@@ -118,7 +118,7 @@ function transformData(rootNode: DataViewHierarchyNode, colorRootNode: DataViewH
             return {
                 color: row.color().hexCode,
                 value: barValue,
-                label: barLabel, 
+                label: barLabel,  
                 index: barIndex,
                 key: barKey
             };
