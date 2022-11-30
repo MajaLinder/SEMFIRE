@@ -36,12 +36,14 @@ window.Spotfire.initialize(async (mod) => {
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
 
-        let colorRootNode:DataViewHierarchyNode = (await (await dataView.hierarchy(colorAxisName))!.root()) as DataViewHierarchyNode;
+        let colorRootNode: DataViewHierarchyNode = (await (await dataView.hierarchy(
+            colorAxisName
+        ))!.root()) as DataViewHierarchyNode;
 
         //validate data before transformation
         validateDataView(rootNode);
 
-        let pareto = transformData(rootNode, colorRootNode, hasColorExpression); 
+        let pareto = transformData(rootNode, colorRootNode, hasColorExpression);
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -101,25 +103,32 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  * @param rootNode - The hierarchy root.
  * @param hasColorExpression - Checks the color axis
  */
-function transformData(rootNode: DataViewHierarchyNode, colorRootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
-
-    let tempColorIndices = hasColorExpression ? colorRootNode.rows().map(x => x.leafNode(colorAxisName)?.leafIndex ?? 0) : [0];
-    let tempColorRange = hasColorExpression ? colorRootNode.rows().map(x => x.color().hexCode) : [colorRootNode.rows()[0].color().hexCode];
-    let colorIndices:number[] = tempColorIndices.filter((item, index) => tempColorIndices.indexOf(item) === index); 
-    let colorRange:string[] = tempColorRange.filter((item, index) => tempColorRange.indexOf(item) === index);
+function transformData(
+    rootNode: DataViewHierarchyNode,
+    colorRootNode: DataViewHierarchyNode,
+    hasColorExpression: boolean
+): Pareto {
+    let tempColorIndices = hasColorExpression
+        ? colorRootNode.rows().map((x) => x.leafNode(colorAxisName)?.leafIndex ?? 0)
+        : [0];
+    let tempColorRange = hasColorExpression
+        ? colorRootNode.rows().map((x) => x.color().hexCode)
+        : [colorRootNode.rows()[0].color().hexCode];
+    let colorIndices: number[] = tempColorIndices.filter((item, index) => tempColorIndices.indexOf(item) === index);
+    let colorRange: string[] = tempColorRange.filter((item, index) => tempColorRange.indexOf(item) === index);
 
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
             let barValue = row.continuous(valueAxisName).value<number>() || 0;
             totalValue += barValue;
-            let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue(); 
-            let barIndex = hasColorExpression ? row.leafNode(colorAxisName)?.leafIndex ?? -1 : 0; 
+            let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();
+            let barIndex = hasColorExpression ? row.leafNode(colorAxisName)?.leafIndex ?? -1 : 0;
             let barKey = hasColorExpression ? row.leafNode(colorAxisName)?.key ?? "" : "All values";
             return {
                 color: row.color().hexCode,
                 value: barValue,
-                label: barLabel,  
+                label: barLabel,
                 index: barIndex,
                 key: barKey
             };
@@ -133,6 +142,7 @@ function transformData(rootNode: DataViewHierarchyNode, colorRootNode: DataViewH
             cumulativeValue: 0,
             cumulativePercentage: 0,
             key: leaf.key ?? "",
+            mark: leaf.mark
         };
         return stackedBar;
     });
@@ -163,7 +173,7 @@ function transformData(rootNode: DataViewHierarchyNode, colorRootNode: DataViewH
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
         grandTotal: paretoGrandTotal,
         colorIndices: colorIndices,
-        colorRange: colorRange 
+        colorRange: colorRange
     };
     return pareto;
 }

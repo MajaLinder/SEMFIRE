@@ -1,5 +1,6 @@
 // @ts-ignore
 import * as d3 from "d3";
+import { MarkingOperation } from "spotfire-api";
 
 export interface Pareto {
     /** A single bar */
@@ -26,6 +27,7 @@ export interface StackedBar {
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage: number;
     key: string;
+    mark(operation?: MarkingOperation | undefined): void;
 }
 /** A sector of a bar */
 export interface Bar {
