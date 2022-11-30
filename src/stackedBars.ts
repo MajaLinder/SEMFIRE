@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { Pareto, StackedBar } from "./pareto";
-import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 import { Settings } from "./settings";
+import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 
 /**
  * Render the bars using d3

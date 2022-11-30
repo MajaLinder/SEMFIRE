@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
-import { resources } from "./resources";
 
 export function renderAxes(pareto: Pareto, settings: Settings) {
     d3.selectAll("path").remove();
@@ -9,40 +8,25 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
 
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
+    var d3svg = d3.select("svg");
     const svg: any = document.querySelector("#svg");
     const svgBoundingClientRect: any = svg.getBoundingClientRect();
     let ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
-    
+
     var d3svg = d3.select("svg");
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
     const percentageAxis = modulePercentageAxis(svgBoundingClientRect.height);
 
-    var g = d3svg
-        .append("g")
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")");
+    var g = d3svg.append("g").attr("transform", "translate(" + 65 + "," + 0 + ")");
 
     g.append("g")
-        .attr(
-            "transform",
-            "translate(" +
-                resources.PADDINGCATEGORYLEFT +
-                "," +
-                (svgBoundingClientRect.height - resources.PADDINGBOTTOMUP) +
-                ")"
-        )
+        .attr("transform", "translate(0," + (svgBoundingClientRect.height - 50) + ")")
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
-        .attr(
-            "transform",
-            "translate(" +
-                (svgBoundingClientRect.width - resources.PADDINGRIGHT) +
-                " ," +
-                resources.PADDINGPERCENTAGEDOWN +
-                ")"
-        )
+        .attr("transform", "translate(" + (svgBoundingClientRect.width - 100) + " ,0)")
         .call(
             d3
                 .axisRight(percentageAxis)
@@ -60,9 +44,10 @@ const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number)
     let categoryAxis = d3
         .scaleBand()
         .domain(domain)
-        .range([rangeStart, rangeWidth - resources.PADDINGRIGHT])
+        .range([rangeStart, rangeWidth - 100])
         .paddingInner(padding)
         .paddingOuter(padding);
+
     return categoryAxis;
 };
 const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
@@ -70,14 +55,14 @@ const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
         .scaleLinear()
         .domain([0, domain])
         .nice(ticks)
-        .range([rangeHeight - resources.PADDINGBOTTOMUP, resources.PADDINGTOPDOWN]);
+        .range([rangeHeight - 50, 100]);
     return valueAxis;
 };
 const modulePercentageAxis = (rangeHeight: number) => {
     let percentageAxis = d3
         .scaleLinear()
         .domain([0, 100])
-        .range([rangeHeight - resources.PADDINGBOTTOMUP, resources.PADDINGTOPDOWN]);
+        .range([rangeHeight - 50, 100]);
     return percentageAxis;
 };
 const moduleCategories = (pareto: Pareto) => {
@@ -87,6 +72,7 @@ const moduleCategories = (pareto: Pareto) => {
     });
     return paretoCategoryValues;
 };
+
 const moduleIndices = (pareto: Pareto) => {
     const paretoCategoryIndices: number[] = [];
 
@@ -105,6 +91,7 @@ const moduleIndices = (pareto: Pareto) => {
  */
 const moduleTicks = (height: number, labelSize: number) => {
     let ticks = height / (labelSize * 2 + 6);
+
     return ticks;
 };
 export { moduleCategoryAxis, modulePercentageAxis, moduleValueAxis, moduleTicks, moduleCategories, moduleIndices };

@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { moduleCategoryAxis, moduleIndices, modulePercentageAxis } from "./axis";
-import { resources } from "./resources";
 
 /**
  * Render the cumulative line using d3
@@ -38,7 +37,7 @@ export function renderCumulativeLine(pareto: Pareto) {
         .append("path")
         .datum(positions)
         .attr("class", "line")
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+        .attr("transform", "translate(" + 65 + "," + 0 + ")")
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#4916ea")
