@@ -1,7 +1,8 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
-import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
+import { resources } from "./resources";
+import { Settings } from "./settings";
 
 /**
  * Render the bars using d3
@@ -34,6 +35,6 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         })
         .attr("width", categoryAxis.bandwidth())
         .attr("height", function (d) {
-            return svgBoundingClientRect.height - 50 - Number(valueAxis(d.totalValue));
+            return svgBoundingClientRect.height - resources.PADDINGBOTTOMUP - Number(valueAxis(d.totalValue));
         });
 }
