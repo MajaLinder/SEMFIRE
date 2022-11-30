@@ -51,13 +51,9 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("height", (d) => (valueAxis(d[0]) ?? 0) - (valueAxis(d[1]) ?? 0))
         .attr("width", categoryAxis.bandwidth())
         .on("click", function (d) {
+            event.ctrlKey ? d.data.mark("ToggleOrAdd") : d.data.mark();
             //For testing purpose
             //d3.select(this).style("stroke", "black").style("stroke-width", 0.5);
             //settings.clearMarking;
-            if (d3.event.ctrlKey) {
-                d.data.mark("ToggleOrAdd");
-            } else {
-                d.data.mark();
-            }
         });
 }

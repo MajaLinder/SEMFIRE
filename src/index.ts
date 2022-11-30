@@ -142,7 +142,7 @@ function transformData(
             cumulativeValue: 0,
             cumulativePercentage: 0,
             key: leaf.key ?? "",
-            mark: leaf.mark
+            mark: (m) => (m ? leaf.mark(m) : leaf.mark())
         };
         return stackedBar;
     });
