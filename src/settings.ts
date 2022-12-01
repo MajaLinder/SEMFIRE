@@ -9,8 +9,8 @@ export interface Settings {
     windowSize: { width: number; height: number };
     style: {
         ticks: {stroke: string};
-        label: {fontFamily: string, color: string, fontStyle: string};
-        lines: {weight: string, color: string};
+        label: {fontFamily: string, color: string, fontStyle: string, size: number, weight: string};
+        lines: {weight: string, color: string}; 
         font: { size: number; weight: string; style: string; color: string; fontFamily: string };
         marking: { color: string };
         background: { color: string };

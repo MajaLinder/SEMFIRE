@@ -91,10 +91,12 @@ window.Spotfire.initialize(async (mod) => {
 
         let settings: Settings = {
             windowSize: windowSize,
+            svg: undefined,
             clearMarking: dataView.clearMarking,
             style: {
                 ticks: {
-                    stroke: context.styling.scales.line.stroke
+                    stroke: context.styling.scales.line.stroke,
+                    //color: context.styling.scales.line.color
                 },
 
                 background: {
@@ -103,11 +105,11 @@ window.Spotfire.initialize(async (mod) => {
 
                 label: {
                     fontFamily: context.styling.general.font.fontFamily,
-                    color: context.styling.general.font.color
-                    //fontStyle: context.styling.general.font.fontStyle
-                    // size: context.styling.general.font.fontSize,
-                    // style: context.styling.general.font.fontStyle,
-                    // weight: context.styling.general.font.fontWeight
+                    color: context.styling.general.font.color,
+                    fontStyle: context.styling.general.font.fontStyle,
+                    size: context.styling.general.font.fontSize,
+                    weight: context.styling.general.font.fontWeight,
+                    
                 },
 
                 lines: {

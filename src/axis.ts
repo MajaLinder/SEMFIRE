@@ -26,23 +26,34 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
     var g = d3svg.append("g").attr("transform", "translate(" + 65 + "," + 0 + ")");
 
     console.log("fontfamily: " + settings.style.label.fontFamily);
+    console.log("stroke: " + settings.style.ticks.stroke);
+
 
     g.append("g")
         .attr("transform", "translate(0," + (svgBoundingClientRect.height - 50) + ")")
-        // .style("font-family", settings.style.label.fontFamily)
-        // .style("color", settings.style.label.color)
-        //.style("font-style", settings.style.label.fontStyle)
+        .style("font-family", settings.style.label.fontFamily)
+        .style("color", settings.style.label.color)
+        .style("font-style", settings.style.label.fontStyle)
+        .style("font-size", settings.style.label.size)
+        //.style("stroke", settings.style.ticks.stroke)
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
+       
 
     g.append("g")
         .style("font-family", settings.style.label.fontFamily)
-        .style("color", settings.style.label.color);
-        //.style("font-style", settings.style.label.fontStyle)
-       
+        .style("color", settings.style.label.color)
+        .style("font-style", settings.style.label.fontStyle)
+        .style("font-size", settings.style.label.size)
+        .call(d3.axisLeft(valueAxis).ticks(ticks))
+       // .style("stroke", settings.style.ticks.stroke),
 
-    g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
+
     g.append("g")
         .attr("transform", "translate(" + (svgBoundingClientRect.width - 100) + " ,0)")
+        .style("font-family", settings.style.label.fontFamily)
+        .style("color", settings.style.label.color)
+        .style("font-style", settings.style.label.fontStyle)
+        .style("font-size", settings.style.label.size)
         .call(
             d3
                 .axisRight(percentageAxis)
@@ -51,20 +62,10 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 .tickFormat(function (d) {
                     return d + "%";
                 })
-        );
+        )
+        
+        
 
-    g.select("g");
-    // //  .attr("font-family", "Times New Roman");\
-    // .style("font-family", settings.style.label.fontFamily)
-    // .style("color", settings.style.label.color);
-
-    // .attr("color", settings.style.label.color)
-    // .attr("weight", settings.style.label.weight)
-
-    // .attr("font-family", settings.style.label.fontFamily)
-    // .attr("font-style", settings.style.label.fontStyle)
-    // .attr("font-weight",settings.style.label.fontWeight)
-    // .attr("font-size", settings.style.label.fontSize)
 }
 
 const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number) => {
