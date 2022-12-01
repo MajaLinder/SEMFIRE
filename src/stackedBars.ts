@@ -11,8 +11,8 @@ import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } fr
 export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
-    const svg: any = document.querySelector("#svg");
-    const svgBoundingClientRect: any = svg.getBoundingClientRect();
+    const svg: SVGElement = document.querySelector("#svg")!;
+    const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
     const ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
