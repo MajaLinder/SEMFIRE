@@ -11,8 +11,8 @@ export function renderCumulativeLine(pareto: Pareto) {
     const paretoCategoryIndices: number[] = moduleIndices(pareto);
 
     let d3svg = d3.select("svg");
-    const svg: any = document.querySelector("#svg");
-    const svgBoundingClientRect: any = svg.getBoundingClientRect();
+    const svg: SVGElement = document.querySelector("#svg")!;
+    const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
     const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryIndices, 0, svgBoundingClientRect.width); //used to get bandwidth later
     const categoryAxis = moduleCategoryAxis(
         paretoCategoryIndices,
@@ -27,11 +27,11 @@ export function renderCumulativeLine(pareto: Pareto) {
 
     var line = d3
         .line<any>()
-        .x(function (d): any {
-            return categoryAxis(d[0]);
+        .x(function (d): number {
+            return categoryAxis(d[0])!;
         })
-        .y(function (d): any {
-            return valueAxis(d[1]);
+        .y(function (d): number {
+            return valueAxis(d[1])!;
         });
 
     d3svg
