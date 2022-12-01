@@ -12,7 +12,7 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
     const svg: any = document.querySelector("#svg");
     const svgBoundingClientRect: any = svg.getBoundingClientRect();
     let ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
-    
+
     var d3svg = d3.select("svg");
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
@@ -33,7 +33,8 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
         )
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
 
-    g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
+    g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks)).attr("id", "valueAxis");
+
     g.append("g")
         .attr(
             "transform",
