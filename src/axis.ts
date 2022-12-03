@@ -83,7 +83,7 @@ const modulePercentageAxis = (rangeHeight: number) => {
 const moduleCategories = (pareto: Pareto) => {
     const paretoCategoryValues: string[] = [];
     pareto.stackedBars.forEach((p) => {
-        paretoCategoryValues.push(p.label);
+        paretoCategoryValues.push(p.key);
     });
     return paretoCategoryValues;
 };
