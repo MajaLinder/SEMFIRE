@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { Pareto, StackedBar, Bar } from "./pareto";
+import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 
@@ -17,11 +17,10 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 
-    let colorKeys = pareto.colorIndices.map((x) => (x ?? 0).toString());
     var colorScale = d3.scaleOrdinal<string>().domain(pareto.colorRange).range(pareto.colorRange);
 
     // Create a group for each series
-    var sel = d3 
+    var sel = d3
         .select("#svg")
         .select("g")
         .selectAll("g.series")
@@ -40,14 +39,14 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("height", (d) => Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)))
         .attr("width", categoryAxis.bandwidth())
         .style("fill", (d) => colorScale(d.color))
-        .on("click", (e: any, d: any) => {
-            let thisBar = d as Bar;
-            let event = e as PointerEvent;
-            if (event.ctrlKey) {
-                thisBar.toggleOrAdd();
+        .on("click", function (d) {
+            //For testing purpose
+            //d3.select(this).style("stroke", "black").style("stroke-width", 0.5);
+            //settings.clearMarking;
+            if (d3.event.ctrlKey) {
+                d.mark("ToggleOrAdd");
             } else {
-                thisBar.mark();
+                d.mark();
             }
-            event.stopPropagation(); 
         });
 }

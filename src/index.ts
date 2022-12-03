@@ -82,7 +82,7 @@ window.Spotfire.initialize(async (mod) => {
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
         context.signalRenderComplete();
-    } 
+    }
 });
 
 /**
@@ -126,7 +126,7 @@ function transformData(
             let barLabel = hasColorExpression ? row.categorical(colorAxisName).formattedValue() : leaf.formattedValue();
             let barIndex = hasColorExpression ? row.leafNode(colorAxisName)?.leafIndex ?? -1 : 0;
             let barKey = hasColorExpression ? row.leafNode(colorAxisName)?.key ?? "" : "All values";
-            
+
             return {
                 color: row.color().hexCode,
                 value: barValue,
@@ -135,15 +135,9 @@ function transformData(
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
-                mark() {
-                    row.mark();
-                },
-                toggleOrAdd() {
-                    row.mark("ToggleOrAdd");
-                },
+                mark: (m) => (m ? row.mark(m) : row.mark())
             };
         });
-
 
         let stackedBar: StackedBar = {
             position: -1, //to be filled in when array of StackedBar's gets sorted
@@ -159,11 +153,11 @@ function transformData(
         //fill in y0 coordinates of bars in a reverse order to match the coloring order
         let previousSum = 0;
         stackedBar.bars.forEach((b) => {
-            b.y0 = stackedBar.totalValue - previousSum - b.value; 
+            b.y0 = stackedBar.totalValue - previousSum - b.value;
             previousSum += b.value;
-        }); 
+        });
 
-        return stackedBar; 
+        return stackedBar;
     });
 
     let sortedStackedBars: StackedBar[] = unSortedStackedBars.sort((a, b) => {

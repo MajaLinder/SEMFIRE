@@ -37,7 +37,6 @@ export interface Bar {
     key: string;
     parentKey: string;
     /** y coordinate of the top-left corner of this in-bar */
-    y0: number; 
-    mark(): void;
-    toggleOrAdd():void;
+    y0: number;
+    mark(operation?: MarkingOperation | undefined): void;
 }
