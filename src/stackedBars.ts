@@ -38,7 +38,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("x", (d) => categoryAxis(d.parentKey) ?? 0)
         .attr("height", (d) => Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)))
         .attr("width", categoryAxis.bandwidth())
-        .style("fill", (d) => colorScale(d.color))
+        .style("fill", (d) => d.color)
         .on("click", function (d) {
             //For testing purpose
             //d3.select(this).style("stroke", "black").style("stroke-width", 0.5);
