@@ -36,15 +36,11 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
-
-        let colorRootNode: DataViewHierarchyNode = (await (await dataView.hierarchy(
-            colorAxisName
-        ))!.root()) as DataViewHierarchyNode;
-
+        
         //validate data before transformation
         validateDataView(rootNode);
 
-        let pareto = transformData(rootNode, colorRootNode, hasColorExpression);
+        let pareto = transformData(rootNode, hasColorExpression);
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -105,18 +101,8 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  */
 function transformData(
     rootNode: DataViewHierarchyNode,
-    colorRootNode: DataViewHierarchyNode,
     hasColorExpression: boolean
 ): Pareto {
-    let tempColorIndices = hasColorExpression
-        ? colorRootNode.rows().map((x) => x.leafNode(colorAxisName)?.leafIndex ?? 0)
-        : [0];
-    let tempColorRange = hasColorExpression
-        ? colorRootNode.rows().map((x) => x.color().hexCode)
-        : [colorRootNode.rows()[0].color().hexCode];
-    let colorIndices: number[] = tempColorIndices.filter((item, index) => tempColorIndices.indexOf(item) === index);
-    let colorRange: string[] = tempColorRange.filter((item, index) => tempColorRange.indexOf(item) === index);
-
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
@@ -184,10 +170,7 @@ function transformData(
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-        grandTotal: paretoGrandTotal,
-        colorIndices: colorIndices,
-        colorRange: colorRange
+        grandTotal: paretoGrandTotal
     };
-    console.log(pareto);
     return pareto;
 }

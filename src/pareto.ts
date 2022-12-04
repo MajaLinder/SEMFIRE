@@ -11,8 +11,6 @@ export interface Pareto {
     minValue: number;
     /** sum of all bar values */
     grandTotal: number;
-    colorIndices: number[];
-    colorRange: string[];
 }
 
 /**

@@ -17,8 +17,6 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 
-    var colorScale = d3.scaleOrdinal<string>().domain(pareto.colorRange).range(pareto.colorRange);
-
     // Create a group for each series
     var sel = d3
         .select("#svg")
@@ -26,8 +24,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .selectAll("g.series")
         .data(pareto.stackedBars)
         .join("g")
-        .classed("series", true)
-        .style("fill", (d) => colorScale(d.key));
+        .classed("series", true);
 
     //For each series, create a rectangle for each color key
     sel.selectAll("rect")
