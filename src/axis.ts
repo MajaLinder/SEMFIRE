@@ -9,8 +9,8 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
 
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
-    const svg: any = document.querySelector("#svg");
-    const svgBoundingClientRect: any = svg.getBoundingClientRect();
+    const svg: SVGElement = document.querySelector("#svg")!;
+    const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
     let ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
     
     var d3svg = d3.select("svg");
@@ -65,7 +65,7 @@ const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number)
         .paddingOuter(padding);
     return categoryAxis;
 };
-const moduleValueAxis = (domain: any, rangeHeight: number, ticks: number) => {
+const moduleValueAxis = (domain: number, rangeHeight: number, ticks: number) => {
     let valueAxis = d3
         .scaleLinear()
         .domain([0, domain])
