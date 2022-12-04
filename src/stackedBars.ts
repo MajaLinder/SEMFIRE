@@ -6,12 +6,13 @@ import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } fr
 /**
  * Render the bars using d3
  * @param pareto Pareto data structure
+ * @param settings Settings that should be used
  */
 
 export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
-    const svg: SVGElement = document.querySelector("#svg");
+    const svg: SVGElement = document.querySelector("#svg") as SVGElement;
     const svgBoundingClientRect: DOMRect = svg.getBoundingClientRect();
     const ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
@@ -37,9 +38,6 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("width", categoryAxis.bandwidth())
         .style("fill", (d) => d.color)
         .on("click", function (d) {
-            //For testing purpose
-            //d3.select(this).style("stroke", "black").style("stroke-width", 0.5);
-            //settings.clearMarking;
             if (d3.event.ctrlKey) {
                 d.mark("ToggleOrAdd");
             } else {
