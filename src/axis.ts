@@ -12,7 +12,7 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
     const svg: SVGElement = document.querySelector("#svg")!;
     const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
     let ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
-    
+
     var d3svg = d3.select("svg");
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
@@ -83,7 +83,7 @@ const modulePercentageAxis = (rangeHeight: number) => {
 const moduleCategories = (pareto: Pareto) => {
     const paretoCategoryValues: string[] = [];
     pareto.stackedBars.forEach((p) => {
-        paretoCategoryValues.push(p.label);
+        paretoCategoryValues.push(p.key);
     });
     return paretoCategoryValues;
 };

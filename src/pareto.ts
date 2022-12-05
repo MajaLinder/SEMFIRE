@@ -1,5 +1,6 @@
 // @ts-ignore
 import * as d3 from "d3";
+import { MarkingOperation } from "spotfire-api";
 
 export interface Pareto {
     /** A single bar */
@@ -10,8 +11,6 @@ export interface Pareto {
     minValue: number;
     /** sum of all bar values */
     grandTotal: number;
-    colorIndices: number[];
-    colorRange: string[];
 }
 
 /**
@@ -34,4 +33,8 @@ export interface Bar {
     index: number;
     color: string;
     key: string;
+    parentKey: string;
+    /** y coordinate of the top-left corner of this in-bar */
+    y0: number;
+    mark(operation?: MarkingOperation | undefined): void;
 }
