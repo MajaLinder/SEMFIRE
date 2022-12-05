@@ -39,7 +39,6 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 .tickValues(
                     categoryAxis.domain().filter(function (t, i) {
                         console.log(categoryAxis.bandwidth());
-                        // 12 should be fontsize.
                         const MIN_WIDTH = 30;
                         let skip = Math.round((MIN_WIDTH * pareto.stackedBars.length) / svgBoundingClientRect.width);
                         skip = Math.max(1, skip);
