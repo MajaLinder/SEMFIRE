@@ -31,7 +31,23 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 (svgBoundingClientRect.height - resources.PADDINGBOTTOMUP) +
                 ")"
         )
-        .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
+        .attr("class", "categoryAxis")
+        .call(
+            d3
+                .axisBottom(categoryAxis)
+                .scale(categoryAxis)
+                .tickValues(
+                    categoryAxis.domain().filter(function (t, i) {
+                        console.log(categoryAxis.bandwidth());
+                        // 12 should be fontsize.
+                        const MIN_WIDTH = 30;
+                        let skip = Math.round((MIN_WIDTH * pareto.stackedBars.length) / svgBoundingClientRect.width);
+                        skip = Math.max(1, skip);
+
+                        return i % skip === 0 ? t : null;
+                    })
+                )
+        );
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
@@ -52,6 +68,29 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                     return d + "%";
                 })
         );
+
+    var padding = 0,
+        barWidth = categoryAxis.bandwidth();
+
+    function wrap(this: any) {
+        var self = d3.select(this),
+            textLength = self.node().getComputedTextLength(),
+            text = self.text();
+        while (textLength > barWidth - 2 * padding && text.length > 0) {
+            text = text.slice(0, -1);
+            self.text(text + "...");
+            textLength = self.node().getComputedTextLength();
+        }
+    }
+    d3.select(".categoryAxis")
+        .selectAll(".tick")
+        .selectAll("text")
+        .html("")
+        .append("tspan")
+        .text(function (d: any) {
+            return d;
+        })
+        .each(wrap);
 }
 
 const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number) => {
