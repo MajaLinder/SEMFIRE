@@ -2,8 +2,9 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { resources } from "./resources";
+import { text, values } from "d3";
 
-export function renderAxes(pareto: Pareto, settings: Settings) {
+export function renderAxes(pareto: Pareto, settings: Settings, tooltip: any) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
@@ -38,15 +39,24 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 .scale(categoryAxis)
                 .tickValues(
                     categoryAxis.domain().filter(function (t, i) {
-                        console.log(categoryAxis.bandwidth());
-                        const MIN_WIDTH = 30;
+                        const MIN_WIDTH = 60;
                         let skip = Math.round((MIN_WIDTH * pareto.stackedBars.length) / svgBoundingClientRect.width);
                         skip = Math.max(1, skip);
 
                         return i % skip === 0 ? t : null;
                     })
                 )
-        );
+        )
+        //show the complete category name or value on hover
+        .selectAll("text")
+        .attr("tooltip", (d: any) => d)
+        .on("mouseover", function (event, d) {
+            tooltip.show(d);
+            console.log(d);
+        })
+        .on("mouseout", function (d: any) {
+            tooltip.hide();
+        });
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
@@ -68,14 +78,14 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 })
         );
 
-    var padding = 0,
+    var padding = 10,
         barWidth = categoryAxis.bandwidth();
 
     function wrap(this: any) {
         var self = d3.select(this),
             textLength = self.node().getComputedTextLength(),
             text = self.text();
-        while (textLength > barWidth - 2 * padding && text.length > 0) {
+        while (textLength > barWidth - 2 * padding && text.length > 1) {
             text = text.slice(0, -1);
             self.text(text + "...");
             textLength = self.node().getComputedTextLength();
