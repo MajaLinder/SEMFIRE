@@ -18,7 +18,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 
-    // Create a group for each series
+    // Create a group for each series 
     var sel = d3
         .select("#svg")
         .select("g")
