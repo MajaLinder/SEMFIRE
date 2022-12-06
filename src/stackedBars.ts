@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
-import { Tooltip } from "spotfire-api";
+
 
 /**
  * Render the bars using d3
@@ -10,7 +10,7 @@ import { Tooltip } from "spotfire-api";
  * @param settings Settings that should be used
  */
 
-export function renderStackedBars(pareto: Pareto, settings: Settings,tooltip: Tooltip) {
+export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
