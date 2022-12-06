@@ -2,9 +2,9 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { resources } from "./resources";
-import { text, values } from "d3";
+import { Tooltip } from "spotfire-api";
 
-export function renderAxes(pareto: Pareto, settings: Settings, tooltip: any) {
+export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
@@ -50,9 +50,8 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: any) {
         //show the complete category name or value on hover
         .selectAll("text")
         .attr("tooltip", (d: any) => d)
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function (event: any, d: any) {
             tooltip.show(d);
-            console.log(d);
         })
         .on("mouseout", function (d: any) {
             tooltip.hide();
