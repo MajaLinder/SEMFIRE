@@ -33,7 +33,6 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                 ")"
         )
         .attr("class", "categoryAxis")
-        .style("font-size", "10px")
         .call(
             d3
                 .axisBottom(categoryAxis)
