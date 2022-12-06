@@ -33,6 +33,7 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                 ")"
         )
         .attr("class", "categoryAxis")
+        .style("font-size", "10px")
         .call(
             d3
                 .axisBottom(categoryAxis)
@@ -77,19 +78,24 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                 })
         );
 
-    var padding = 10,
-        barWidth = categoryAxis.bandwidth();
+    var barWidth = categoryAxis.bandwidth();
 
     function wrap(this: any) {
         var self = d3.select(this),
             textLength = self.node().getComputedTextLength(),
             text = self.text();
-        while (textLength > barWidth - 2 * padding && text.length > 1) {
+        while (textLength > barWidth && text.length > 1) {
             text = text.slice(0, -1);
-            self.text(text + "...");
+            if (text.length === 1 && text.length + 3 > barWidth) {
+                self.text(text);
+            } else {
+                self.text(text + "...");
+            }
+
             textLength = self.node().getComputedTextLength();
         }
     }
+
     d3.select(".categoryAxis")
         .selectAll(".tick")
         .selectAll("text")
