@@ -2,8 +2,9 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { resources } from "./resources";
+import { Tooltip } from "spotfire-api";
 
-export function renderAxes(pareto: Pareto, settings: Settings) {
+export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
@@ -31,7 +32,30 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 (svgBoundingClientRect.height - resources.PADDINGBOTTOMUP) +
                 ")"
         )
-        .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
+        .attr("class", "categoryAxis")
+        .call(
+            d3
+                .axisBottom(categoryAxis)
+                .scale(categoryAxis)
+                .tickValues(
+                    categoryAxis.domain().filter(function (t, i) {
+                        const MIN_WIDTH = 30;
+                        let skip = Math.round((MIN_WIDTH * pareto.stackedBars.length) / svgBoundingClientRect.width);
+                        skip = Math.max(1, skip);
+
+                        return i % skip === 0 ? t : null;
+                    })
+                )
+        )
+        //show the complete category name or value on hover
+        .selectAll("text")
+        .attr("tooltip", (d: any) => d)
+        .on("mouseover", function (event: any, d: any) {
+            tooltip.show(d);
+        })
+        .on("mouseout", function (d: any) {
+            tooltip.hide();
+        });
 
     g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
     g.append("g")
@@ -52,6 +76,34 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                     return d + "%";
                 })
         );
+
+    var barWidth = categoryAxis.bandwidth();
+
+    function wrap(this: any) {
+        var self = d3.select(this),
+            textLength = self.node().getComputedTextLength(),
+            text = self.text();
+        while (textLength > barWidth && text.length > 1) {
+            text = text.slice(0, -1);
+            if (text.length === 1 && text.length + 3 > barWidth) {
+                self.text(text);
+            } else {
+                self.text(text + "...");
+            }
+
+            textLength = self.node().getComputedTextLength();
+        }
+    }
+
+    d3.select(".categoryAxis")
+        .selectAll(".tick")
+        .selectAll("text")
+        .html("")
+        .append("tspan")
+        .text(function (d: any) {
+            return d;
+        })
+        .each(wrap);
 }
 
 const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number) => {

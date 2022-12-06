@@ -11,7 +11,7 @@ const valueAxisName = "Value Axis";
 
 window.Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
-
+    const { tooltip } = mod.controls;
     const reader = mod.createReader(
         mod.visualization.data(),
         mod.windowSize(),
@@ -36,9 +36,10 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
-        
+
         //validate data before transformation
         validateDataView(rootNode);
+        const { tooltip } = mod.controls;
 
         let pareto = transformData(rootNode, hasColorExpression);
 
@@ -73,7 +74,7 @@ window.Spotfire.initialize(async (mod) => {
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
 
-        renderPareto(pareto, settings);
+        renderPareto(pareto, settings, tooltip);
 
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
@@ -99,10 +100,7 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  * @param rootNode - The hierarchy root.
  * @param hasColorExpression - Checks the color axis
  */
-function transformData(
-    rootNode: DataViewHierarchyNode,
-    hasColorExpression: boolean
-): Pareto {
+function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
