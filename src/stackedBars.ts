@@ -51,6 +51,8 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: T
             if (pareto.colorByAxisName != null) {
                 text += "\n" + pareto.colorByAxisName + ": " + d.label;
             }
+            let percentage = pareto.stackedBars.find((element) => element.key === d.parentKey)?.cumulativePercentage;
+            text += "\nCummulative percentage: " + percentage + "%";
             toolTip.show(text);
         })
         .on("mouseout", function (d) {
