@@ -10,7 +10,7 @@ import { Tooltip } from "spotfire-api";
  * @param settings Settings that should be used
  */
 
-export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: Tooltip) {
+export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
@@ -49,7 +49,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: T
             showBarToolTip(d);
         })
         .on("mouseout", function (d) {
-            toolTip.hide();
+            tooltip.hide();
         });
 
     /**
@@ -71,7 +71,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: T
             text += "\nCumulative percentage: " + percentage + "%";
 
             // display the text
-            toolTip.show(text);
+            tooltip.show(text);
         }
     }
 }

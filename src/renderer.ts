@@ -17,9 +17,9 @@ import { Tooltip } from "spotfire-api";
  * @param settings - Settings that should be used
  */
 
-export function renderPareto(pareto: Pareto, settings: Settings, toolTip: Tooltip) {
-    renderAxes(pareto, settings);
-    renderStackedBars(pareto, settings, toolTip);
+export function renderPareto(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
+    renderAxes(pareto, settings, tooltip);
+    renderStackedBars(pareto, settings, tooltip);
     renderCumulativeLine(pareto);
     //renderSettings(settings);
 }

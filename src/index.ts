@@ -11,7 +11,7 @@ const valueAxisName = "Value Axis";
 
 window.Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
-
+    const { tooltip } = mod.controls;
     const reader = mod.createReader(
         mod.visualization.data(),
         mod.windowSize(),
@@ -46,6 +46,7 @@ window.Spotfire.initialize(async (mod) => {
 
         //validate data before transformation
         validateDataView(rootNode);
+        const { tooltip } = mod.controls;
 
         const toolTip: Tooltip = mod.controls.tooltip;
         let pareto = transformData(
@@ -87,7 +88,7 @@ window.Spotfire.initialize(async (mod) => {
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
 
-        renderPareto(pareto, settings, toolTip);
+        renderPareto(pareto, settings, tooltip);
 
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
