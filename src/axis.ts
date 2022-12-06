@@ -39,7 +39,7 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: any) {
                 .scale(categoryAxis)
                 .tickValues(
                     categoryAxis.domain().filter(function (t, i) {
-                        const MIN_WIDTH = 60;
+                        const MIN_WIDTH = 30;
                         let skip = Math.round((MIN_WIDTH * pareto.stackedBars.length) / svgBoundingClientRect.width);
                         skip = Math.max(1, skip);
 
