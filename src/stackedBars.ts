@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
+import { Tooltip } from "spotfire-api";
 
 /**
  * Render the bars using d3
@@ -9,7 +10,7 @@ import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } fr
  * @param settings Settings that should be used
  */
 
-export function renderStackedBars(pareto: Pareto, settings: Settings) {
+export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: Tooltip) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
@@ -43,5 +44,13 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             } else {
                 d.mark();
             }
+        })
+        .on("mouseover", function (event, d: any) {
+            let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
+            text += pareto.valueAxisName + ": " + d.value;
+            toolTip.show(text);
+        })
+        .on("mouseout", function (d) {
+            toolTip.hide();
         });
 }

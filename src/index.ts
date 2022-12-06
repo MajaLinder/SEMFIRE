@@ -1,4 +1,4 @@
-import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size } from "spotfire-api";
+import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size, Tooltip } from "spotfire-api";
 import { resources } from "./resources";
 import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
@@ -36,11 +36,25 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
-        
+        const hasValueExpression = !!valueAxis.parts.length && valueAxis.isCategorical;
+        const hasCategryExpression = !!categoryAxis.parts.length && categoryAxis.isCategorical;
+
+        // TODO: error handling for if the value and category axis contains no value
+        let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
+            valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
+            categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
+
         //validate data before transformation
         validateDataView(rootNode);
 
-        let pareto = transformData(rootNode, hasColorExpression);
+        const toolTip: Tooltip = mod.controls.tooltip;
+        let pareto = transformData(
+            rootNode,
+            hasColorExpression,
+            colorAxisCategoryName,
+            valueAxisCategoryName,
+            categoryAxisCategoryName
+        );
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -73,7 +87,7 @@ window.Spotfire.initialize(async (mod) => {
         //to do: render Pareto
         //when renderPareto method has been implemented it should be invoked here
 
-        renderPareto(pareto, settings);
+        renderPareto(pareto, settings, toolTip);
 
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
@@ -101,7 +115,10 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  */
 function transformData(
     rootNode: DataViewHierarchyNode,
-    hasColorExpression: boolean
+    hasColorExpression: boolean,
+    colorAxisCategoryName: string | null,
+    valueAxisCategoryName: string | null,
+    categoryAxisCategoryName: string | null
 ): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
@@ -121,6 +138,7 @@ function transformData(
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
+                parentLabel: leaf.formattedPath(),
                 mark: (m) => (m ? row.mark(m) : row.mark())
             };
         });
@@ -170,7 +188,10 @@ function transformData(
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-        grandTotal: paretoGrandTotal
+        grandTotal: paretoGrandTotal,
+        colorByAxisName: colorAxisCategoryName,
+        valueAxisName: valueAxisCategoryName,
+        categoryAxisName: categoryAxisCategoryName
     };
     return pareto;
 }
