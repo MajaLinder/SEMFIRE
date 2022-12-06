@@ -1,9 +1,7 @@
-import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size, Tooltip } from "spotfire-api";
-import { resources } from "./resources";
+import { Axis, DataView, DataViewHierarchyNode, ModProperty, Size } from "spotfire-api";
 import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
-import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
-import * as d3 from "d3";
+import { renderPareto } from "./renderer";
 
 const categoryAxisName = "Category Axis";
 const colorAxisName = "Color";
@@ -11,7 +9,6 @@ const valueAxisName = "Value Axis";
 
 window.Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
-    const { tooltip } = mod.controls;
     const reader = mod.createReader(
         mod.visualization.data(),
         mod.windowSize(),
@@ -36,8 +33,6 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
-        const hasValueExpression = !!valueAxis.parts.length && valueAxis.isCategorical;
-        const hasCategryExpression = !!categoryAxis.parts.length && categoryAxis.isCategorical;
 
         // TODO: error handling for if the value and category axis contains no value
         let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
@@ -48,7 +43,6 @@ window.Spotfire.initialize(async (mod) => {
         validateDataView(rootNode);
         const { tooltip } = mod.controls;
 
-        const toolTip: Tooltip = mod.controls.tooltip;
         let pareto = transformData(
             rootNode,
             hasColorExpression,
