@@ -46,16 +46,24 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: T
             }
         })
         .on("mouseover", function (event, d: any) {
-            let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
-            text += pareto.valueAxisName + ": " + d.value;
-            if (pareto.colorByAxisName != null) {
-                text += "\n" + pareto.colorByAxisName + ": " + d.label;
-            }
-            let percentage = pareto.stackedBars.find((element) => element.key === d.parentKey)?.cumulativePercentage;
-            text += "\nCummulative percentage: " + percentage + "%";
-            toolTip.show(text);
+            showBarToolTip(d);
         })
         .on("mouseout", function (d) {
             toolTip.hide();
         });
+
+    /**
+     * Display tooltip for a bar
+     * @param d Bar
+     */
+    function showBarToolTip(d: any) {
+        let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
+        text += pareto.valueAxisName + ": " + d.value;
+        if (pareto.colorByAxisName != null) {
+            text += "\n" + pareto.colorByAxisName + ": " + d.label;
+        }
+        let percentage = pareto.stackedBars.find((element) => element.key === d.parentKey)?.cumulativePercentage;
+        text += "\nCummulative percentage: " + percentage + "%";
+        toolTip.show(text);
+    }
 }
