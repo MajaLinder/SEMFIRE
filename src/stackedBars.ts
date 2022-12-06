@@ -48,6 +48,9 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, toolTip: T
         .on("mouseover", function (event, d: any) {
             let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
             text += pareto.valueAxisName + ": " + d.value;
+            if (pareto.colorByAxisName != null) {
+                text += "\n" + pareto.colorByAxisName + ": " + d.label;
+            }
             toolTip.show(text);
         })
         .on("mouseout", function (d) {
