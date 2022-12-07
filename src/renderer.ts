@@ -21,8 +21,6 @@ export function renderPareto(pareto: Pareto, settings: Settings) {
     renderAxes(pareto, settings);
     renderStackedBars(pareto, settings);
     renderCumulativeLine(pareto);
-    createRectangle();
-    //renderSettings(settings);
 }
 
 /**
