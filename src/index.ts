@@ -3,7 +3,6 @@ import { resources } from "./resources";
 import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
-import * as d3 from "d3";
 
 const categoryAxisName = "Category Axis";
 const colorAxisName = "Color";
@@ -36,7 +35,7 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
-
+        
         //validate data before transformation
         validateDataView(rootNode);
         const { tooltip } = mod.controls;
@@ -67,13 +66,13 @@ window.Spotfire.initialize(async (mod) => {
                     color: context.styling.scales.line.stroke,
                     weight: context.styling.scales.line.stroke
                 },
-                marking: { color: context.styling.scales.font.color }
+                marking: { color: context.styling.scales.font.color },
+                onMouseOverBox: { strokeWidth: 0.5, padding: 3},
+                selectionBox: { strokeWidth: 0.5 },
+                inbarsSeparatorWidth: 1.5
             }
         };
-
-        //to do: render Pareto
-        //when renderPareto method has been implemented it should be invoked here
-
+        
         renderPareto(pareto, settings, tooltip);
 
         //for testing purposes
@@ -100,7 +99,10 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  * @param rootNode - The hierarchy root.
  * @param hasColorExpression - Checks the color axis
  */
-function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
+function transformData(
+    rootNode: DataViewHierarchyNode,
+    hasColorExpression: boolean
+): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
@@ -119,7 +121,15 @@ function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: bool
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
-                mark: (m) => (m ? row.mark(m) : row.mark())
+                mark: (event:any) => {
+                    if (event.ctrlKey) {
+                        row.mark("ToggleOrAdd");
+                        return;
+                    }
+                    row.mark();
+                    
+                },
+                isMarked: row.isMarked()
             };
         });
 
