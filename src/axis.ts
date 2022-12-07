@@ -57,7 +57,17 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
             tooltip.hide();
         });
 
-    g.append("g").call(d3.axisLeft(valueAxis).ticks(ticks));
+    g.append("g")
+        .call(d3.axisLeft(valueAxis).ticks(ticks))
+        .selectAll("text")
+        .attr("tooltip", (d: any) => d)
+        .on("mouseover", function (event: any, d: any) {
+            tooltip.show(d);
+        })
+        .on("mouseout", function (d: any) {
+            tooltip.hide();
+        });
+
     g.append("g")
         .attr(
             "transform",
