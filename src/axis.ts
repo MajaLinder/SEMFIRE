@@ -85,7 +85,7 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
             text = self.text();
         while (textLength > barWidth && text.length > 1) {
             text = text.slice(0, -1);
-            if (text.length === 1 && text.length + 3 > barWidth) {
+            if (text.length === 1 && text.length + 3 < barWidth) {
                 self.text(text);
             } else {
                 self.text(text + "...");

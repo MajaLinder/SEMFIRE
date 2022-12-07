@@ -19,7 +19,7 @@ import { Tooltip } from "spotfire-api";
 
 export function renderPareto(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
     renderAxes(pareto, settings, tooltip);
-    renderStackedBars(pareto, settings);
+    renderStackedBars(pareto, settings, tooltip);
     renderCumulativeLine(pareto);
     //renderSettings(settings);
 }

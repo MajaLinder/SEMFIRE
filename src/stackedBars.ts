@@ -3,13 +3,15 @@ import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 import { resources } from "./resources";
+import { Tooltip } from "spotfire-api";
+
 /**
  * Render the bars using d3
  * @param pareto Pareto data structure
  * @param settings Settings that should be used
  */
 
-export function renderStackedBars(pareto: Pareto, settings: Settings) {
+export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
     const svgBoundingClientRect: DOMRect = svg.getBoundingClientRect();
@@ -58,9 +60,11 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             let thisRect = nodes[i] as SVGAElement;
             let parentGroup = d3.select(thisRect.parentElement);
             addSelectionBox(parentGroup, thisRect, "inbar-hover-border", settings);
+            showBarToolTip(d);
         })
-        .on("mouseleave", function (event: any, d: any) {
+        .on("mouseout", function (event: any, d: any) {
             d3.select(".inbar-hover-border").remove();
+            tooltip.hide();
         });
 
     function addSelectionBox(selection: any, baseRectangle: SVGAElement, cssClass: string, settings: Settings) {
@@ -76,5 +80,27 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("stroke", "#000")
         .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
         .attr("fill", "none");
+    }
+    /**
+     * Display tooltip for a bar
+     * @param d Bar
+     */
+    function showBarToolTip(d: any) {
+        if (pareto.categoryAxisName != null && pareto.valueAxisName != null) {
+            let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
+            text += pareto.valueAxisName + ": " + d.value;
+            if (pareto.colorByAxisName != null) {
+                text += "\n" + pareto.colorByAxisName + ": " + d.label;
+            }
+            // find the cummulative percentage
+            let percentage = pareto.stackedBars.find((element) => element.key === d.parentKey)
+                ?.cumulativePercentage as number;
+            // round percentage to two decimals
+            percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
+            text += "\nCumulative percentage: " + percentage + "%";
+
+            // display the text
+            tooltip.show(text);
+        }
     }
 }

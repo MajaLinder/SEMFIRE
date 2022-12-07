@@ -1,5 +1,4 @@
-import { Axis, DataView, DataViewHierarchyNode, DataViewRow, Mod, ModProperty, Size } from "spotfire-api";
-import { resources } from "./resources";
+import { Axis, DataView, DataViewHierarchyNode, ModProperty, Size } from "spotfire-api";
 import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
@@ -10,7 +9,6 @@ const valueAxisName = "Value Axis";
 
 window.Spotfire.initialize(async (mod) => {
     const context = mod.getRenderContext();
-    const { tooltip } = mod.controls;
     const reader = mod.createReader(
         mod.visualization.data(),
         mod.windowSize(),
@@ -40,7 +38,13 @@ window.Spotfire.initialize(async (mod) => {
         validateDataView(rootNode);
         const { tooltip } = mod.controls;
 
-        let pareto = transformData(rootNode, hasColorExpression);
+        let pareto = transformData(
+            rootNode,
+            hasColorExpression,
+            colorAxisCategoryName,
+            valueAxisCategoryName,
+            categoryAxisCategoryName
+        );
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -178,7 +182,10 @@ function transformData(
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-        grandTotal: paretoGrandTotal
+        grandTotal: paretoGrandTotal,
+        colorByAxisName: colorAxisCategoryName,
+        valueAxisName: valueAxisCategoryName,
+        categoryAxisName: categoryAxisCategoryName
     };
     return pareto;
 }
