@@ -1,36 +1,46 @@
 import * as d3 from "d3";
-import {Pareto} from "./pareto";
-import{moduleCategoryAxis, moduleCategories, modulePercentageAxis} from "./axis"
+import { Pareto } from "./pareto";
+import { moduleCategoryAxis, moduleIndices, modulePercentageAxis } from "./axis";
+import { resources } from "./resources";
 
 /**
  * Render the cumulative line using d3
  * @param pareto Pareto data structure
  */
 export function renderCumulativeLine(pareto: Pareto) {
+    const paretoCategoryIndices: number[] = moduleIndices(pareto);
 
-    const paretoCategoryValues:string[] = moduleCategories(pareto)
-
-    let d3svg = d3.select("svg")
-    const svg:any = document.querySelector("#svg");
-    const svgBoundingClientRect:any = svg.getBoundingClientRect();
-    const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width); //used to get bandwidth later
-    const categoryAxis = moduleCategoryAxis(paretoCategoryValues, categoryAxisBandwidth.bandwidth()/2, svgBoundingClientRect.width + (categoryAxisBandwidth.bandwidth()/2));
+    let d3svg = d3.select("svg");
+    const svg: SVGElement = document.querySelector("#svg")!;
+    const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
+    const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryIndices, 0, svgBoundingClientRect.width); //used to get bandwidth later
+    const categoryAxis = moduleCategoryAxis(
+        paretoCategoryIndices,
+        categoryAxisBandwidth.bandwidth() / 2,
+        svgBoundingClientRect.width + categoryAxisBandwidth.bandwidth() / 2
+    );
     const valueAxis = modulePercentageAxis(svgBoundingClientRect.height);
 
     const positions = pareto.stackedBars.map((stackedBar) => {
-        return [stackedBar.label, stackedBar.cumulativePercentage];
-    })
+        return [stackedBar.index, stackedBar.cumulativePercentage];
+    });
 
-    var line = d3.line<any>()
-        .x(function (d):any { return categoryAxis(d[0]); })
-        .y(function (d):any { return valueAxis(d[1]); })
+    var line = d3
+        .line<any>()
+        .x(function (d): number {
+            return categoryAxis(d[0])!;
+        })
+        .y(function (d): number {
+            return valueAxis(d[1])!;
+        });
 
-    d3svg.append("path")
+    d3svg
+        .append("path")
         .datum(positions)
         .attr("class", "line")
-        .attr("transform", "translate(" + 65 + "," + 0 + ")")
+        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#4916ea")
-        .style("stroke-width", "2")
+        .style("stroke-width", "2");
 }
