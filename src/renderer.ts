@@ -3,7 +3,6 @@ import { Pareto } from "./pareto";
 import { renderStackedBars } from "./stackedBars";
 import { renderCumulativeLine } from "./cumulativeLine";
 import { Settings, renderSettings } from "./Settings";
-import { createRectangle } from "./rectangleMarking";
 
 //Added the settings interface in settings.ts
 // export interface Settings {
@@ -21,6 +20,7 @@ export function renderPareto(pareto: Pareto, settings: Settings) {
     renderAxes(pareto, settings);
     renderStackedBars(pareto, settings);
     renderCumulativeLine(pareto);
+    //renderSettings(settings);
 }
 
 /**
