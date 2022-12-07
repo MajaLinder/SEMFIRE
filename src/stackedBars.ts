@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
+import { Tooltip } from "spotfire-api";
 
 /**
  * Render the bars using d3
@@ -9,7 +10,7 @@ import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } fr
  * @param settings Settings that should be used
  */
 
-export function renderStackedBars(pareto: Pareto, settings: Settings) {
+export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
@@ -43,5 +44,34 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             } else {
                 d.mark();
             }
+        })
+        .on("mouseover", function (event, d: any) {
+            showBarToolTip(d);
+        })
+        .on("mouseout", function (d) {
+            tooltip.hide();
         });
+
+    /**
+     * Display tooltip for a bar
+     * @param d Bar
+     */
+    function showBarToolTip(d: any) {
+        if (pareto.categoryAxisName != null && pareto.valueAxisName != null) {
+            let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
+            text += pareto.valueAxisName + ": " + d.value;
+            if (pareto.colorByAxisName != null) {
+                text += "\n" + pareto.colorByAxisName + ": " + d.label;
+            }
+            // find the cummulative percentage
+            let percentage = pareto.stackedBars.find((element) => element.key === d.parentKey)
+                ?.cumulativePercentage as number;
+            // round percentage to two decimals
+            percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
+            text += "\nCumulative percentage: " + percentage + "%";
+
+            // display the text
+            tooltip.show(text);
+        }
+    }
 }
