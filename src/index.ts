@@ -49,7 +49,7 @@ window.Spotfire.initialize(async (mod) => {
             clearMarking: dataView.clearMarking,
             style: {
                 ticks: {
-                    stroke: context.styling.scales.line.stroke
+                    stroke: context.styling.scales.tick.stroke
                 },
 
                 background: {
