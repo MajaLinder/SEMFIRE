@@ -1,18 +1,45 @@
 import * as d3 from "d3";
-import { Settings } from "./settings";
-import { resources } from "./resources";
 
-export function createRectangle(selection: any, baseRectangle: SVGAElement, cssClass: string, settings: Settings) {
-    let boundingRect = baseRectangle.getBoundingClientRect();
-    let padding = settings.style.onMouseOverBox.padding;
-    selection
-        .append("rect")
-        .classed(cssClass, true)
-        .attr("y", boundingRect.y - resources.PADDINGBOTTOMUP - padding)
-        .attr("x", boundingRect.x - 70 - padding)
-        .attr("height", boundingRect.height + 2 * padding)
-        .attr("width", boundingRect.width + 2 * padding)
-        .attr("stroke", "#000")
-        .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
-        .attr("fill", "none");
+export function createRectangle() {
+    function drawRectangle(x: number, y: number, w: number, h: number) {
+        return "M" + [x, y] + " l" + [w, 0] + " l" + [0, h] + " l" + [-w, 0] + "z";
+    }
+
+    var d3svg = d3.select("svg");
+
+    // Removes previously drawn rectangle
+    d3.select(".rectangle").remove();
+
+    var rectangle = d3svg.append("path").attr("class", "rectangle").attr("visibility", "hidden");
+
+    var startSelection = function (start: [number, number]) {
+        rectangle.attr("d", drawRectangle(start[0], start[0], 0, 0)).attr("visibility", "visible");
+    };
+
+    var moveSelection = function (start: [number, number], moved: [number, number]) {
+        rectangle.attr("d", drawRectangle(start[0], start[1], moved[0] - start[0], moved[1] - start[1]));
+    };
+
+    var endSelection = function () {
+        rectangle.attr("visibility", "hidden");
+    };
+
+    d3svg.on("mousedown", function (this: any) {
+        if (d3.event.which === 3) {
+            return;
+        }
+
+        let subject = d3.select(window),
+            start = d3.mouse(this);
+        startSelection(start);
+        subject
+            .on("mousemove.rectangle", function () {
+                moveSelection(start, d3.mouse(d3svg.node() as any));
+            })
+            // Hides the drawn rectangle when releasing the mouse button
+            .on("mouseup.rectangle", function () {
+                endSelection();
+                subject.on("mousemove.rectangle", null).on("mouseup.rectangle", null);
+            });
+    });
 }
