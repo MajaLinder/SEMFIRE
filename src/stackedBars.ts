@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
+import { createRectangle } from "./rectangleMarking";
 
 /**
  * Render the bars using d3
@@ -11,7 +12,6 @@ import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } fr
 
 export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
-
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
     const svgBoundingClientRect: DOMRect = svg.getBoundingClientRect();
     const ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
@@ -25,23 +25,42 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .selectAll("g.series")
         .data(pareto.stackedBars)
         .join("g")
-        .classed("series", true);
+        .classed("series", true)
+        .attr("id", (d) => d.key);
 
     //For each series, create a rectangle for each color key
-    sel.selectAll("rect")
+    var inBars = sel
+        .selectAll("rect")
         .data((d) => d.bars)
         .join("rect")
         .classed("in-bar", true)
-        .attr("y", (d) => valueAxis(d.y0 + d.value) ?? 0)
+        .attr("y", (d) => (valueAxis(d.y0 + d.value) ?? 0) + settings.style.inbarsSeparatorWidth)
         .attr("x", (d) => categoryAxis(d.parentKey) ?? 0)
-        .attr("height", (d) => Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)))
+        .attr("height", (d) =>
+            Math.max(
+                Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)) -
+                    settings.style.inbarsSeparatorWidth,
+                1
+            )
+        )
         .attr("width", categoryAxis.bandwidth())
         .style("fill", (d) => d.color)
-        .on("click", function (d) {
-            if (d3.event.ctrlKey) {
-                d.mark("ToggleOrAdd");
-            } else {
-                d.mark();
-            }
+        .attr("stroke", (d) => (d.isMarked ? "#000" : "none"))
+        .attr("stroke-width", (d) => (d.isMarked ? settings.style.selectionBox.strokeWidth : "0"));
+
+    //add an a
+    inBars
+        .on("click", function (event: any, d: any) {
+            d.mark(event);
+        })
+        .on("mouseover", function (event: any, d: any) {
+            const nodes = inBars.nodes();
+            const i = nodes.indexOf(this);
+            let thisRect = nodes[i] as SVGAElement;
+            let parentGroup = d3.select(thisRect.parentElement);
+            createRectangle(parentGroup, thisRect, "inbar-hover-border", settings);
+        })
+        .on("mouseleave", function (event: any, d: any) {
+            d3.select(".inbar-hover-border").remove();
         });
 }

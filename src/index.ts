@@ -3,7 +3,6 @@ import { resources } from "./resources";
 import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
-import * as d3 from "d3";
 
 const categoryAxisName = "Category Axis";
 const colorAxisName = "Color";
@@ -66,13 +65,13 @@ window.Spotfire.initialize(async (mod) => {
                     color: context.styling.scales.line.stroke,
                     weight: context.styling.scales.line.stroke
                 },
-                marking: { color: context.styling.scales.font.color }
+                marking: { color: context.styling.scales.font.color },
+                onMouseOverBox: { strokeWidth: 0.5, padding: 3},
+                selectionBox: { strokeWidth: 0.5 },
+                inbarsSeparatorWidth: 1.5
             }
         };
-
-        //to do: render Pareto
-        //when renderPareto method has been implemented it should be invoked here
-
+        
         renderPareto(pareto, settings);
 
         //for testing purposes
@@ -121,7 +120,15 @@ function transformData(
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
-                mark: (m) => (m ? row.mark(m) : row.mark())
+                mark: (event:any) => {
+                    if (event.ctrlKey) {
+                        row.mark("ToggleOrAdd");
+                        return;
+                    }
+                    row.mark();
+                    
+                },
+                isMarked: row.isMarked()
             };
         });
 
