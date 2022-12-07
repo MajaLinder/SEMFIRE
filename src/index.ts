@@ -33,7 +33,12 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
-        
+
+        // TODO: error handling for if the value and category axis contains no value
+        let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
+            valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
+            categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
+
         //validate data before transformation
         validateDataView(rootNode);
         const { tooltip } = mod.controls;
@@ -71,12 +76,12 @@ window.Spotfire.initialize(async (mod) => {
                     weight: context.styling.scales.line.stroke
                 },
                 marking: { color: context.styling.scales.font.color },
-                onMouseOverBox: { strokeWidth: 0.5, padding: 3},
+                onMouseOverBox: { strokeWidth: 0.5, padding: 3 },
                 selectionBox: { strokeWidth: 0.5 },
                 inbarsSeparatorWidth: 1.5
             }
         };
-        
+
         renderPareto(pareto, settings, tooltip);
 
         //for testing purposes
@@ -105,7 +110,10 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  */
 function transformData(
     rootNode: DataViewHierarchyNode,
-    hasColorExpression: boolean
+    hasColorExpression: boolean,
+    colorAxisCategoryName: string | null,
+    valueAxisCategoryName: string | null,
+    categoryAxisCategoryName: string | null
 ): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
@@ -125,13 +133,13 @@ function transformData(
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
-                mark: (event:any) => {
+                parentLabel: leaf.formattedPath(),
+                mark: (event: any) => {
                     if (event.ctrlKey) {
                         row.mark("ToggleOrAdd");
                         return;
                     }
                     row.mark();
-                    
                 },
                 isMarked: row.isMarked()
             };
