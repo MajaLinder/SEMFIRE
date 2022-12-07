@@ -95,7 +95,7 @@ window.Spotfire.initialize(async (mod) => {
             clearMarking: dataView.clearMarking,
             style: {
                 ticks: {
-                    stroke: context.styling.scales.line.stroke,
+                    stroke: context.styling.scales.line.stroke
                     //color: context.styling.scales.line.color
                 },
 
@@ -104,12 +104,11 @@ window.Spotfire.initialize(async (mod) => {
                 },
 
                 label: {
-                    fontFamily: context.styling.general.font.fontFamily,
-                    color: context.styling.general.font.color,
-                    fontStyle: context.styling.general.font.fontStyle,
-                    size: context.styling.general.font.fontSize,
-                    weight: context.styling.general.font.fontWeight,
-                    
+                    fontFamily: context.styling.scales.font.fontFamily,
+                    color: context.styling.scales.font.color,
+                    fontStyle: context.styling.scales.font.fontStyle,
+                    size: context.styling.scales.font.fontSize,
+                    weight: context.styling.scales.font.fontWeight
                 },
 
                 lines: {

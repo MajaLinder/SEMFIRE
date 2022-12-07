@@ -28,7 +28,6 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
     console.log("fontfamily: " + settings.style.label.fontFamily);
     console.log("stroke: " + settings.style.ticks.stroke);
 
-
     g.append("g")
         .attr("transform", "translate(0," + (svgBoundingClientRect.height - 50) + ")")
         .style("font-family", settings.style.label.fontFamily)
@@ -37,16 +36,14 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
         .style("font-size", settings.style.label.size)
         //.style("stroke", settings.style.ticks.stroke)
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
-       
 
     g.append("g")
         .style("font-family", settings.style.label.fontFamily)
         .style("color", settings.style.label.color)
         .style("font-style", settings.style.label.fontStyle)
         .style("font-size", settings.style.label.size)
-        .call(d3.axisLeft(valueAxis).ticks(ticks))
-       // .style("stroke", settings.style.ticks.stroke),
-
+        .call(d3.axisLeft(valueAxis).ticks(ticks));
+    // .style("stroke", settings.style.ticks.stroke),
 
     g.append("g")
         .attr("transform", "translate(" + (svgBoundingClientRect.width - 100) + " ,0)")
@@ -62,10 +59,7 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 .tickFormat(function (d) {
                     return d + "%";
                 })
-        )
-        
-        
-
+        );
 }
 
 const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number) => {
