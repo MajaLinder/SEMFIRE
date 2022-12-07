@@ -42,4 +42,5 @@ export interface Bar {
     /** y coordinate of the top-left corner of this in-bar */
     y0: number;
     mark(operation?: MarkingOperation | undefined): void;
+    isMarked: boolean
 }

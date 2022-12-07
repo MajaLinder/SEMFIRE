@@ -1,7 +1,7 @@
 import { Axis, DataView, DataViewHierarchyNode, ModProperty, Size } from "spotfire-api";
 import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
-import { renderPareto } from "./renderer";
+import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
 
 const categoryAxisName = "Category Axis";
 const colorAxisName = "Color";
@@ -75,12 +75,12 @@ window.Spotfire.initialize(async (mod) => {
                     color: context.styling.scales.line.stroke,
                     weight: context.styling.scales.line.stroke
                 },
-                marking: { color: context.styling.scales.font.color }
+                marking: { color: context.styling.scales.font.color },
+                onMouseOverBox: { strokeWidth: 0.5, padding: 3 },
+                selectionBox: { strokeWidth: 0.5 },
+                inbarsSeparatorWidth: 1.5
             }
         };
-
-        //to do: render Pareto
-        //when renderPareto method has been implemented it should be invoked here
 
         renderPareto(pareto, settings, tooltip);
 
@@ -134,7 +134,14 @@ function transformData(
                 y0: y0,
                 parentKey: leaf.key ?? "",
                 parentLabel: leaf.formattedPath(),
-                mark: (m) => (m ? row.mark(m) : row.mark())
+                mark: (event: any) => {
+                    if (event.ctrlKey) {
+                        row.mark("ToggleOrAdd");
+                        return;
+                    }
+                    row.mark();
+                },
+                isMarked: row.isMarked()
             };
         });
 
