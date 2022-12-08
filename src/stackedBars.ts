@@ -68,15 +68,15 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
         });
 
     function addSelectionBox(selection: any, baseRectangle: SVGAElement, cssClass: string, settings: Settings) {
-    let boundingRect = baseRectangle.getBoundingClientRect();
+    let bBox = baseRectangle.getBBox();
     let padding = settings.style.onMouseOverBox.padding;
     selection
         .append("rect")
         .classed(cssClass, true)
-        .attr("y", boundingRect.y - resources.PADDINGBOTTOMUP - padding)
-        .attr("x", boundingRect.x - 70 - padding)
-        .attr("height", boundingRect.height + 2 * padding)
-        .attr("width", boundingRect.width + 2 * padding)
+        .attr("y", bBox.y - padding)
+        .attr("x", bBox.x - padding)
+        .attr("height", bBox.height + 2 * padding)
+        .attr("width", bBox.width + 2 * padding)
         .attr("stroke", "#000")
         .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
         .attr("fill", "none");
