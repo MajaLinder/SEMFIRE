@@ -2,12 +2,13 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { moduleCategoryAxis, moduleIndices, modulePercentageAxis } from "./axis";
 import { resources } from "./resources";
+import { Settings } from "./settings";
 
 /**
  * Render the cumulative line using d3
  * @param pareto Pareto data structure
  */
-export function renderCumulativeLine(pareto: Pareto) {
+export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     const paretoCategoryIndices: number[] = moduleIndices(pareto);
 
     let d3svg = d3.select("svg");
@@ -41,6 +42,6 @@ export function renderCumulativeLine(pareto: Pareto) {
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
         .attr("d", line)
         .style("fill", "none")
-        .style("stroke", "#4916ea")
+        .style("stroke", settings.style.label.color)
         .style("stroke-width", "2");
 }
