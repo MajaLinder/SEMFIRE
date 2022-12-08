@@ -5,7 +5,6 @@ export interface Settings {
     svg?: undefined;
     clearMarking?(): void;
     windowSize: { width: number; height: number };
-    isEditing: boolean;
     style: {
         ticks: { stroke: string };
         label: { fontFamily: string; color: string; fontStyle: string; size: number; weight: string };
@@ -16,9 +15,6 @@ export interface Settings {
     };
 }
 
-export interface RenderInfo {
-    state: Settings;
-}
 /**
  * @param setting Setting data structure
  */

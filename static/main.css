@@ -63,8 +63,8 @@ body {
 
 svg {
     position: relative;
-    height: 100%;
-    width: 100%;
+    height: calc(100vh - 60px);
+    width: 70vw;
    
 }
 .categoryScale:first-of-type line{

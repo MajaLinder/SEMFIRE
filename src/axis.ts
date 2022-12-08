@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
-import { RenderInfo, Settings } from "./settings";
+import { Settings } from "./settings";
 import { resources } from "./resources";
 import { Tooltip } from "spotfire-api";
 
@@ -24,21 +24,7 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")");
 
     console.log("fontfamily: " + settings.style.label.fontFamily);
-    console.log("scaleStroke", settings.style.lines.scaleStroke);
-
-    g.select("g")
-        .call(d3.axisLeft(valueAxis).ticks(ticks))
-        .call(d3.axisBottom, d3.axisLeft, d3.axisRight, d3.axisTop(categoryAxis).scale(categoryAxis))
-        .call(d3.axisBottom, d3.axisLeft, d3.axisRight, d3.axisTop(categoryAxis).scale(categoryAxis))
-        .attr("class", "label")
-        .style("opacity", 0)
-        .attr("dy", "0.35em")
-        .style("font-size", settings.style.label.size)
-        .attr("font-style", settings.style.label.fontStyle)
-        .attr("font-weight", settings.style.label.weight)
-        .attr("fill", settings.style.label.color)
-        .style("font-family", settings.style.label.fontFamily)
-        .style("color", settings.style.lines.scaleStroke);
+    console.log("stroke: " + settings.style.ticks.stroke);
 
     g.append("g")
         .attr(
@@ -196,7 +182,6 @@ const moduleCategories = (pareto: Pareto) => {
     pareto.stackedBars.forEach((p) => {
         paretoCategoryValues.push(p.key);
     });
-
     return paretoCategoryValues;
 };
 const moduleIndices = (pareto: Pareto) => {
