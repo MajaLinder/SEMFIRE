@@ -55,6 +55,7 @@ window.Spotfire.initialize(async (mod) => {
             windowSize: windowSize,
             svg: undefined,
             clearMarking: dataView.clearMarking,
+            tooltip: tooltip,
             style: {
                 ticks: {
                     stroke: context.styling.scales.tick.stroke
@@ -83,7 +84,7 @@ window.Spotfire.initialize(async (mod) => {
             }
         };
 
-        renderPareto(pareto, settings, tooltip);
+        renderPareto(pareto, settings);
 
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
