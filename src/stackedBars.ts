@@ -1,31 +1,47 @@
 import * as d3 from "d3";
-import {Pareto} from "./pareto";
-import{moduleCategoryAxis,moduleValueAxis, moduleTicks,moduleCategories} from "./axis"
+import { Pareto } from "./pareto";
+import { Settings } from "./settings";
+import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
+
 /**
  * Render the bars using d3
  * @param pareto Pareto data structure
+ * @param settings Settings that should be used
  */
- export function renderStackedBars(pareto: Pareto) {
-   
-    const paretoCategoryValues:string[] = moduleCategories(pareto)
 
-    let ticks=moduleTicks(pareto)
-    const svg:any = document.querySelector("#svg");
-    const svgBoundingClientRect:any = svg.getBoundingClientRect();
-    const categoryAxis= moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
-    const valueAxis = moduleValueAxis(pareto.maxValue,svgBoundingClientRect.height,ticks);
-   
-    var d3svg = d3.select("svg");
-    let g =d3svg.select("g")
+export function renderStackedBars(pareto: Pareto, settings: Settings) {
+    const paretoCategoryValues: string[] = moduleCategories(pareto);
 
-    g.selectAll(".bar")
-         .data(pareto.stackedBars)
-         .enter().append("rect")
-         .attr("fill", "pink")
-         .attr("class", "bar")
-         .attr("x", function(d):any { return categoryAxis(d.label); })
-         .attr("y", function(d):any { return valueAxis(d.totalValue); })
-         .attr("width", categoryAxis.bandwidth())
-         .attr("height", function(d) { return ((svgBoundingClientRect.height -50) - Number (valueAxis (d.totalValue))) });
+    const svg: SVGElement = document.querySelector("#svg") as SVGElement;
+    const svgBoundingClientRect: DOMRect = svg.getBoundingClientRect();
+    const ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
+    const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
+    const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
 
+    // Create a group for each series
+    var sel = d3
+        .select("#svg")
+        .select("g")
+        .selectAll("g.series")
+        .data(pareto.stackedBars)
+        .join("g")
+        .classed("series", true);
+
+    //For each series, create a rectangle for each color key
+    sel.selectAll("rect")
+        .data((d) => d.bars)
+        .join("rect")
+        .classed("in-bar", true)
+        .attr("y", (d) => valueAxis(d.y0 + d.value) ?? 0)
+        .attr("x", (d) => categoryAxis(d.parentKey) ?? 0)
+        .attr("height", (d) => Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)))
+        .attr("width", categoryAxis.bandwidth())
+        .style("fill", (d) => d.color)
+        .on("click", function (d) {
+            if (d3.event.ctrlKey) {
+                d.mark("ToggleOrAdd");
+            } else {
+                d.mark();
+            }
+        });
 }

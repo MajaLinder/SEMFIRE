@@ -2,15 +2,15 @@
 
 // for example: tick stroke width, tick length, etc
 export interface Settings {
-    svg: undefined;
+    svg?: undefined;
     clearMarking?(): void;
     windowSize: { width: number; height: number };
     isEditing: boolean;
     style: {
         ticks: { stroke: string };
         label: { fontFamily: string; color: string; fontStyle: string; size: number; weight: string };
-        lines: { scaleStroke: string };
-        font: { size: number; weight: string; style: string; color: string; fontFamily: string };
+        lines: { weight: string; color: string };
+        //font: { size: number; weight: string; style: string; color: string; fontFamily: string };
         marking: { color: string };
         background: { color: string };
     };
