@@ -34,7 +34,6 @@ window.Spotfire.initialize(async (mod) => {
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
 
-        // TODO: error handling for if the value and category axis contains no value
         let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
             valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
             categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
@@ -42,6 +41,12 @@ window.Spotfire.initialize(async (mod) => {
         //validate data before transformation
         validateDataView(rootNode);
         const { tooltip } = mod.controls;
+
+        // If there is no data display error message
+        if (!rootNode.children) {
+            mod.controls.errorOverlay.show("Empty visualization!");
+            return;
+        }
 
         let pareto = transformData(
             rootNode,
@@ -87,6 +92,7 @@ window.Spotfire.initialize(async (mod) => {
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
         context.signalRenderComplete();
+        mod.controls.errorOverlay.hide();
     }
 });
 
@@ -214,24 +220,9 @@ export function generalErrorHandler<T extends (dataView: Spotfire.DataView, ...a
             try {
                 const errors = await dataView.getErrors();
                 if (errors.length > 0) {
-                    mod.controls.errorOverlay.hide("General");
-                    mod.controls.errorOverlay.show(errors.concat("hej"), "DataView");
+                    mod.controls.errorOverlay.show(errors);
                     return;
                 }
-                mod.controls.errorOverlay.hide("DataView");
-
-                /**
-                 * Hard abort if row count exceeds an arbitrary selected limit
-                 */
-                const rowCount = await dataView.rowCount();
-                if (rowCount && rowCount > rowLimit) {
-                    mod.controls.errorOverlay.show(
-                        `☹️ Cannot render - too many rows (rowCount: ${rowCount}, limit: ${rowLimit}) `,
-                        "General"
-                    );
-                    return;
-                }
-
                 /**
                  * User interaction while rows were fetched. Return early and respond to next subscribe callback.
                  */
@@ -241,12 +232,8 @@ export function generalErrorHandler<T extends (dataView: Spotfire.DataView, ...a
                 }
 
                 await callback(dataView, ...args);
-
-                mod.controls.errorOverlay.hide("General");
             } catch (e: any) {
-                mod.controls.errorOverlay.show(
-                    [e.message].concat(e || "☹️ Something went wrong, check developer console", "General")
-                );
+                mod.controls.errorOverlay.show(e.message || "Oh no, Something went wrong");
             }
         } as T;
     };
