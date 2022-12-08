@@ -33,20 +33,11 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
+        const { tooltip } = mod.controls;
 
         let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
             valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
             categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
-
-        //validate data before transformation
-        validateDataView(rootNode);
-        const { tooltip } = mod.controls;
-
-        // If there is no data display error message
-        if (!rootNode.children) {
-            mod.controls.errorOverlay.show("Empty visualization!");
-            return;
-        }
 
         let pareto = transformData(
             rootNode,
@@ -55,6 +46,20 @@ window.Spotfire.initialize(async (mod) => {
             valueAxisCategoryName,
             categoryAxisCategoryName
         );
+
+        //validate data before transformation
+        let warnings: string | null = validateDataView(pareto);
+
+        // If there is no data display error message
+        if (!rootNode.children) {
+            mod.controls.errorOverlay.show("Empty visualization!");
+            return;
+        }
+
+        if (warnings) {
+            mod.controls.errorOverlay.show(warnings);
+            return;
+        }
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -101,11 +106,14 @@ window.Spotfire.initialize(async (mod) => {
  * Validate that no empty path element is followed by a value and that all values are positive.
  * @param rootNode - The hierarchy root.
  */
-function validateDataView(rootNode: DataViewHierarchyNode): string[] {
-    let warnings: string[] = [];
-    let rows = rootNode.rows();
+function validateDataView(pareto: Pareto): string | null {
+    let warnings: string | null = null;
+    // let rows = rootNode.rows();
 
     //to do: validate data, check if there are negative values, or values outside some range, etc
+    if (pareto.minValue < 0) {
+        warnings = "The pareto chart can't contain any negative values";
+    }
 
     return warnings;
 }
