@@ -36,8 +36,8 @@
                     "description": "Use {0} on the category axis"
                 },
                 "legendItem": {
-                    "title": "Category-axis",
-                    "defaultVisibility": "hidden"
+                    "title": "Category Axis",
+                    "defaultVisibility": "visible"
                 }
             },
             {
@@ -50,8 +50,8 @@
                     "description": "Use {0} on the value axis"
                 },
                 "legendItem": {
-                    "title": "Value-axis",
-                    "defaultVisibility": "hidden"
+                    "title": "Value Axis",
+                    "defaultVisibility": "visible"
                 }
             }
         ]
