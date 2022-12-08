@@ -48,7 +48,7 @@ window.Spotfire.initialize(async (mod) => {
         );
 
         //validate that pareto data is vallid
-        let warnings: string | null = validateDataView(pareto);
+        let warning: string | null = validateDataView(pareto);
 
         // If there is no data display error message
         if (!rootNode.children) {
@@ -56,8 +56,8 @@ window.Spotfire.initialize(async (mod) => {
             return;
         }
 
-        if (warnings) {
-            mod.controls.errorOverlay.show(warnings);
+        if (warning) {
+            mod.controls.errorOverlay.show(warning);
             return;
         }
 
@@ -104,18 +104,17 @@ window.Spotfire.initialize(async (mod) => {
 
 /**
  * Validate that all values are positive
- * @param rootNode - The hierarchy root.
+ * @param pareto
+ * @returns null if all values are positive, message if there are any negative values
  */
 function validateDataView(pareto: Pareto): string | null {
-    let warnings: string | null = null;
-    // let rows = rootNode.rows();
+    let warning: string | null = null;
 
-    //to do: validate data, check if there are negative values, or values outside some range, etc
     if (pareto.minValue < 0) {
-        warnings = "The pareto chart can't contain any negative values";
+        warning = "The pareto chart can't contain any negative values";
     }
 
-    return warnings;
+    return warning;
 }
 
 /**
