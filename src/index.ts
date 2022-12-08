@@ -95,8 +95,7 @@ window.Spotfire.initialize(async (mod) => {
             clearMarking: dataView.clearMarking,
             style: {
                 ticks: {
-                    stroke: context.styling.scales.line.stroke,
-                    //color: context.styling.scales.line.color
+                    stroke: context.styling.scales.line.stroke
                 },
 
                 background: {
@@ -108,13 +107,11 @@ window.Spotfire.initialize(async (mod) => {
                     color: context.styling.general.font.color,
                     fontStyle: context.styling.general.font.fontStyle,
                     size: context.styling.general.font.fontSize,
-                    weight: context.styling.general.font.fontWeight,
-                    
+                    weight: context.styling.general.font.fontWeight
                 },
 
                 lines: {
-                    color: context.styling.scales.line.stroke,
-                    weight: context.styling.scales.line.stroke
+                    scaleStroke: context.styling.scales.line.stroke
                 },
 
                 font: {}

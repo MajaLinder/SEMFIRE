@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { Pareto } from "./pareto";
-import { Settings } from "./settings";
+import { RenderInfo, Settings } from "./settings";
 
 /**
  * Render the bars using d3
@@ -26,34 +26,46 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
     var g = d3svg.append("g").attr("transform", "translate(" + 65 + "," + 0 + ")");
 
     console.log("fontfamily: " + settings.style.label.fontFamily);
-    console.log("stroke: " + settings.style.ticks.stroke);
+    console.log("scaleStroke", settings.style.lines.scaleStroke);
 
+    g.select("g")
+        .call(d3.axisLeft(valueAxis).ticks(ticks))
+        .call(d3.axisBottom, d3.axisLeft, d3.axisRight, d3.axisTop(categoryAxis).scale(categoryAxis))
+        .call(d3.axisBottom, d3.axisLeft, d3.axisRight, d3.axisTop(categoryAxis).scale(categoryAxis))
+        .attr("class", "label")
+        .style("opacity", 0)
+        .attr("dy", "0.35em")
+        .style("font-size", settings.style.label.size)
+        .attr("font-style", settings.style.label.fontStyle)
+        .attr("font-weight", settings.style.label.weight)
+        .attr("fill", settings.style.label.color)
+        .style("font-family", settings.style.label.fontFamily)
+        .style("color", settings.style.lines.scaleStroke);
 
     g.append("g")
         .attr("transform", "translate(0," + (svgBoundingClientRect.height - 50) + ")")
-        .style("font-family", settings.style.label.fontFamily)
-        .style("color", settings.style.label.color)
-        .style("font-style", settings.style.label.fontStyle)
-        .style("font-size", settings.style.label.size)
-        //.style("stroke", settings.style.ticks.stroke)
+        // .style("font-family", settings.style.label.fontFamily)
+        // .style("color", settings.style.label.color)
+        // .style("font-style", settings.style.label.fontStyle)
+        // .style("font-size", settings.style.label.size)
+        // .style("scaleStroke", settings.style.lines.scaleStroke)
         .call(d3.axisBottom(categoryAxis).scale(categoryAxis));
-       
 
     g.append("g")
-        .style("font-family", settings.style.label.fontFamily)
-        .style("color", settings.style.label.color)
-        .style("font-style", settings.style.label.fontStyle)
-        .style("font-size", settings.style.label.size)
-        .call(d3.axisLeft(valueAxis).ticks(ticks))
-       // .style("stroke", settings.style.ticks.stroke),
-
+        // .style("font-family", settings.style.label.fontFamily)
+        // .style("color", settings.style.label.color)
+        // .style("font-style", settings.style.label.fontStyle)
+        // .style("font-size", settings.style.label.size)
+        .call(d3.axisLeft(valueAxis).ticks(ticks));
+    // .style("stroke", settings.style.ticks.stroke),
 
     g.append("g")
         .attr("transform", "translate(" + (svgBoundingClientRect.width - 100) + " ,0)")
-        .style("font-family", settings.style.label.fontFamily)
-        .style("color", settings.style.label.color)
-        .style("font-style", settings.style.label.fontStyle)
-        .style("font-size", settings.style.label.size)
+        // .style("font-family", settings.style.label.fontFamily)
+        // .style("color", settings.style.label.color)
+        // //.style("color", settings.style.lines.scaleStroke)
+        // .style("font-style", settings.style.label.fontStyle)
+        // .style("font-size", settings.style.label.size)
         .call(
             d3
                 .axisRight(percentageAxis)
@@ -62,10 +74,17 @@ export function renderAxes(pareto: Pareto, settings: Settings) {
                 .tickFormat(function (d) {
                     return d + "%";
                 })
-        )
-        
-        
+        );
+}
 
+export function renderLabels(parent: d3.Selection<SVGElement, unknown, HTMLElement, any>, renderInfo: RenderInfo) {
+    const labelsContainer = parent
+        .append("g")
+        .attr("id", "LabelsContainer")
+        .attr("clip-path", "url(#LabelsClip)")
+        .attr("class", renderInfo.state.isEditing ? "skip-unmark" : "")
+        .style("cursor", renderInfo.state.isEditing ? "pointer" : "default");
+    const labels = labelsContainer.append("g").attr("id", "Labels");
 }
 
 const moduleCategoryAxis = (domain: any, rangeStart: number, rangeWidth: number) => {
@@ -97,6 +116,7 @@ const moduleCategories = (pareto: Pareto) => {
     pareto.stackedBars.forEach((p) => {
         paretoCategoryValues.push(p.label);
     });
+
     return paretoCategoryValues;
 };
 const moduleTicks = (pareto: Pareto) => {
