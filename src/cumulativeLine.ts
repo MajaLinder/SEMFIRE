@@ -38,11 +38,11 @@ export function renderCumulativeLine(pareto: Pareto) {
         .data(positions)
         .enter()
         .append("circle")
-        .attr("cx", function (d:string) { return categoryAxis(d[0]); } )
-        .attr("cy", function (d:string) { return valueAxis(d[1]); } )
+        .attr("cx", function (d) :any{ return categoryAxis(d[0] as any)})
+        .attr("cy", function ( d) :any{ return valueAxis(d[1])})
         .attr("r", 5)
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," +  resources.PADDINGBOTTOMDOWN + ")")
-        .style("fill", "#4916ea");
+        .style("fill", "#3050EF");
 
     d3svg
         .append("path")
