@@ -33,6 +33,16 @@ export function renderCumulativeLine(pareto: Pareto) {
         .y(function (d): number {
             return valueAxis(d[1])!;
         });
+        d3svg.append('g')
+        .selectAll("dot")
+        .data(positions)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d:string) { return categoryAxis(d[0]); } )
+        .attr("cy", function (d:string) { return valueAxis(d[1]); } )
+        .attr("r", 5)
+        .attr("transform", "translate(" + resources.PADDINGLEFT + "," +  resources.PADDINGBOTTOMDOWN + ")")
+        .style("fill", "#4916ea");
 
     d3svg
         .append("path")
