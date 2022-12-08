@@ -47,7 +47,7 @@ window.Spotfire.initialize(async (mod) => {
             categoryAxisCategoryName
         );
 
-        //validate data before transformation
+        //validate that pareto data is vallid
         let warnings: string | null = validateDataView(pareto);
 
         // If there is no data display error message
@@ -103,7 +103,7 @@ window.Spotfire.initialize(async (mod) => {
 });
 
 /**
- * Validate that no empty path element is followed by a value and that all values are positive.
+ * Validate that all values are positive
  * @param rootNode - The hierarchy root.
  */
 function validateDataView(pareto: Pareto): string | null {
