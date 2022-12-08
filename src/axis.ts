@@ -23,6 +23,9 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
         .append("g")
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")");
 
+    console.log("fontfamily: " + settings.style.label.fontFamily);
+    console.log("stroke: " + settings.style.ticks.stroke);
+
     g.append("g")
         .attr(
             "transform",
@@ -33,6 +36,9 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                 ")"
         )
         .attr("class", "categoryAxis")
+        .style("color", settings.style.lines.color)
+
+        //.style("stroke", settings.style.ticks.stroke)
         .call(
             d3
                 .axisBottom(categoryAxis)
@@ -47,8 +53,14 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                     })
                 )
         )
-        //show the complete category name or value on hover
+        .selectAll(".tick")
+        .style("color", settings.style.ticks.stroke)
         .selectAll("text")
+        .style("color", settings.style.label.color)
+        .style("font-style", settings.style.label.fontStyle)
+        .style("font-size", settings.style.label.size)
+        .style("font-family", settings.style.label.fontFamily)
+        //show the complete category name or value on hover
         .attr("tooltip", (d: any) => d)
         .on("mouseover", function (event: any, d: any) {
             tooltip.show(d);
@@ -58,8 +70,15 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
         });
 
     g.append("g")
+        .style("color", settings.style.lines.color)
         .call(d3.axisLeft(valueAxis).ticks(ticks))
+        .selectAll(".tick")
+        .style("color", settings.style.ticks.stroke)
         .selectAll("text")
+        .style("color", settings.style.label.color)
+        .style("font-style", settings.style.label.fontStyle)
+        .style("font-size", settings.style.label.size)
+        .style("font-family", settings.style.label.fontFamily)
         .attr("tooltip", (d: any) => d)
         .on("mouseover", function (event: any, d: any) {
             tooltip.show(d);
@@ -77,6 +96,7 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                 resources.PADDINGPERCENTAGEDOWN +
                 ")"
         )
+        .style("color", settings.style.lines.color)
         .call(
             d3
                 .axisRight(percentageAxis)
@@ -85,7 +105,22 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
                 .tickFormat(function (d) {
                     return d + "%";
                 })
-        );
+        )
+        .selectAll(".tick")
+        .style("color", settings.style.ticks.stroke)
+        .selectAll("text")
+        .style("color", settings.style.label.color)
+        .style("font-style", settings.style.label.fontStyle)
+        .style("font-size", settings.style.label.size)
+        .style("font-family", settings.style.label.fontFamily)
+
+        .attr("tooltip", (d: any) => d)
+        .on("mouseover", function (event: any, d: any) {
+            tooltip.show(d);
+        })
+        .on("mouseout", function (d: any) {
+            tooltip.hide();
+        });
 
     var barWidth = categoryAxis.bandwidth();
 
