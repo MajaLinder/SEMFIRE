@@ -1,9 +1,10 @@
 import * as d3 from "d3";
-import { Pareto } from "./pareto";
+import { Bar, Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
 import { resources } from "./resources";
 import { Tooltip } from "spotfire-api";
+import { rectangularSelection } from "./rectangleMarking";
 
 /**
  * Render the bars using d3
@@ -42,10 +43,11 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
                 Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)) -
                     settings.style.inbarsSeparatorWidth,
                 1
-            )
+            )  
         )
         .attr("width", categoryAxis.bandwidth())
         .style("fill", (d) => d.color)
+        .attr("shape-rendering", "crispEdges")
         .attr("stroke", (d) => (d.isMarked ? "#000" : "none"))
         .attr("stroke-width", (d) => (d.isMarked ? settings.style.selectionBox.strokeWidth : "0"));
 
@@ -79,8 +81,16 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
         .attr("width", bBox.width + 2 * padding)
         .attr("stroke", "#000")
         .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
+        .attr("shape-rendering", "crispEdges")
         .attr("fill", "none");
     }
+
+        rectangularSelection({
+        clearMarking: settings.clearMarking,
+        mark: (d: Bar) => d.mark(),
+        markingSelector: ".in-bar"
+    });
+
     /**
      * Display tooltip for a bar
      * @param d Bar

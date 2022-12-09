@@ -136,7 +136,7 @@ function transformData(
                 parentKey: leaf.key ?? "",
                 parentLabel: leaf.formattedPath(),
                 mark: (event: any) => {
-                    if (event.ctrlKey) {
+                    if (event != null && event.ctrlKey) {
                         row.mark("ToggleOrAdd");
                         return;
                     }

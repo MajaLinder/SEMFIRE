@@ -3,7 +3,7 @@
 // for example: tick stroke width, tick length, etc
 export interface Settings {
     svg?: undefined;
-    clearMarking?(): void;
+    clearMarking(): void;
     windowSize: { width: number; height: number };
     style: {
         ticks: { stroke: string };
