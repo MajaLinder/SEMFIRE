@@ -2,8 +2,7 @@ import { renderAxes } from "./axis";
 import { Pareto } from "./pareto";
 import { renderStackedBars } from "./stackedBars";
 import { renderCumulativeLine } from "./cumulativeLine";
-import { Settings, renderSettings } from "./Settings";
-import { Tooltip } from "spotfire-api";
+import { Settings } from "./Settings";
 
 //Added the settings interface in settings.ts
 // export interface Settings {
@@ -17,9 +16,9 @@ import { Tooltip } from "spotfire-api";
  * @param settings - Settings that should be used
  */
 
-export function renderPareto(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
-    renderAxes(pareto, settings, tooltip);
-    renderStackedBars(pareto, settings, tooltip);
+export function renderPareto(pareto: Pareto, settings: Settings) {
+    renderAxes(pareto, settings);
+    renderStackedBars(pareto, settings);
     renderCumulativeLine(pareto);
     //renderSettings(settings);
 }
