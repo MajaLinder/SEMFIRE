@@ -93,8 +93,19 @@ export function rectangularSelection(settings: MarkingSettings) {
                         thisIntersectsSelection || pInsideR(point, box.x, box.y, box.width, box.height))
             );
 
-            // TODO: check the case when selectionBox and thisBox go through each-other
-            // it is sufficient to check onlye one of the lines of thisBox if it intersects with one of the lines of selectionBox
+            // check if selectionBox goes through thisBox without any contained corner
+            thisIntersectsSelection =
+                thisIntersectsSelection ||
+                linesIntersect(
+                    selectionBox.y,
+                    selectionBox.y + selectionBox.height,
+                    selectionBox.x,
+                    selectionBox.x + selectionBox.width,
+                    box.y,
+                    box.y + box.height,
+                    box.x,
+                    box.x + box.width
+                );
 
             return thisIntersectsSelection;
         }
@@ -106,6 +117,32 @@ export function rectangularSelection(settings: MarkingSettings) {
             return point[0] > rx && point[0] < rx + w && point[1] > ry && point[1] < ry + h;
         }
 
+        /**
+         * Check case when the rectangle goes through a bar without the corners inside
+         */
+        function linesIntersect(
+            selectionBottomY: number,
+            selectionTopY: number,
+            selectionLeftX: number,
+            selectionRightX: number,
+            thisBottomY: number,
+            thisTopY: number,
+            thisLeftX: number,
+            thisRightX: number
+        ) {
+            return (
+                // checks if the rectangle goes through a bar horizontally
+                (selectionBottomY < thisTopY &&
+                    selectionBottomY > thisBottomY &&
+                    selectionLeftX < thisLeftX &&
+                    selectionRightX > thisRightX) ||
+                // checks if the rectangle goes through a bar vertically
+                (selectionLeftX < thisRightX &&
+                    selectionLeftX > thisLeftX &&
+                    selectionTopY > thisTopY &&
+                    selectionBottomY < thisBottomY)
+            );
+        }
     };
     d3svg.on("mousedown", function (event: any, d) {
         if (event.which === 3) {
