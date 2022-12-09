@@ -57,7 +57,7 @@ export function renderCumulativeLine(pareto: Pareto, tooltip:Tooltip) {
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
         .attr("d", line)
         .style("fill", "none")
-        .style("stroke", "#4916ea")
+        .style("stroke", "#3050EF")
         .style("stroke-width", "2");
 
 
