@@ -2,12 +2,12 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { moduleCategoryAxis, moduleIndices, modulePercentageAxis } from "./axis";
 import { resources } from "./resources";
-import { Tooltip } from "spotfire-api";
+import { Settings } from "./settings";
 /**
  * Render the cumulative line using d3
  * @param pareto Pareto data structure
  */
-export function renderCumulativeLine(pareto: Pareto, tooltip:Tooltip) {
+export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     const paretoCategoryIndices: number[] = moduleIndices(pareto);
 
     let d3svg = d3.select("svg");
@@ -43,11 +43,11 @@ export function renderCumulativeLine(pareto: Pareto, tooltip:Tooltip) {
         .attr("r", 5)
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," +  resources.PADDINGBOTTOMDOWN + ")")
         .style("fill", "#3050EF")
-        .on("mouseover", function (event, d: any) {
+        .on("mouseover", function (event:any, d: any) {
             showLineToolTip(d);
         })
-        .on("mouseout", function (d) {
-            tooltip.hide();
+        .on("mouseout", function () {
+            settings.tooltip.hide();
         }); 
 
     d3svg
@@ -62,8 +62,10 @@ export function renderCumulativeLine(pareto: Pareto, tooltip:Tooltip) {
 
 
     function showLineToolTip(d: any) {
-            let text:string = "Cumulative percentage: " + d[1] + "%";
+            let percentage = d[1];
+            percentage = Math.round((percentage + Number.EPSILON) * 100) / 100
+            let text:string = "Cumulative percentage: " + percentage + "%";
              // display the text
-             tooltip.show(text); 
+             settings.tooltip.show(text); 
      }
 }
