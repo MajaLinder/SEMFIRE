@@ -154,7 +154,7 @@ export function rectangularSelection(settings: MarkingSettings) {
         startSelection(start);
         subject
             .on("mousemove.rectangle", function (event: any, d) {
-                moveSelection(start, d3.pointer(event));
+                moveSelection(start, d3.pointer(event, d3svg.node()));
             })
             // Hides the drawn rectangle when releasing the mouse button
             .on("mouseup.rectangle", function () {
