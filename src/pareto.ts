@@ -29,6 +29,8 @@ export interface StackedBar {
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage: number;
     key: string;
+    // to help build position
+    mark(operation?: MarkingOperation | undefined): void;
 }
 /** A sector of a bar */
 export interface Bar {
@@ -42,5 +44,5 @@ export interface Bar {
     /** y coordinate of the top-left corner of this in-bar */
     y0: number;
     mark(operation?: MarkingOperation | undefined): void;
-    isMarked: boolean
+    isMarked: boolean;
 }

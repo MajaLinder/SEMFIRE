@@ -168,7 +168,14 @@ function transformData(
             totalValue: totalValue,
             cumulativeValue: 0,
             cumulativePercentage: 0,
-            key: leaf.key ?? ""
+            key: leaf.key ?? "",
+            mark: (event: any) => {
+                if (event != null && event.ctrlKey) {
+                    leaf.mark("ToggleOrAdd");
+                    return;
+                }
+                leaf.mark();
+            }
         };
 
         //fill in y0 coordinates of bars in a reverse order to match the coloring order
@@ -200,6 +207,16 @@ function transformData(
     sortedStackedBars.forEach(
         (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
     );
+
+    // // Create the data necessary for the line
+    // let positions: Position[] = sortedStackedBars.map((stackedBar: StackedBar) => {
+    //     return {
+    //         index: stackedBar.index,
+    //         percentage: stackedBar.cumulativePercentage,
+    //         mark: stackedBar.mark,
+    //         isMarked: stackedBar.isMarked
+    //     };
+    // });
 
     let pareto: Pareto = {
         stackedBars: sortedStackedBars,

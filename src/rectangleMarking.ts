@@ -61,6 +61,9 @@ export function rectangularSelection(settings: MarkingSettings) {
             return settings.clearMarking();
         }
 
+        console.log("markedSectors");
+
+        console.log(markedSectors);
         markedSectors.each((n: any) => {
             (n as Bar).mark();
         });
