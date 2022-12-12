@@ -34,22 +34,11 @@ window.Spotfire.initialize(async (mod) => {
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
 
-        // TODO: error handling for if the value and category axis contains no value
-        let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
-            valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
-            categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
-
         //validate data before transformation
         validateDataView(rootNode);
         const { tooltip } = mod.controls;
 
-        let pareto = transformData(
-            rootNode,
-            hasColorExpression,
-            colorAxisCategoryName,
-            valueAxisCategoryName,
-            categoryAxisCategoryName
-        );
+        let pareto = transformData(rootNode, hasColorExpression);
 
         let settings: Settings = {
             windowSize: windowSize,
@@ -110,13 +99,7 @@ function validateDataView(rootNode: DataViewHierarchyNode): string[] {
  * @param rootNode - The hierarchy root.
  * @param hasColorExpression - Checks the color axis
  */
-function transformData(
-    rootNode: DataViewHierarchyNode,
-    hasColorExpression: boolean,
-    colorAxisCategoryName: string | null,
-    valueAxisCategoryName: string | null,
-    categoryAxisCategoryName: string | null
-): Pareto {
+function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
@@ -136,7 +119,6 @@ function transformData(
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
-                parentLabel: leaf.formattedPath(),
                 mark: (event: any) => {
                     if (event.ctrlKey) {
                         row.mark("ToggleOrAdd");
@@ -193,10 +175,7 @@ function transformData(
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-        grandTotal: paretoGrandTotal,
-        colorByAxisName: colorAxisCategoryName,
-        valueAxisName: valueAxisCategoryName,
-        categoryAxisName: categoryAxisCategoryName
+        grandTotal: paretoGrandTotal
     };
     return pareto;
 }

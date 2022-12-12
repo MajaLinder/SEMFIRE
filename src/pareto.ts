@@ -11,10 +11,6 @@ export interface Pareto {
     minValue: number;
     /** sum of all bar values */
     grandTotal: number;
-    /* What category the bars belong to */
-    categoryAxisName: string | null;
-    valueAxisName: string | null;
-    colorByAxisName: string | null;
 }
 
 /**
@@ -38,7 +34,6 @@ export interface Bar {
     index: number;
     color: string;
     key: string;
-    parentLabel: string;
     parentKey: string;
     /** y coordinate of the top-left corner of this in-bar */
     y0: number;
