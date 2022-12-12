@@ -35,6 +35,16 @@ export function renderCumulativeLine(pareto: Pareto) {
         .y(function (d): number {
             return valueAxis(d[1])!;
         });
+
+    d3svg
+        .append("path")
+        .datum(positions)
+        .attr("class", "line")
+        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+        .attr("d", line)
+        .style("fill", "none")
+        .style("stroke", "#3050EF")
+        .style("stroke-width", lineWeight);
     d3svg
         .append("g")
         .selectAll("dot")
@@ -51,14 +61,4 @@ export function renderCumulativeLine(pareto: Pareto) {
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
 
         .style("fill", "#3050EF");
-
-    d3svg
-        .append("path")
-        .datum(positions)
-        .attr("class", "line")
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
-        .attr("d", line)
-        .style("fill", "none")
-        .style("stroke", "#3050EF")
-        .style("stroke-width", lineWeight);
 }
