@@ -50,6 +50,7 @@ export function renderCumulativeLine(pareto: Pareto) {
 
         .style("fill", "#3050EF");
 
+    const lineWeight = 3;
     d3svg
         .append("path")
         .datum(positions)
@@ -58,5 +59,5 @@ export function renderCumulativeLine(pareto: Pareto) {
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#3050EF")
-        .style("stroke-width", 3);
+        .style("stroke-width", lineWeight);
 }
