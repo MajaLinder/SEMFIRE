@@ -49,6 +49,7 @@ export function rectangularSelection(settings: MarkingSettings) {
     var endSelection = function () {
         rectangle.attr("visibility", "hidden");
         const selectionBox = rectangle.node()!.getBoundingClientRect();
+        if(selectionBox.width == 0 && selectionBox.height == 0) return;
         const markedSectors = d3svg.selectAll<SVGPathElement, unknown>(settings.markingSelector).filter(partOfMarking);
 
         if (markedSectors.size() === 0) {
