@@ -67,6 +67,13 @@ svg {
     width: 100%;
    
 }
+.rectangle {
+    fill: #85A2CB;
+    stroke: #313336;
+    fill-opacity: 0.5;
+    stroke-opacity: 1;
+    stroke-width: 0.5;
+}
 .categoryScale:first-of-type line{
     fill: none;
     stroke: none;

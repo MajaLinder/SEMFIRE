@@ -5,7 +5,7 @@ import { Tooltip } from "spotfire-api";
 // for example: tick stroke width, tick length, etc
 export interface Settings {
     svg?: undefined;
-    clearMarking?(): void;
+    clearMarking(): void;
     tooltip: Tooltip;
     windowSize: { width: number; height: number };
     style: {
