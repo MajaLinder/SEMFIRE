@@ -43,7 +43,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
                 Math.abs((valueAxis(d.y0) ?? 0) - (valueAxis(d.y0 + d.value) ?? 0)) -
                     settings.style.inbarsSeparatorWidth,
                 1
-            )  
+            )
         )
         .attr("width", categoryAxis.bandwidth())
         .style("fill", (d) => d.color)
@@ -70,22 +70,22 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
         });
 
     function addSelectionBox(selection: any, baseRectangle: SVGAElement, cssClass: string, settings: Settings) {
-    let bBox = baseRectangle.getBBox();
-    let padding = settings.style.onMouseOverBox.padding;
-    selection
-        .append("rect")
-        .classed(cssClass, true)
-        .attr("y", bBox.y - padding)
-        .attr("x", bBox.x - padding)
-        .attr("height", bBox.height + 2 * padding)
-        .attr("width", bBox.width + 2 * padding)
-        .attr("stroke", "#000")
-        .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
-        .attr("shape-rendering", "crispEdges")
-        .attr("fill", "none");
+        let bBox = baseRectangle.getBBox();
+        let padding = settings.style.onMouseOverBox.padding;
+        selection
+            .append("rect")
+            .classed(cssClass, true)
+            .attr("y", bBox.y - padding)
+            .attr("x", bBox.x - padding)
+            .attr("height", bBox.height + 2 * padding)
+            .attr("width", bBox.width + 2 * padding)
+            .attr("stroke", "#000")
+            .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
+            .attr("shape-rendering", "crispEdges")
+            .attr("fill", "none");
     }
 
-        rectangularSelection({
+    rectangularSelection({
         clearMarking: settings.clearMarking,
         mark: (d: Bar) => d.mark(),
         markingSelector: ".in-bar"
