@@ -128,6 +128,7 @@ function transformData(
             let barKey = hasColorExpression ? row.leafNode(colorAxisName)?.key ?? "" : "All values";
 
             return {
+                row: row,
                 color: row.color().hexCode,
                 value: barValue,
                 label: barLabel,
