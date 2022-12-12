@@ -19,7 +19,7 @@ window.Spotfire.initialize(async (mod) => {
         mod.property<boolean>("showLineMarkers")
     );
 
-    reader.subscribe(onChange);
+    reader.subscribe(generalErrorHandler(mod, 200)(onChange));
 
     async function onChange(
         dataView: DataView,
@@ -33,15 +33,11 @@ window.Spotfire.initialize(async (mod) => {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
+        const { tooltip } = mod.controls;
 
-        // TODO: error handling for if the value and category axis contains no value
         let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
             valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
             categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
-
-        //validate data before transformation
-        validateDataView(rootNode);
-        const { tooltip } = mod.controls;
 
         let pareto = transformData(
             rootNode,
@@ -51,10 +47,25 @@ window.Spotfire.initialize(async (mod) => {
             categoryAxisCategoryName
         );
 
+        //validate that pareto data is vallid
+        let warning: string | null = validateDataView(pareto);
+
+        // If there is no data display error message
+        if (!rootNode.children) {
+            mod.controls.errorOverlay.show("Empty visualization!");
+            return;
+        }
+
+        if (warning) {
+            mod.controls.errorOverlay.show(warning);
+            return;
+        }
+
         let settings: Settings = {
             windowSize: windowSize,
             svg: undefined,
             clearMarking: dataView.clearMarking,
+            tooltip: tooltip,
             style: {
                 ticks: {
                     stroke: context.styling.scales.tick.stroke
@@ -83,25 +94,28 @@ window.Spotfire.initialize(async (mod) => {
             }
         };
 
-        renderPareto(pareto, settings, tooltip);
+        renderPareto(pareto, settings);
 
         //for testing purposes
         //renderParetoAsTextInConsole(pareto, {} as Settings);
         context.signalRenderComplete();
+        mod.controls.errorOverlay.hide();
     }
 });
 
 /**
- * Validate that no empty path element is followed by a value and that all values are positive.
- * @param rootNode - The hierarchy root.
+ * Validate that all values are positive
+ * @param pareto
+ * @returns null if all values are positive, message if there are any negative values
  */
-function validateDataView(rootNode: DataViewHierarchyNode): string[] {
-    let warnings: string[] = [];
-    let rows = rootNode.rows();
+function validateDataView(pareto: Pareto): string | null {
+    let warning: string | null = null;
 
-    //to do: validate data, check if there are negative values, or values outside some range, etc
+    if (pareto.minValue < 0) {
+        warning = "The Pareto chart can not contain any negative values";
+    }
 
-    return warnings;
+    return warning;
 }
 
 /**
@@ -197,4 +211,39 @@ function transformData(
         categoryAxisName: categoryAxisCategoryName
     };
     return pareto;
+}
+
+/**
+ * subscribe callback wrapper with general error handling, row count check and an early return when the data has become invalid while fetching it.
+ *
+ * The only requirement is that the dataview is the first argument.
+ * @param mod - The mod API, used to show error messages.
+ * @param rowLimit - Optional row limit.
+ */
+export function generalErrorHandler<T extends (dataView: Spotfire.DataView, ...args: any) => any>(
+    mod: Spotfire.Mod,
+    rowLimit = 2000
+): (a: T) => T {
+    return function (callback: T) {
+        return async function callbackWrapper(dataView: Spotfire.DataView, ...args: any) {
+            try {
+                const errors = await dataView.getErrors();
+                if (errors.length > 0) {
+                    mod.controls.errorOverlay.show(errors);
+                    return;
+                }
+                /**
+                 * User interaction while rows were fetched. Return early and respond to next subscribe callback.
+                 */
+                const allRows = await dataView.allRows();
+                if (allRows == null) {
+                    return;
+                }
+
+                await callback(dataView, ...args);
+            } catch (e: any) {
+                mod.controls.errorOverlay.show(e.message || "Something went wrong");
+            }
+        } as T;
+    };
 }

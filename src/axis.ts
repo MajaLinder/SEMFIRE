@@ -2,9 +2,8 @@ import * as d3 from "d3";
 import { Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { resources } from "./resources";
-import { Tooltip } from "spotfire-api";
 
-export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
+export function renderAxes(pareto: Pareto, settings: Settings) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
 
@@ -63,10 +62,10 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
         //show the complete category name or value on hover
         .attr("tooltip", (d: any) => d)
         .on("mouseover", function (event: any, d: any) {
-            tooltip.show(d);
+            settings.tooltip.show(d);
         })
         .on("mouseout", function (d: any) {
-            tooltip.hide();
+            settings.tooltip.hide();
         });
 
     g.append("g")
@@ -81,10 +80,10 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
         .style("font-family", settings.style.label.fontFamily)
         .attr("tooltip", (d: any) => d)
         .on("mouseover", function (event: any, d: any) {
-            tooltip.show(d);
+            settings.tooltip.show(d);
         })
         .on("mouseout", function (d: any) {
-            tooltip.hide();
+            settings.tooltip.hide();
         });
 
     g.append("g")
@@ -116,10 +115,10 @@ export function renderAxes(pareto: Pareto, settings: Settings, tooltip: Tooltip)
 
         .attr("tooltip", (d: any) => d)
         .on("mouseover", function (event: any, d: any) {
-            tooltip.show(d);
+            settings.tooltip.show(d);
         })
         .on("mouseout", function (d: any) {
-            tooltip.hide();
+            settings.tooltip.hide();
         });
 
     var barWidth = categoryAxis.bandwidth();

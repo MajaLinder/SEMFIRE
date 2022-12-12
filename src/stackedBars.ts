@@ -2,8 +2,6 @@ import * as d3 from "d3";
 import { Bar, Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
-import { resources } from "./resources";
-import { Tooltip } from "spotfire-api";
 import { rectangularSelection } from "./rectangleMarking";
 
 /**
@@ -12,7 +10,7 @@ import { rectangularSelection } from "./rectangleMarking";
  * @param settings Settings that should be used
  */
 
-export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: Tooltip) {
+export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const paretoCategoryValues: string[] = moduleCategories(pareto);
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
     const svgBoundingClientRect: DOMRect = svg.getBoundingClientRect();
@@ -66,7 +64,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
         })
         .on("mouseout", function (event: any, d: any) {
             d3.select(".inbar-hover-border").remove();
-            tooltip.hide();
+            settings.tooltip.hide();
         });
 
     function addSelectionBox(selection: any, baseRectangle: SVGAElement, cssClass: string, settings: Settings) {
@@ -110,7 +108,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings, tooltip: T
             text += "\nCumulative percentage: " + percentage + "%";
 
             // display the text
-            tooltip.show(text);
+            settings.tooltip.show(text);
         }
     }
 }
