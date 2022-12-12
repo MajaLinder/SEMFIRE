@@ -25,6 +25,8 @@ export function renderCumulativeLine(pareto: Pareto) {
         return [stackedBar.index, stackedBar.cumulativePercentage];
     });
 
+    const lineWeight = 3;
+
     var line = d3
         .line<any>()
         .x(function (d): number {
@@ -50,7 +52,6 @@ export function renderCumulativeLine(pareto: Pareto) {
 
         .style("fill", "#3050EF");
 
-    const lineWeight = 3;
     d3svg
         .append("path")
         .datum(positions)
