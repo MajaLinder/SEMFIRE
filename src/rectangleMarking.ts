@@ -46,11 +46,13 @@ export function rectangularSelection(settings: MarkingSettings) {
         rectangle.attr("d", drawRectangle(start[0], start[1], moved[0] - start[0], moved[1] - start[1]));
     };
 
-    var endSelection = function () {
+    var endSelection = function (event: any) {
         rectangle.attr("visibility", "hidden");
         const selectionBox = rectangle.node()!.getBoundingClientRect();
         if (selectionBox.width == 0 && selectionBox.height == 0) {
-            settings.clearMarking();
+            if (!event.ctrlKey) {
+                settings.clearMarking();
+            }
             return;
         }
         const markedSectors = d3svg.selectAll<SVGPathElement, unknown>(settings.markingSelector).filter(partOfMarking);
@@ -162,7 +164,7 @@ export function rectangularSelection(settings: MarkingSettings) {
             })
             // Hides the drawn rectangle when releasing the mouse button
             .on("mouseup.rectangle", function () {
-                endSelection();
+                endSelection(event);
                 subject.on("mousemove.rectangle", null).on("mouseup.rectangle", null);
             });
     });
