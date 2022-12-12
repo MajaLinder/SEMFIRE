@@ -111,7 +111,7 @@ function validateDataView(pareto: Pareto): string | null {
     let warning: string | null = null;
 
     if (pareto.minValue < 0) {
-        warning = "The pareto chart can't contain any negative values";
+        warning = "The Pareto chart can not contain any negative values";
     }
 
     return warning;
@@ -241,7 +241,7 @@ export function generalErrorHandler<T extends (dataView: Spotfire.DataView, ...a
 
                 await callback(dataView, ...args);
             } catch (e: any) {
-                mod.controls.errorOverlay.show(e.message || "Oh no, Something went wrong");
+                mod.controls.errorOverlay.show(e.message || "Something went wrong");
             }
         } as T;
     };
