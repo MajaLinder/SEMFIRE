@@ -25,6 +25,8 @@ export function renderCumulativeLine(pareto: Pareto) {
         return [stackedBar.index, stackedBar.cumulativePercentage];
     });
 
+    const lineWeight = 3;
+
     var line = d3
         .line<any>()
         .x(function (d): number {
@@ -33,15 +35,21 @@ export function renderCumulativeLine(pareto: Pareto) {
         .y(function (d): number {
             return valueAxis(d[1])!;
         });
-        d3svg.append('g')
+    d3svg
+        .append("g")
         .selectAll("dot")
         .data(positions)
         .enter()
         .append("circle")
-        .attr("cx", function (d) :any{ return categoryAxis(d[0] as any)})
-        .attr("cy", function ( d) :any{ return valueAxis(d[1])})
+        .attr("cx", function (d): any {
+            return categoryAxis(d[0] as any);
+        })
+        .attr("cy", function (d): any {
+            return valueAxis(d[1]);
+        })
         .attr("r", 5)
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," +  resources.PADDINGBOTTOMDOWN + ")")
+        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+
         .style("fill", "#3050EF");
 
     d3svg
@@ -52,5 +60,5 @@ export function renderCumulativeLine(pareto: Pareto) {
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#3050EF")
-        .style("stroke-width", "2");
+        .style("stroke-width", lineWeight);
 }
