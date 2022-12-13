@@ -3,6 +3,8 @@ import { Pareto } from "./pareto";
 import { renderStackedBars } from "./stackedBars";
 import { renderCumulativeLine } from "./cumulativeLine";
 import { Settings } from "./Settings";
+import * as d3 from "d3";
+import { clearLineMarking } from "./rectangleMarking";
 
 //Added the settings interface in settings.ts
 // export interface Settings {
@@ -17,6 +19,24 @@ import { Settings } from "./Settings";
  */
 
 export function renderPareto(pareto: Pareto, settings: Settings) {
+    // const svg: SVGElement = document.querySelector("#svg")!;
+    // const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
+
+    // // background canvas for click events
+    // d3.select("#svg")
+    //     .append("rect")
+    //     .attr("fill", "#000")
+    //     .attr("fill-opacity", 0)
+    //     .attr("x", 0)
+    //     .attr("y", 0)
+    //     .attr("width", svgBoundingClientRect.width)
+    //     .attr("height", svgBoundingClientRect.height)
+    //     .on("click", () => {
+    //         console.log("clicking");
+    //         settings.clearMarking();
+    //         //clearLineMarking(pareto, settings);
+    //     });
+
     renderAxes(pareto, settings);
     renderStackedBars(pareto, settings);
     renderCumulativeLine(pareto, settings);

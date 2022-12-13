@@ -1,5 +1,7 @@
 import * as d3 from "d3";
-import { Bar } from "./pareto";
+import { renderCumulativeLine } from "./cumulativeLine";
+import { Bar, CumulativeLine, Pareto } from "./pareto";
+import { Settings } from "./settings";
 export interface MarkingSettings {
     /**
      * Callback to clear the marking.
@@ -26,7 +28,8 @@ export interface MarkingSettings {
     markingSelector: string;
 }
 
-export function rectangularSelection(settings: MarkingSettings) {
+//TODO: change this to work with the line. Drawing the rectangle should be reusable.
+export function rectangularSelection(markingSettings: MarkingSettings, pareto: Pareto, settings: Settings) {
     function drawRectangle(x: number, y: number, w: number, h: number) {
         return "M" + [x, y] + " l" + [w, 0] + " l" + [0, h] + " l" + [-w, 0] + "z";
     }
@@ -51,27 +54,59 @@ export function rectangularSelection(settings: MarkingSettings) {
         const selectionBox = rectangle.node()!.getBoundingClientRect();
         if (selectionBox.width == 0 && selectionBox.height == 0) {
             if (!event.ctrlKey) {
-                settings.clearMarking();
+                markingSettings.clearMarking();
+                clearLineMarking(pareto, settings);
+                return;
             }
             return;
         }
-        const markedSectors = d3svg.selectAll<SVGPathElement, unknown>(settings.markingSelector).filter(partOfMarking);
+        const markedBars = d3svg.selectAll<SVGPathElement, unknown>(".in-bar").filter(partOfMarking);
+        const markedCircles = d3svg.selectAll<SVGPathElement, unknown>(".line-circle").filter(partOfMarking);
 
-        if (markedSectors.size() === 0) {
-            return settings.clearMarking();
+        // Only bars are marked
+        if (markedBars.size() > 0 && markedCircles.size() === 0) {
+            console.log("only bars");
+            settings.clearMarking();
+            showOnlyBars(pareto, settings);
+        }
+        // Only the line is marked
+        if (markedCircles.size() !== 0 && markedBars.size() === 0) {
+            settings.clearMarking();
+        }
+        // both are marked
+        if (markedCircles.size() !== 0 && markedBars.size() !== 0) {
+            // don't need to clear
+        }
+        // none are marked
+        if (markedCircles.size() === 0 && markedBars.size() === 0) {
+            settings.clearMarking();
+            clearLineMarking(pareto, settings);
         }
 
-        console.log("markedSectors");
-
-        console.log(markedSectors);
-        markedSectors.each((n: any) => {
+        markedBars.each((n: any) => {
             (n as Bar).mark();
+        });
+
+        markedCircles.each((n: any) => {
+            // TODO: mark line
+            console.log(n);
+            pareto.cumulativeLine.map((line) => {
+                if (line.index == n.index) {
+                    console.log("match");
+                    line.isMarked = true;
+                    pareto.noMarkOnLine = false;
+                    renderCumulativeLine(pareto, settings);
+                }
+            });
         });
 
         function partOfMarking(this: SVGPathElement) {
             //is part of marking if in-bar intersects selectionBox
+
+            // box is the bars
             const box = this.getBoundingClientRect();
 
+            //console.log(selectionBox);
             //this boxe's corners BL - botom left, BR - botom right, etc.
             let thisCorners = [
                 [box.x, box.y],
@@ -79,6 +114,8 @@ export function rectangularSelection(settings: MarkingSettings) {
                 [box.x, box.y + box.height],
                 [box.x + box.width, box.y + box.height]
             ];
+
+            // selection rectangle
             let selectionBoxCorners = [
                 [selectionBox.x, selectionBox.y],
                 [selectionBox.x + selectionBox.width, selectionBox.y],
@@ -171,4 +208,17 @@ export function rectangularSelection(settings: MarkingSettings) {
                 subject.on("mousemove.rectangle", null).on("mouseup.rectangle", null);
             });
     });
+}
+
+export function showOnlyBars(pareto: Pareto, settings: Settings) {
+    pareto.cumulativeLine.map((line) => (line.isMarked = false));
+    pareto.noMarkOnLine = false;
+    renderCumulativeLine(pareto, settings);
+}
+
+export function clearLineMarking(pareto: Pareto, settings: Settings) {
+    console.log("clear");
+    pareto.cumulativeLine.map((line) => (line.isMarked = false));
+    pareto.noMarkOnLine = true;
+    renderCumulativeLine(pareto, settings);
 }

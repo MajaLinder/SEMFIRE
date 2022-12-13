@@ -1,5 +1,5 @@
 import { Axis, DataView, DataViewHierarchyNode, ModProperty, Size } from "spotfire-api";
-import { Pareto, StackedBar, Bar } from "./pareto";
+import { Pareto, StackedBar, Bar, CumulativeLine } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
 
@@ -46,6 +46,14 @@ window.Spotfire.initialize(async (mod) => {
             valueAxisCategoryName,
             categoryAxisCategoryName
         );
+
+        console.log("onChange");
+        console.log(pareto.noMarkOnLine);
+
+        if (pareto.noMarkOnLine === undefined) {
+            pareto.noMarkOnLine = true;
+        }
+        console.log(pareto.noMarkOnLine);
 
         //validate that pareto data is vallid
         let warning: string | null = validateDataView(pareto);
@@ -208,15 +216,15 @@ function transformData(
         (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
     );
 
-    // // Create the data necessary for the line
-    // let positions: Position[] = sortedStackedBars.map((stackedBar: StackedBar) => {
-    //     return {
-    //         index: stackedBar.index,
-    //         percentage: stackedBar.cumulativePercentage,
-    //         mark: stackedBar.mark,
-    //         isMarked: stackedBar.isMarked
-    //     };
-    // });
+    // Create the data necessary for the line
+    let cumulativeLine: CumulativeLine[] = sortedStackedBars.map((stackedBar: StackedBar) => {
+        return {
+            index: stackedBar.index,
+            percentage: stackedBar.cumulativePercentage,
+            isMarked: false, // if you connect with the bars then this needs to be calculated based on the bar
+            mark: stackedBar.mark
+        };
+    });
 
     let pareto: Pareto = {
         stackedBars: sortedStackedBars,
@@ -225,7 +233,9 @@ function transformData(
         grandTotal: paretoGrandTotal,
         colorByAxisName: colorAxisCategoryName,
         valueAxisName: valueAxisCategoryName,
-        categoryAxisName: categoryAxisCategoryName
+        categoryAxisName: categoryAxisCategoryName,
+        cumulativeLine: cumulativeLine
+        //noMarkOnLine: true
     };
     return pareto;
 }
