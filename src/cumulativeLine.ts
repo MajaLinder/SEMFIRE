@@ -35,6 +35,16 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         .y(function (d): number {
             return valueAxis(d[1])!;
         });
+
+    d3svg
+        .append("path")
+        .datum(positions)
+        .attr("class", "line")
+        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+        .attr("d", line)
+        .style("fill", "none")
+        .style("stroke", "#3050EF")
+        .style("stroke-width", lineWeight);
     d3svg
         .append("g")
         .selectAll("dot")
@@ -57,20 +67,6 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             settings.tooltip.hide();
         }); 
 
-
-
-    d3svg
-        .append("path")
-        .datum(positions)
-        .attr("class", "line")
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
-        .attr("d", line)
-        .style("fill", "none")
-        .style("stroke", "#3050EF")
-        .style("stroke-width", lineWeight);
-        
-
-
     function showLineToolTip(d: any) {
             let percentage = d[1];
             percentage = Math.round((percentage + Number.EPSILON) * 100) / 100
@@ -78,7 +74,4 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
              // display the text
              settings.tooltip.show(text); 
      }
-
-        
-
 }
