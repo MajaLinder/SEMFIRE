@@ -59,6 +59,5 @@ export function renderCumulativeLine(pareto: Pareto) {
         })
         .attr("r", 5)
         .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
-
         .style("fill", "#3050EF");
 }
