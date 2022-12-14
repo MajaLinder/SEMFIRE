@@ -58,7 +58,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
      const range =  svgBoundingClientRect.width - resources.PADDINGRIGHT 
    sel.append("line")
         .style("stroke", "#FA7864")
-        .style("stroke-width", resources.LINEWIGHT)
+        .style("stroke-width", resources.LINEWEIGHT)
         .style("stroke-dasharray", "8 8 ")
         .attr("x1",  range)
         .attr("y1", percentageAxis(80))

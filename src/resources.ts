@@ -8,5 +8,5 @@ export const resources = {
     PADDINGTOPDOWN: 10,
     PADDINGCATEGORYLEFT: 0,
     PADDINGPERCENTAGEDOWN: 0,
-    LINEWIGHT: 3
+    LINEWEIGHT: 3
 };

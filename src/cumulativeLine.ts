@@ -44,7 +44,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#3050EF")
-        .style("stroke-width", resources.LINEWIGHT);
+        .style("stroke-width", resources.LINEWEIGHT);
     d3svg
         .append("g")
         .selectAll("dot")
