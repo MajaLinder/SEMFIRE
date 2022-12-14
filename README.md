@@ -32,6 +32,24 @@ This chart makes sense for data with counts for values of a nominal variable or 
 A Pareto Chart is a statistical chart which orders the causes or problems in the descending order of their frequency and their cumulative impact. Histogram chart is used inside the Pareto chart to rank the causes.
 This is a special example of a combination chart where the bars are ordered from highest to lowest with the axis on the left and a line for the cumulative frequency represented as a curve with its axis on the right.
 
+> Mod Features
+
+The Pareto visualization mod is composed of 
+- a value axis, a category axis and a percentage scale,
+- bars that can be rendered with or without Spotfire's Color by feature, 
+- a cumulative line with markers and,
+- a line to show the 80 % mark.
+
+Several features are implemented. The user can
+- click on bar segments to mark them,
+- click on line segments to mark them,
+- hold the ctrl key to mark several bar segments,
+- click and drag to mark several bar and line segments with a rectangle,
+- hover over a bar segment and get prompted with a customizable tooltip,
+- hover over the line markers and get prompted with a tooltip showing the cumulative percentage,
+- click on the 80 % line to mark the corresponding bar segments,
+- customize the settings of colors, font style and font size.
+
 
 ## GitFlow ## 
 This repository has a protected main branch, with the latest stable version. We will use topic branches to work on during increments. Once the team/developers on the topic are done, they will do a merge request and assign someone not involved in the development to review and the developer who issued the merge request approves it making sure that the main branch remains stable. Ideally we will be updated about teamwork during standups and we can guesstimate potential conflicts with specific teams/developers who we will aim to choose to assign for review.
