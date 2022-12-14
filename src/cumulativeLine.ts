@@ -27,6 +27,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     const valueAxis = modulePercentageAxis(svgBoundingClientRect.height);
     const markedStroke: string = "#3050EF";
     const unMarkedStroke: string = "#d5dcfb";
+    const lineWeight = 3;
 
     // if nothing is marked in the chart then no opacity is applied
     d3svg.selectAll(".line").remove();
@@ -91,7 +92,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .attr("d", line)
             .style("fill", "none")
             .style("stroke", stroke)
-            .style("stroke-width", "2")
+            .style("stroke-width", lineWeight)
             .on("click", function (event: any, d: any) {
                 // set as marked
                 // d.isMarked = true;
