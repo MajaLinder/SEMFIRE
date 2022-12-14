@@ -72,7 +72,7 @@ Improvement can always be made and suggestions for the Pareto mod include:
 The Pareto mod retrieves data from the Spotfire API in the index.ts file. 
 The data is transformed and set in a Pareto interface that is used to render 
 the different parts. This architectural decision enhances reusability as the 
-Pareto funtionalities are not directly connected with the data from the API. 
+Pareto funtionalities are not directly connected with the data from the API. Another important architectural driver for this project was to ensure that the mod feels native to the spotfire experience. Architectural decisions made during the project were influenced by this. 
 
 [insert component diagram]
 
