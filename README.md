@@ -25,8 +25,8 @@ The Pareto visualization mod is composed of
 
 #### Marking
 - Click on bar segments or line markers to mark them,
-- Hold the ctrl key to mark several bar and line segments,
-- Click and drag to mark several bar and line segments with a rectangle,
+- Hold the ctrl key to mark several bar and line markers,
+- Click and drag to mark several bar and line segments and markers with a rectangle,
 - Clear any marking by clicking on the background
 
 #### Hover
