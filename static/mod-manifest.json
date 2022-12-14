@@ -1,5 +1,5 @@
 {
-    "apiVersion": "1.2",
+    "apiVersion": "1.3",
     "version": "0.1.0",
     "name": "Pareto Chart",
     "id": "sfire-mods-pareto",
@@ -54,7 +54,10 @@
                     "defaultVisibility": "visible"
                 }
             }
-        ]
+        ],
+        "tooltip": {
+            "enabled": true
+        }
     },
     "files": ["index.html", "main.css", "bundle.js"]
 }
