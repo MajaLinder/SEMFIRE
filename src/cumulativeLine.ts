@@ -117,7 +117,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             });
     }
     function showLineToolTip(d: any) {
-        let percentage = d.percentage;
+        let percentage = d.cumulativePercentage;
         percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
         let text: string = "Cumulative percentage: " + percentage + "%";
         // display the text

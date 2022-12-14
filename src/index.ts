@@ -35,17 +35,7 @@ window.Spotfire.initialize(async (mod) => {
         const hasColorExpression = !!colorAxis.parts.length && colorAxis.isCategorical;
         const { tooltip } = mod.controls;
 
-        let colorAxisCategoryName = hasColorExpression ? colorAxis.parts[0].displayName : null,
-            valueAxisCategoryName = valueAxis.parts.length === 1 ? valueAxis.parts[0].displayName : null,
-            categoryAxisCategoryName = categoryAxis.parts.length === 1 ? categoryAxis.parts[0].displayName : null;
-
-        let pareto = transformData(
-            rootNode,
-            hasColorExpression,
-            colorAxisCategoryName,
-            valueAxisCategoryName,
-            categoryAxisCategoryName
-        );
+        let pareto = transformData(rootNode, hasColorExpression);
 
         //validate that pareto data is vallid
         let warning: string | null = validateDataView(pareto);
@@ -123,13 +113,7 @@ function validateDataView(pareto: Pareto): string | null {
  * @param rootNode - The hierarchy root.
  * @param hasColorExpression - Checks the color axis
  */
-function transformData(
-    rootNode: DataViewHierarchyNode,
-    hasColorExpression: boolean,
-    colorAxisCategoryName: string | null,
-    valueAxisCategoryName: string | null,
-    categoryAxisCategoryName: string | null
-): Pareto {
+function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: boolean): Pareto {
     let unSortedStackedBars: StackedBar[] = rootNode!.leaves().map((leaf) => {
         let totalValue = 0;
         let bars: Bar[] = leaf.rows().map((row) => {
@@ -141,6 +125,7 @@ function transformData(
             let barKey = hasColorExpression ? row.leafNode(colorAxisName)?.key ?? "" : "All values";
 
             return {
+                row: row,
                 color: row.color().hexCode,
                 value: barValue,
                 label: barLabel,
@@ -148,7 +133,6 @@ function transformData(
                 key: barKey,
                 y0: y0,
                 parentKey: leaf.key ?? "",
-                parentLabel: leaf.formattedPath(),
                 mark: (event: any) => {
                     if (event != null && event.ctrlKey) {
                         console.log("toggle");
@@ -217,9 +201,6 @@ function transformData(
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
         grandTotal: paretoGrandTotal,
-        colorByAxisName: colorAxisCategoryName,
-        valueAxisName: valueAxisCategoryName,
-        categoryAxisName: categoryAxisCategoryName,
         noMarkOnLine: sortedStackedBars.every(function (l) {
             return l.isMarked == false;
         })
