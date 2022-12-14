@@ -2,29 +2,29 @@
 SEMFIRE is the name of the student group for the course DIT827 Software Innovation. 
 SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod for Pareto chart. 
 
+> Group members:
+
+1. Maja Linder - Scrum Master and developer
+2. Bardha Ahmeti- Product Owner and developer
+3. Astrid Berntsson - Developer
+4. Yuhan Li - Developer
+5. Mohammad Zandkarimi - Developer
+6. Navya Pulikandla Satyanarayanachetty - Developer 
+7. Malik Hannan - Developer in early development
+8. Malik Waleed Mahboob - Developer in early development
+
 ## How to get started (with development server)
 
 - Open a terminal at the location of this example.
 - Run `npm install`. This will install necessary tools. Run this command only the first time you are building the mod and skip this step for any subsequent builds.
-- Run `npm start`. This will compile JavaScript and place the bundle in the `dist` folder. This task will watch for changes in code and will continue running until it is stopped. Whenever you save a file, the changes will be reflected in the visualization mod.
+- Run `npm start`. This will compile the code and place the bundle in the `dist` folder. This task will watch for changes in code and will continue running until it is stopped. Whenever you save a file, the changes will be reflected in the visualization mod.
 - Run `npm run server` in a separate terminal. This will start a development server.
-- Start editing, for example `src/index.js`.
+- Start editing, for example `src/index.ts`.
 - In Spotfire, follow the steps of creating a new mod and connecting to the development server.
 - TIBCO Spotfire Mod guide [documentation](https://tibcosoftware.github.io/spotfire-mods/docs/using-the-api/api-docs/).
-> Group members:
-
-1. Maja Linder - Scrum Master 
-2. Bardha Ahmeti- Product Owner 
-3. Malik Hannan - Developer
-4. Astrid Berntsson - Developer
-5. Yuhan Li - Developer
-6. Malik Waleed Mahboob - Developer
-7. Mohammad Zandkarimi - Developer
-8. Navya Pulikandla Satyanarayanachetty - Developer 
 
 ## Pareto Chart ##
 
-![Pareto Chart Prototype](https://github.com/MajaLinder/SEMFIRE/blob/main/Pareto_Chart_Prototype.png)
 Pareto Analysis is a technique used for decision making based on the Pareto Principle. Pareto Principle is based on 80/20 rule which says “80% of impacts are due to 20% of causes”. It emphasizes that a major number of issues are created by a relatively smaller number of underlying causes. You can focus on a vital few root causes of the problem and ignore the trivial many.
 
 This chart makes sense for data with counts for values of a nominal variable or category. They show the ordered frequency counts of values for the different levels of a categorical or nominal variable.
