@@ -27,7 +27,7 @@ The Pareto visualization mod is composed of
 - Click on bar segments or line markers to mark them,
 - Hold the ctrl key to mark several bar and line markers,
 - Click and drag to mark several bar and line segments and markers with a rectangle,
-- Clear any marking by clicking on the background
+- Clear any marking by clicking on the background.
 
 #### Hover
 - Hover over a bar segment and get prompted with a customizable tooltip,
@@ -55,7 +55,8 @@ Improvement can always be made and suggestions for the Pareto mod include:
 - A checkbox to set the position of labels for bars and complete bars,
 - A checkbox to select the type of labels for percentage, value and category,
 - A radio button to show labels for "all", "marked rows" and "none"
-- A option for users to choose between a linear and logarithmic scale.
+- A option for users to choose between a linear and logarithmic scale,
+- Flexible labels on the value axis to display larger numbers.
 
 ## How to get started (with development server)
 
