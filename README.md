@@ -41,7 +41,8 @@ The Pareto visualization mod is composed of
 
 #### Other
 - click on the 80 % line to mark the corresponding bar segments,
-- customize the settings of colors, font style and font size.
+- customize the settings of colors, font style and font size,
+- no negative values are allowed in the Pareto chart and if any are detected an error message is displayed. 
 
 [insert use case diagram]
 
