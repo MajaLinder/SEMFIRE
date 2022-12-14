@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { Bar, Pareto } from "./pareto";
 import { Settings } from "./settings";
 import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
-import { rectangularSelection, showOnlyBars } from "./rectangleMarking";
+import { rectangularSelection } from "./rectangleMarking";
 
 /**
  * Render the bars using d3
@@ -53,7 +53,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     inBars
         .on("click", function (event: any, d: any) {
             d.mark(event);
-            showOnlyBars(pareto, settings);
+            //showOnlyBars(pareto, settings);
         })
         .on("mouseover", function (event: any, d: any) {
             const nodes = inBars.nodes();

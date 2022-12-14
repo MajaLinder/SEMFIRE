@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { Bar, CumulativeLine, Pareto } from "./pareto";
+import { Pareto, StackedBar } from "./pareto";
 import { moduleCategoryAxis, moduleIndices, modulePercentageAxis } from "./axis";
 import { resources } from "./resources";
 import { rectangularSelection } from "./rectangleMarking";
@@ -12,8 +12,6 @@ import { Line } from "d3";
  */
 export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     const paretoCategoryIndices: number[] = moduleIndices(pareto);
-
-    console.log(pareto.cumulativeLine);
 
     let d3svg = d3.select("svg");
     const svg: SVGElement = document.querySelector("#svg")!;
@@ -34,9 +32,6 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     d3svg.selectAll(".line-circle").remove();
     d3svg.selectAll(".dots-group").remove();
 
-    // filter data to have marked and unmarked separetly in two lines. This is not dependent on the bars'
-    //TODO: Change this to be based on marking instead
-
     if (pareto.noMarkOnLine == true) {
         // no marking yet only need to render as is
         var line = d3
@@ -45,15 +40,15 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
                 return categoryAxis(d.index)!;
             })
             .y(function (d): number {
-                return valueAxis(d.percentage)!;
+                return valueAxis(d.cumulativePercentage)!;
             });
 
-        drawLine(pareto.cumulativeLine, markedStroke, line);
-        drawDots(pareto.cumulativeLine, markedStroke);
+        drawLine(pareto.stackedBars, markedStroke, line);
+        drawDots(pareto.stackedBars, markedStroke);
     } else {
         //there is marking to render
-        const markedPostions = pareto.cumulativeLine.filter((line) => line.isMarked == true);
-        const unMarkedPositions = pareto.cumulativeLine.filter((line) => line.isMarked == false);
+        const markedPostions = pareto.stackedBars.filter((line) => line.isMarked == true);
+        const unMarkedPositions = pareto.stackedBars.filter((line) => line.isMarked == false);
 
         var unMarkedline = d3
             .line<any>()
@@ -61,7 +56,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
                 return categoryAxis(d.index)!;
             })
             .y(function (d): number {
-                return valueAxis(d.percentage)!;
+                return valueAxis(d.cumulativePercentage)!;
             });
 
         var markedline = d3
@@ -70,20 +65,18 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
                 return categoryAxis(d.index)!;
             })
             .y(function (d): number {
-                return valueAxis(d.percentage)!;
+                return valueAxis(d.cumulativePercentage)!;
             })
             .defined((d) => d.isMarked == true);
 
-        drawLine(pareto.cumulativeLine, unMarkedStroke, unMarkedline);
-        drawLine(pareto.cumulativeLine, markedStroke, markedline);
+        drawLine(pareto.stackedBars, unMarkedStroke, unMarkedline);
+        drawLine(pareto.stackedBars, markedStroke, markedline);
 
         drawDots(unMarkedPositions, unMarkedStroke);
         drawDots(markedPostions, markedStroke);
     }
 
-    //rectangularLineSelection(".line-circle");
-
-    function drawLine(lineData: CumulativeLine[], stroke: string, line: Line<any>) {
+    function drawLine(lineData: StackedBar[], stroke: string, line: Line<any>) {
         d3svg
             .append("path")
             .datum(lineData)
@@ -94,15 +87,11 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .style("stroke", stroke)
             .style("stroke-width", lineWeight)
             .on("click", function (event: any, d: any) {
-                // set as marked
-                // d.isMarked = true;
-                console.log(d);
-                // console.log("onClick");
+                d.mark(event);
             });
-        // TODO: add hovering functionality similar to bar.
     }
 
-    function drawDots(lineData: CumulativeLine[], stroke: string) {
+    function drawDots(lineData: StackedBar[], stroke: string) {
         d3svg
             .append("g")
             .attr("class", "dots-group")
@@ -115,17 +104,14 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
                 return categoryAxis(d.index as any);
             })
             .attr("cy", function (d): any {
-                return valueAxis(d.percentage);
+                return valueAxis(d.cumulativePercentage);
             })
             .attr("r", 5)
             .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
             .style("fill", stroke)
             .on("click", function (event: any, d: any) {
                 console.log(d);
-                d.mark();
-                //d.isMarked = true;
-                //pareto.noMarkOnLine = false;
-                //renderCumulativeLine(pareto, settings);
+                d.mark(event);
             })
             .on("mouseover", function (event: any, d: any) {
                 showLineToolTip(d);
@@ -141,4 +127,13 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         // display the text
         settings.tooltip.show(text);
     }
+    rectangularSelection(
+        {
+            clearMarking: settings.clearMarking,
+            mark: (d: StackedBar) => d.mark(),
+            markingSelector: ".line-circle"
+        },
+        pareto,
+        settings
+    );
 }

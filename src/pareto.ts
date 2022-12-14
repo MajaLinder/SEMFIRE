@@ -15,7 +15,6 @@ export interface Pareto {
     categoryAxisName: string | null;
     valueAxisName: string | null;
     colorByAxisName: string | null;
-    cumulativeLine: CumulativeLine[];
     noMarkOnLine?: boolean | null;
 }
 
@@ -31,6 +30,7 @@ export interface StackedBar {
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage: number;
     key: string;
+    isMarked: boolean;
     // to help build position
     mark(operation?: MarkingOperation | undefined): void;
 }
@@ -47,11 +47,4 @@ export interface Bar {
     y0: number;
     mark(operation?: MarkingOperation | undefined): void;
     isMarked: boolean;
-}
-
-export interface CumulativeLine {
-    index: number;
-    percentage: number;
-    isMarked: boolean;
-    mark(operation?: MarkingOperation | undefined): void;
 }

@@ -4,7 +4,7 @@ import { renderStackedBars } from "./stackedBars";
 import { renderCumulativeLine } from "./cumulativeLine";
 import { Settings } from "./Settings";
 import * as d3 from "d3";
-import { clearLineMarking } from "./rectangleMarking";
+//import { clearLineMarking } from "./rectangleMarking";
 
 //Added the settings interface in settings.ts
 // export interface Settings {

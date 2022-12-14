@@ -1,5 +1,5 @@
 import { Axis, DataView, DataViewHierarchyNode, ModProperty, Size } from "spotfire-api";
-import { Pareto, StackedBar, Bar, CumulativeLine } from "./pareto";
+import { Pareto, StackedBar, Bar } from "./pareto";
 import { Settings } from "./settings";
 import { renderPareto, renderParetoAsTextInConsole } from "./renderer";
 
@@ -46,14 +46,6 @@ window.Spotfire.initialize(async (mod) => {
             valueAxisCategoryName,
             categoryAxisCategoryName
         );
-
-        console.log("onChange");
-        console.log(pareto.noMarkOnLine);
-
-        if (pareto.noMarkOnLine === undefined) {
-            pareto.noMarkOnLine = true;
-        }
-        console.log(pareto.noMarkOnLine);
 
         //validate that pareto data is vallid
         let warning: string | null = validateDataView(pareto);
@@ -159,6 +151,7 @@ function transformData(
                 parentLabel: leaf.formattedPath(),
                 mark: (event: any) => {
                     if (event != null && event.ctrlKey) {
+                        console.log("toggle");
                         row.mark("ToggleOrAdd");
                         return;
                     }
@@ -177,8 +170,12 @@ function transformData(
             cumulativeValue: 0,
             cumulativePercentage: 0,
             key: leaf.key ?? "",
+            isMarked: leaf.rows().some(function (b) {
+                return b.isMarked() == true;
+            }),
             mark: (event: any) => {
                 if (event != null && event.ctrlKey) {
+                    console.log("Toggle");
                     leaf.mark("ToggleOrAdd");
                     return;
                 }
@@ -215,19 +212,6 @@ function transformData(
     sortedStackedBars.forEach(
         (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
     );
-
-    // Create the data necessary for the line
-    let cumulativeLine: CumulativeLine[] = sortedStackedBars.map((stackedBar: StackedBar) => {
-        return {
-            index: stackedBar.index,
-            percentage: stackedBar.cumulativePercentage,
-            isMarked: stackedBar.bars.some(function (b) {
-                return b.isMarked == true;
-            }), // if you connect with the bars then this needs to be calculated based on the bar
-            mark: stackedBar.mark
-        };
-    });
-
     let pareto: Pareto = {
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
@@ -236,8 +220,7 @@ function transformData(
         colorByAxisName: colorAxisCategoryName,
         valueAxisName: valueAxisCategoryName,
         categoryAxisName: categoryAxisCategoryName,
-        cumulativeLine: cumulativeLine,
-        noMarkOnLine: cumulativeLine.every(function (l) {
+        noMarkOnLine: sortedStackedBars.every(function (l) {
             return l.isMarked == false;
         })
     };

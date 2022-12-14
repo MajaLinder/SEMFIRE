@@ -1,6 +1,5 @@
 import * as d3 from "d3";
-import { renderCumulativeLine } from "./cumulativeLine";
-import { Bar, CumulativeLine, Pareto } from "./pareto";
+import { Bar, Pareto } from "./pareto";
 import { Settings } from "./settings";
 export interface MarkingSettings {
     /**
@@ -52,11 +51,10 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
     var endSelection = function (event: any) {
         rectangle.attr("visibility", "hidden");
         const selectionBox = rectangle.node()!.getBoundingClientRect();
+
         if (selectionBox.width == 0 && selectionBox.height == 0) {
             if (!event.ctrlKey) {
-                console.log("hi");
                 markingSettings.clearMarking();
-                //clearLineMarking(pareto, settings);
                 return;
             }
             return;
@@ -66,23 +64,8 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
 
         // Only bars are marked
         if (markedBars.size() > 0 && markedCircles.size() === 0) {
-            console.log("only bars");
             settings.clearMarking();
-            //showOnlyBars(pareto, settings);
         }
-        // // Only the line is marked
-        // if (markedCircles.size() !== 0 && markedBars.size() === 0) {
-        //     settings.clearMarking();
-        // }
-        // // both are marked
-        // if (markedCircles.size() !== 0 && markedBars.size() !== 0) {
-        //     // don't need to clear
-        // }
-        // // none are marked
-        // if (markedCircles.size() === 0 && markedBars.size() === 0) {
-        //     settings.clearMarking();
-        //     //clearLineMarking(pareto, settings);
-        // }
 
         markedBars.each((n: any) => {
             (n as Bar).mark();
@@ -91,16 +74,6 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
         markedCircles.each((n: any) => {
             // TODO: mark line
             n.mark();
-            // console.log(n);
-            // pareto.cumulativeLine.map((line) => {
-            //     if (line.index == n.index) {
-            //         line.mark;
-            //         console.log("match");
-            //         //line.isMarked = true;
-            //         //pareto.noMarkOnLine = false;
-            //         //renderCumulativeLine(pareto, settings);
-            //     }
-            // });
         });
 
         function partOfMarking(this: SVGPathElement) {
@@ -211,17 +184,4 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
                 subject.on("mousemove.rectangle", null).on("mouseup.rectangle", null);
             });
     });
-}
-
-export function showOnlyBars(pareto: Pareto, settings: Settings) {
-    pareto.cumulativeLine.map((line) => (line.isMarked = false));
-    pareto.noMarkOnLine = false;
-    renderCumulativeLine(pareto, settings);
-}
-
-export function clearLineMarking(pareto: Pareto, settings: Settings) {
-    console.log("clear");
-    pareto.cumulativeLine.map((line) => (line.isMarked = false));
-    pareto.noMarkOnLine = true;
-    renderCumulativeLine(pareto, settings);
 }
