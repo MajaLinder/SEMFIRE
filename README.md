@@ -40,11 +40,11 @@ This is a special example of a combination chart where the bars are ordered from
 
 The Pareto visualization mod is composed of 
 - a value axis, a category axis and a percentage scale,
-- bars that can be rendered with or without Spotfire's Color by feature, 
+- bars sorted in descending order that can be rendered with or without Spotfire's Color by feature, 
 - a cumulative line with markers and,
 - a line to show the 80 % mark.
 
-Several features are implemented. The user can
+The Pareto mod contains several features. The user can
 - click on bar segments to mark them,
 - click on line segments to mark them,
 - hold the ctrl key to mark several bar segments,
@@ -55,6 +55,16 @@ Several features are implemented. The user can
 - customize the settings of colors, font style and font size.
 
 [insert use case diagram]
+
+> Future improvements
+
+Improvement suggestions on the Pareto mod include
+- a checkbox to show the cumulative frequency line
+- a checkbox to show the line markers
+- a checkbox to show the 80/20 cut-off line
+- a checkbox to set the position of labels for bars and complete bars
+- a checkbox to select the type of labels for percentage, value and category
+- a radio button to show labels for "all", "marked rows" and "none"
 
 > System Architecture
 
