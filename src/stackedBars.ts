@@ -12,7 +12,7 @@ import { randomBates, style } from "d3";
  */
 
 export function renderStackedBars(pareto: Pareto, settings: Settings) {
-    const paretoCategoryIndices: number[] = moduleIndices(pareto);
+
     const paretoCategoryValues: string[] = moduleCategories(pareto);
     const svg: SVGElement = document.querySelector("#svg") as SVGElement;
     const svgBoundingClientRect: DOMRect = svg.getBoundingClientRect();
@@ -20,7 +20,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
     const percentageAxis = modulePercentageAxis(svgBoundingClientRect.height);
-    const categoryAxisBandwidth = moduleCategoryAxis(paretoCategoryIndices, 0, svgBoundingClientRect.width);
+  
     // Create a group for each series
    
     var sel = d3
@@ -56,43 +56,20 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     
         
      const range =  svgBoundingClientRect.width - resources.PADDINGRIGHT 
-     const percentageLabelPadding = svgBoundingClientRect.width /4;
-     let ppp = categoryAxisBandwidth.bandwidth()/4;
    sel.append("line")
-        .style("stroke", "red")
-        .style("stroke-width", "6")
+        .style("stroke", "#FA7864")
+        .style("stroke-width", resources.LINEWIGHT)
         .style("stroke-dasharray", "8 8 ")
         .attr("x1",  range)
         .attr("y1", percentageAxis(80))
         .attr("x2",0)
         .attr("y2", percentageAxis(80))
         .on("click",selectedBars)
-        // .on("mouseout", function () {
-        //     settings.tooltip.hide();
-        // })
-        sel.append('text')
-            .attr('x',percentageLabelPadding)
-            .attr('y',percentageAxis(81))
-            .attr('text-anchor', 'middle')
-            .attr("fill",'red')
-            .style('font-family', settings.style.label.fontFamily)
-            .style('font-size', 24)
-            .text('80%');
-            let barCounter=0;
-            for (let i of pareto.stackedBars){
-                if(i.cumulativePercentage <= 80){
-                barCounter+=1;}}
-                const pad= (categoryAxisBandwidth.bandwidth() * barCounter) +(barCounter*ppp)
-         sel.append("line")
-            .style("stroke", "red")
-            .style("stroke-width", "6")
-            .style("stroke-dasharray", "8 8 ")
-            .attr("x1", pad )
-            .attr("y1", 0)
-            .attr("x2",pad)
-            .attr("y2", svgBoundingClientRect.height - resources.PADDINGBOTTOMUP)
-    
-           
+        .on("mouseover",  showLineToolTip)
+        .on("mouseout", function () {
+            settings.tooltip.hide();
+        })
+  
     //add an a
     inBars
         .on("click", function (event: any, d: any) {
@@ -135,19 +112,20 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     });
 
 
-console.log(barCounter)
+
     function selectedBars(){
         for (let i of pareto.stackedBars){
             if(i.cumulativePercentage <= 80){
-                console.log(i)
-                i.bars[0].mark()
+                console.log(i.bars)
+                for (let j of i.bars){
+                    j.mark();
+                }
+                
             }
         }
-        console.log(barCounter)
-        showLineToolTip() ;
     }
     function showLineToolTip() {
-        let text:string = "These marked Deftects contribute to 80% of the Frequency \n If we solve them we solve 80% of the overall issues " ;
+        let text:string = "80% cut-off " ;
          // display the text
          settings.tooltip.show(text); 
  }

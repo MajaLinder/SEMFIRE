@@ -25,7 +25,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         return [stackedBar.index, stackedBar.cumulativePercentage];
     });
 
-    const lineWeight = 3;
+  
 
     var line = d3
         .line<any>()
@@ -44,7 +44,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#3050EF")
-        .style("stroke-width", lineWeight);
+        .style("stroke-width", resources.LINEWIGHT);
     d3svg
         .append("g")
         .selectAll("dot")
