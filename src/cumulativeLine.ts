@@ -85,10 +85,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .attr("d", line)
             .style("fill", "none")
             .style("stroke", stroke)
-            .style("stroke-width", lineWeight)
-            .on("click", function (event: any, d: any) {
-                d.mark(event);
-            });
+            .style("stroke-width", lineWeight);
     }
 
     function drawDots(lineData: StackedBar[], stroke: string) {
