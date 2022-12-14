@@ -126,6 +126,19 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
                 //d.isMarked = true;
                 //pareto.noMarkOnLine = false;
                 //renderCumulativeLine(pareto, settings);
+            })
+            .on("mouseover", function (event: any, d: any) {
+                showLineToolTip(d);
+            })
+            .on("mouseout", function () {
+                settings.tooltip.hide();
             });
+    }
+    function showLineToolTip(d: any) {
+        let percentage = d.percentage;
+        percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
+        let text: string = "Cumulative percentage: " + percentage + "%";
+        // display the text
+        settings.tooltip.show(text);
     }
 }
