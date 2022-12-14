@@ -5,6 +5,12 @@
     "id": "sfire-mods-pareto",
     "icon": "icon.svg",
     "properties": [
+
+         {
+            "name": "showCutOffLine",
+            "type":"boolean",
+            "defaultValue":false
+        },
         {
             "name": "showCumulativeFrequencyLine",
             "type": "boolean",
@@ -15,6 +21,7 @@
             "type": "boolean",
             "defaultValue": false
         }
+       
     ],
     "dataViewDefinition": {
         "colorAxis": {
