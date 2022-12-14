@@ -13,6 +13,8 @@ import { Line } from "d3";
 export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     const paretoCategoryIndices: number[] = moduleIndices(pareto);
 
+    console.log(pareto.cumulativeLine);
+
     let d3svg = d3.select("svg");
     const svg: SVGElement = document.querySelector("#svg")!;
     const svgBoundingClientRect: SVGRect = svg.getBoundingClientRect();
@@ -48,7 +50,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         drawLine(pareto.cumulativeLine, markedStroke, line);
         drawDots(pareto.cumulativeLine, markedStroke);
     } else {
-        // there is marking to render
+        //there is marking to render
         const markedPostions = pareto.cumulativeLine.filter((line) => line.isMarked == true);
         const unMarkedPositions = pareto.cumulativeLine.filter((line) => line.isMarked == false);
 
@@ -119,9 +121,9 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .style("fill", stroke)
             .on("click", function (event: any, d: any) {
                 console.log(d);
-                //d.mark();
-                d.isMarked = true;
-                pareto.noMarkOnLine = false;
+                d.mark();
+                //d.isMarked = true;
+                //pareto.noMarkOnLine = false;
                 //renderCumulativeLine(pareto, settings);
             });
     }

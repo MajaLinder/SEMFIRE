@@ -221,7 +221,9 @@ function transformData(
         return {
             index: stackedBar.index,
             percentage: stackedBar.cumulativePercentage,
-            isMarked: false, // if you connect with the bars then this needs to be calculated based on the bar
+            isMarked: stackedBar.bars.some(function (b) {
+                return b.isMarked == true;
+            }), // if you connect with the bars then this needs to be calculated based on the bar
             mark: stackedBar.mark
         };
     });
@@ -234,8 +236,10 @@ function transformData(
         colorByAxisName: colorAxisCategoryName,
         valueAxisName: valueAxisCategoryName,
         categoryAxisName: categoryAxisCategoryName,
-        cumulativeLine: cumulativeLine
-        //noMarkOnLine: true
+        cumulativeLine: cumulativeLine,
+        noMarkOnLine: cumulativeLine.every(function (l) {
+            return l.isMarked == false;
+        })
     };
     return pareto;
 }

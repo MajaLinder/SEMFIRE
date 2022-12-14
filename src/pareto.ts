@@ -52,6 +52,6 @@ export interface Bar {
 export interface CumulativeLine {
     index: number;
     percentage: number;
-    isMarked?: boolean;
+    isMarked: boolean;
     mark(operation?: MarkingOperation | undefined): void;
 }

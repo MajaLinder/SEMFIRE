@@ -54,8 +54,9 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
         const selectionBox = rectangle.node()!.getBoundingClientRect();
         if (selectionBox.width == 0 && selectionBox.height == 0) {
             if (!event.ctrlKey) {
+                console.log("hi");
                 markingSettings.clearMarking();
-                clearLineMarking(pareto, settings);
+                //clearLineMarking(pareto, settings);
                 return;
             }
             return;
@@ -67,21 +68,21 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
         if (markedBars.size() > 0 && markedCircles.size() === 0) {
             console.log("only bars");
             settings.clearMarking();
-            showOnlyBars(pareto, settings);
+            //showOnlyBars(pareto, settings);
         }
-        // Only the line is marked
-        if (markedCircles.size() !== 0 && markedBars.size() === 0) {
-            settings.clearMarking();
-        }
-        // both are marked
-        if (markedCircles.size() !== 0 && markedBars.size() !== 0) {
-            // don't need to clear
-        }
-        // none are marked
-        if (markedCircles.size() === 0 && markedBars.size() === 0) {
-            settings.clearMarking();
-            clearLineMarking(pareto, settings);
-        }
+        // // Only the line is marked
+        // if (markedCircles.size() !== 0 && markedBars.size() === 0) {
+        //     settings.clearMarking();
+        // }
+        // // both are marked
+        // if (markedCircles.size() !== 0 && markedBars.size() !== 0) {
+        //     // don't need to clear
+        // }
+        // // none are marked
+        // if (markedCircles.size() === 0 && markedBars.size() === 0) {
+        //     settings.clearMarking();
+        //     //clearLineMarking(pareto, settings);
+        // }
 
         markedBars.each((n: any) => {
             (n as Bar).mark();
@@ -89,15 +90,17 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
 
         markedCircles.each((n: any) => {
             // TODO: mark line
-            console.log(n);
-            pareto.cumulativeLine.map((line) => {
-                if (line.index == n.index) {
-                    console.log("match");
-                    line.isMarked = true;
-                    pareto.noMarkOnLine = false;
-                    renderCumulativeLine(pareto, settings);
-                }
-            });
+            n.mark();
+            // console.log(n);
+            // pareto.cumulativeLine.map((line) => {
+            //     if (line.index == n.index) {
+            //         line.mark;
+            //         console.log("match");
+            //         //line.isMarked = true;
+            //         //pareto.noMarkOnLine = false;
+            //         //renderCumulativeLine(pareto, settings);
+            //     }
+            // });
         });
 
         function partOfMarking(this: SVGPathElement) {
