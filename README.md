@@ -25,6 +25,10 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 
 ## Pareto Chart ##
 
+> Overview
+ 
+[insert Pareto chart image]
+
 Pareto Analysis is a technique used for decision making based on the Pareto Principle. Pareto Principle is based on 80/20 rule which says “80% of impacts are due to 20% of causes”. It emphasizes that a major number of issues are created by a relatively smaller number of underlying causes. You can focus on a vital few root causes of the problem and ignore the trivial many.
 
 This chart makes sense for data with counts for values of a nominal variable or category. They show the ordered frequency counts of values for the different levels of a categorical or nominal variable.
@@ -49,6 +53,17 @@ Several features are implemented. The user can
 - hover over the line markers and get prompted with a tooltip showing the cumulative percentage,
 - click on the 80 % line to mark the corresponding bar segments,
 - customize the settings of colors, font style and font size.
+
+[insert use case diagram]
+
+> System Architecture
+
+The Pareto mod retrieves data from the Spotfire API in the index.ts file. 
+The data is transformed and set in a Pareto interface that is used to render 
+the different parts. This architectural decision enhances reusability as the 
+Pareto funtionalities are not directly connected with the data from the API. 
+
+[insert component diagram]
 
 
 ## GitFlow ## 
