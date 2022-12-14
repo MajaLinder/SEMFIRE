@@ -66,15 +66,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         .on("mouseout", function () {
             settings.tooltip.hide();
         }); 
-        // const si =  svgBoundingClientRect.width - (resources.PADDINGRIGHT - resources.PADDINGLEFT)
-        // d3svg.append("line")
-        // .style("stroke", "red")
-        // .style("stroke-dasharray", "8 8")
-        // .attr("x1",  si)
-        // .attr("y1", valueAxis(80))
-        // .attr("x2",resources.PADDINGLEFT)
-        // .attr("y2", valueAxis(80))
-        
+ 
 
     function showLineToolTip(d: any) {
             let percentage = d[1];
