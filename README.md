@@ -18,44 +18,44 @@ This is a special example of a combination chart where the bars are ordered from
 ### Mod Features
 
 The Pareto visualization mod is composed of 
-- a value axis, a category axis and a percentage scale,
-- bars sorted in descending order that can be rendered with or without Spotfire's Color by feature, 
-- a cumulative line with markers and,
-- a line to show the 80 % mark.
+- A value axis, a category axis and a percentage scale,
+- Bars sorted in descending order that can be rendered with or without Spotfire's Color by feature, 
+- A cumulative frequency line with markers and,
+- A line to show the 80 % mark.
 
 #### Marking
-- click on bar segments or line markers to mark them,
-- hold the ctrl key to mark several bar and line segments,
-- click and drag to mark several bar and line segments with a rectangle,
-- clear any marking by clicking on the background
+- Click on bar segments or line markers to mark them,
+- Hold the ctrl key to mark several bar and line segments,
+- Click and drag to mark several bar and line segments with a rectangle,
+- Clear any marking by clicking on the background
 
 #### Hover
-- hover over a bar segment and get prompted with a customizable tooltip,
-- hover over a line marker and a tooltip with the cumulative percentage will be displayed,
-- hover over a label on one of the axises and a tooltip with the label name is displayed
-- hover over a bar segement and it is highlighted with a border. 
+- Hover over a bar segment and get prompted with a customizable tooltip,
+- Hover over a line marker and a tooltip with the cumulative percentage will be displayed,
+- Hover over a label on one of the axises and a tooltip with the label name is displayed
+- Hover over a bar segement and it is highlighted with a border. 
 
 #### Tooltip
 - Customize the tooltip displayed when hovering over a bar through the visualisation properties. 
-- The tooltip for the line markers and the labels are not customizable.
+- The tooltip for the line markers and the labels is not customizable.
 
 #### Other
-- click on the 80 % line to mark the corresponding bar segments,
-- customize the settings of colors, font style and font size,
-- no negative values are allowed in the Pareto chart and if any are detected an error message is displayed. 
+- Click on the 80 % line to mark the corresponding bar segments,
+- Customize the settings of colors, font style and font size,
+- No negative values are allowed in the Pareto chart and if any are detected an error message is displayed. 
 
 [insert use case diagram]
 
 ### Future improvements
 
 Improvement can always be made and suggestions for the Pareto mod include:
-- a checkbox to show the cumulative frequency line
-- a checkbox to show the line markers,
-- a checkbox to show the 80/20 cut-off line,
-- a checkbox to set the position of labels for bars and complete bars,
-- a checkbox to select the type of labels for percentage, value and category,
-- a radio button to show labels for "all", "marked rows" and "none"
-- a option for users to choose between a linear and logarithmic scale.
+- A checkbox to show the cumulative frequency line
+- A checkbox to show the line markers,
+- A checkbox to show the 80/20 cut-off line,
+- A checkbox to set the position of labels for bars and complete bars,
+- A checkbox to select the type of labels for percentage, value and category,
+- A radio button to show labels for "all", "marked rows" and "none"
+- A option for users to choose between a linear and logarithmic scale.
 
 ## How to get started (with development server)
 
