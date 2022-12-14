@@ -82,7 +82,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             let thisRect = nodes[i] as SVGAElement;
             let parentGroup = d3.select(thisRect.parentElement);
             addSelectionBox(parentGroup, thisRect, "inbar-hover-border", settings);
-            showBarToolTip(d);
+            settings.tooltip.show(d.row);
         })
         .on("mouseout", function (event: any, d: any) {
             d3.select(".inbar-hover-border").remove();
@@ -112,7 +112,6 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     });
 
 
-
     function selectedBars(){
         for (let i of pareto.stackedBars){
             if(i.cumulativePercentage <= 80){
@@ -130,26 +129,4 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
          settings.tooltip.show(text); 
  }
 
-
-    /**
-     * Display tooltip for a bar
-     * @param d Bar
-     */
-    function showBarToolTip(d: any) {
-        if (pareto.categoryAxisName != null && pareto.valueAxisName != null) {
-            let text: string = pareto.categoryAxisName + ": " + d.parentLabel + "\n";
-            text += pareto.valueAxisName + ": " + d.value;
-            if (pareto.colorByAxisName != null) {
-                text += "\n" + pareto.colorByAxisName + ": " + d.label;
-            }
-            // find the cummulative percentage
-            let percentage = pareto.stackedBars.find((element) => element.key === d.parentKey)
-                ?.cumulativePercentage as number;
-            // round percentage to two decimals
-            percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
-            text += "\nCumulative percentage: " + percentage + "%";
-            // display the text
-            settings.tooltip.show(text);
-        }
-    }
 }
