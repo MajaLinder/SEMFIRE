@@ -132,7 +132,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .attr("cx", baseDot.cx.baseVal.value)
             .attr("cy", baseDot.cy.baseVal.value)
             .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
-            .attr("stroke", "#000")
+            .attr("stroke", settings.style.onMouseOverBox.stroke)
             .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
             .attr("fill-opacity", 0)
             .attr("r", 7);

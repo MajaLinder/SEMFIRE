@@ -15,7 +15,7 @@ export interface Settings {
         //font: { size: number; weight: string; style: string; color: string; fontFamily: string };
         marking: { color: string };
         background: { color: string };
-        onMouseOverBox: { strokeWidth: number; padding: number };
+        onMouseOverBox: { strokeWidth: number; padding: number; stroke: string };
         selectionBox: { strokeWidth: number };
         inbarsSeparatorWidth: number;
     };

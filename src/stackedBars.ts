@@ -66,16 +66,19 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .style("stroke", "#FA7864")
         .style("stroke-width", resources.LINEWEIGHT)
         .style("stroke-dasharray", "8 8 ")
-        .attr("x1", range)
+        .attr("x1", range - 3)
         .attr("y1", percentageAxis(80))
-        .attr("x2", 0)
+        .attr("x2", 0 + 2)
         .attr("y2", percentageAxis(80))
         .on("click", selectedBars)
-        .on("mouseover", showLineToolTip)
+        .on("mouseover", function () {
+            showLineToolTip();
+            drawHoverLine();
+        })
         .on("mouseout", function () {
+            d3.selectAll(".hover-line").remove();
             settings.tooltip.hide();
         });
-
     // Add invisible line to click on
     sel.append("line")
         .style("stroke", "transparent")
@@ -85,10 +88,30 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("x2", 0)
         .attr("y2", percentageAxis(80))
         .on("click", selectedBars)
-        .on("mouseover", showLineToolTip)
+        .on("mouseover", function () {
+            showLineToolTip();
+            drawHoverLine();
+        })
         .on("mouseout", function () {
+            d3.selectAll(".hover-line").remove();
             settings.tooltip.hide();
         });
+
+    function drawHoverLine() {
+        sel.append("rect")
+            .classed("hover-line", true)
+            .attr("stroke", settings.style.onMouseOverBox.stroke)
+            .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
+            .attr("shape-rendering", "crispEdges")
+            .attr("rx", "3")
+            .attr("fill", "none")
+            .attr("x", 0)
+            .attr("y", percentageAxis(80) - 3)
+            .attr("height", resources.LINEWEIGHT + 3)
+            .attr("width", range);
+    }
+
+    //cutoff.append("path").datum(hoverLine).style("stroke", "black");
     //add an a
     inBars
         .on("click", function (event: any, d: any) {
@@ -119,7 +142,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             .attr("x", bBox.x - padding)
             .attr("height", bBox.height + 2 * padding)
             .attr("width", bBox.width + 2 * padding)
-            .attr("stroke", "#000")
+            .attr("stroke", settings.style.onMouseOverBox.stroke)
             .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
             .attr("shape-rendering", "crispEdges")
             .attr("fill", "none");

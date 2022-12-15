@@ -80,7 +80,7 @@ window.Spotfire.initialize(async (mod) => {
                     weight: context.styling.scales.line.stroke
                 },
                 marking: { color: context.styling.scales.font.color },
-                onMouseOverBox: { strokeWidth: 0.5, padding: 3 },
+                onMouseOverBox: { strokeWidth: 0.5, padding: 3, stroke: "#000" },
                 selectionBox: { strokeWidth: 0.5 },
                 inbarsSeparatorWidth: 1.5
             }
