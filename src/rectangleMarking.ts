@@ -28,7 +28,7 @@ export interface MarkingSettings {
 }
 
 //TODO: change this to work with the line. Drawing the rectangle should be reusable.
-export function rectangularSelection(markingSettings: MarkingSettings, pareto: Pareto, settings: Settings) {
+export function rectangularSelection(markingSettings: MarkingSettings) {
     function drawRectangle(x: number, y: number, w: number, h: number) {
         return "M" + [x, y] + " l" + [w, 0] + " l" + [0, h] + " l" + [-w, 0] + "z";
     }
@@ -64,7 +64,7 @@ export function rectangularSelection(markingSettings: MarkingSettings, pareto: P
 
         // Only bars are marked
         if (markedBars.size() > 0 && markedCircles.size() === 0) {
-            settings.clearMarking();
+            markingSettings.clearMarking();
         }
 
         markedBars.each((n: any) => {

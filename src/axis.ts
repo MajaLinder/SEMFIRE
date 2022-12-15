@@ -6,6 +6,7 @@ import { resources } from "./resources";
 export function renderAxes(pareto: Pareto, settings: Settings) {
     d3.selectAll("path").remove();
     d3.selectAll("g").remove();
+    d3.selectAll("line").remove();
 
     const paretoCategoryValues: string[] = moduleCategories(pareto);
 

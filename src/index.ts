@@ -16,7 +16,8 @@ window.Spotfire.initialize(async (mod) => {
         mod.visualization.axis(colorAxisName),
         mod.visualization.axis(valueAxisName),
         mod.property<boolean>("showCumulativeFrequencyLine"),
-        mod.property<boolean>("showLineMarkers")
+        mod.property<boolean>("showLineMarkers"),
+        mod.property<boolean>("showCutOffLine")
     );
 
     reader.subscribe(generalErrorHandler(mod, 200)(onChange));
@@ -28,7 +29,8 @@ window.Spotfire.initialize(async (mod) => {
         colorAxis: Axis,
         valueAxis: Axis,
         showCumulativeFrequencyLine: ModProperty<boolean>,
-        showLineMarkers: ModProperty<boolean>
+        showLineMarkers: ModProperty<boolean>,
+        showCutOffLine: ModProperty<boolean>
     ) {
         let rootNode: DataViewHierarchyNode;
         rootNode = (await (await dataView.hierarchy(categoryAxisName))!.root()) as DataViewHierarchyNode;

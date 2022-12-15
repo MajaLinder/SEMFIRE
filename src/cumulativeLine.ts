@@ -85,7 +85,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .attr("d", line)
             .style("fill", "none")
             .style("stroke", stroke)
-            .style("stroke-width", lineWeight);
+            .style("stroke-width", resources.LINEWEIGHT);
     }
 
     function drawDots(lineData: StackedBar[], stroke: string) {
@@ -123,13 +123,9 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         // display the text
         settings.tooltip.show(text);
     }
-    rectangularSelection(
-        {
-            clearMarking: settings.clearMarking,
-            mark: (d: StackedBar) => d.mark(),
-            markingSelector: ".line-circle"
-        },
-        pareto,
-        settings
-    );
+    rectangularSelection({
+        clearMarking: settings.clearMarking,
+        mark: (d: StackedBar) => d.mark(),
+        markingSelector: ".line-circle"
+    });
 }

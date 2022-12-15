@@ -1,9 +1,17 @@
 import * as d3 from "d3";
 import { Bar, Pareto } from "./pareto";
 import { Settings } from "./settings";
-import { moduleCategoryAxis, moduleValueAxis, moduleTicks, moduleCategories } from "./axis";
+import {
+    moduleCategoryAxis,
+    moduleValueAxis,
+    moduleTicks,
+    moduleCategories,
+    modulePercentageAxis,
+    moduleIndices
+} from "./axis";
 import { rectangularSelection } from "./rectangleMarking";
-
+import { resources } from "./resources";
+import { randomBates, style } from "d3";
 /**
  * Render the bars using d3
  * @param pareto Pareto data structure
@@ -17,8 +25,10 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     const ticks = moduleTicks(svgBoundingClientRect.height, settings.style.label.size);
     const categoryAxis = moduleCategoryAxis(paretoCategoryValues, 0, svgBoundingClientRect.width);
     const valueAxis = moduleValueAxis(pareto.maxValue, svgBoundingClientRect.height, ticks);
+    const percentageAxis = modulePercentageAxis(svgBoundingClientRect.height);
 
     // Create a group for each series
+
     var sel = d3
         .select("#svg")
         .select("g")
@@ -49,6 +59,21 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("stroke", (d) => (d.isMarked ? "#000" : "none"))
         .attr("stroke-width", (d) => (d.isMarked ? settings.style.selectionBox.strokeWidth : "0"));
 
+    const range = svgBoundingClientRect.width - resources.PADDINGRIGHT;
+    sel.append("line")
+        .style("stroke", "#FA7864")
+        .style("stroke-width", resources.LINEWEIGHT)
+        .style("stroke-dasharray", "8 8 ")
+        .attr("x1", range)
+        .attr("y1", percentageAxis(80))
+        .attr("x2", 0)
+        .attr("y2", percentageAxis(80))
+        .on("click", selectedBars)
+        .on("mouseover", showLineToolTip)
+        .on("mouseout", function () {
+            settings.tooltip.hide();
+        });
+
     //add an a
     inBars
         .on("click", function (event: any, d: any) {
@@ -57,6 +82,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         })
         .on("mouseover", function (event: any, d: any) {
             const nodes = inBars.nodes();
+
             const i = nodes.indexOf(this);
             let thisRect = nodes[i] as SVGAElement;
             let parentGroup = d3.select(thisRect.parentElement);
@@ -84,13 +110,25 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             .attr("fill", "none");
     }
 
-    rectangularSelection(
-        {
-            clearMarking: settings.clearMarking,
-            mark: (d: Bar) => d.mark(),
-            markingSelector: ".in-bar"
-        },
-        pareto,
-        settings
-    );
+    rectangularSelection({
+        clearMarking: settings.clearMarking,
+        mark: (d: Bar) => d.mark(),
+        markingSelector: ".in-bar"
+    });
+
+    function selectedBars() {
+        for (let i of pareto.stackedBars) {
+            if (i.cumulativePercentage <= 80) {
+                console.log(i.bars);
+                for (let j of i.bars) {
+                    j.mark();
+                }
+            }
+        }
+    }
+    function showLineToolTip() {
+        let text: string = "80% cut-off ";
+        // display the text
+        settings.tooltip.show(text);
+    }
 }
