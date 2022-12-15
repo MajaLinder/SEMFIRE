@@ -106,7 +106,9 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
             .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
             .style("fill", stroke)
             .on("click", function (event: any, d: any) {
-                d.mark(event);
+                pareto.stackedBars.forEach((stackedBar) => {
+                    if (stackedBar.cumulativePercentage <= d.cumulativePercentage) stackedBar.mark(event);
+                });
             })
             .on("mouseover", function (event: any, d: any) {
                 showLineToolTip(d);
