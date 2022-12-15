@@ -9,6 +9,7 @@ import {
     modulePercentageAxis,
     moduleIndices
 } from "./axis";
+
 import { rectangularSelection } from "./rectangleMarking";
 import { resources } from "./resources";
 import { randomBates, style } from "d3";
@@ -59,6 +60,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .attr("stroke", (d) => (d.isMarked ? "#000" : "none"))
         .attr("stroke-width", (d) => (d.isMarked ? settings.style.selectionBox.strokeWidth : "0"));
 
+    // Draw the 80/20 cutoff line
     const range = svgBoundingClientRect.width - resources.PADDINGRIGHT;
     sel.append("line")
         .style("stroke", "#FA7864")
@@ -74,6 +76,19 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
             settings.tooltip.hide();
         });
 
+    // Add invisible line to click on
+    sel.append("line")
+        .style("stroke", "transparent")
+        .style("stroke-width", resources.LINEWEIGHT)
+        .attr("x1", range)
+        .attr("y1", percentageAxis(80))
+        .attr("x2", 0)
+        .attr("y2", percentageAxis(80))
+        .on("click", selectedBars)
+        .on("mouseover", showLineToolTip)
+        .on("mouseout", function () {
+            settings.tooltip.hide();
+        });
     //add an a
     inBars
         .on("click", function (event: any, d: any) {
