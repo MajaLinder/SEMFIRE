@@ -67,13 +67,9 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .style("stroke-width", resources.LINEWEIGHT)
         .style("stroke-dasharray", "8 8 ")
         .attr("x1", range)
-        .attr("x1", range)
         .attr("y1", percentageAxis(80))
         .attr("x2", 0)
-        .attr("x2", 0)
         .attr("y2", percentageAxis(80))
-        .on("click", selectedBars)
-        .on("mouseover", showLineToolTip)
         .on("click", selectedBars)
         .on("mouseover", showLineToolTip)
         .on("mouseout", function () {
