@@ -33,7 +33,7 @@ The Pareto visualization mod is composed of
 - Hover over a bar segment and get prompted with a customizable tooltip,
 - Hover over a line marker and a tooltip with the cumulative percentage will be displayed,
 - Hover over a label on one of the axises and a tooltip with the label name is displayed
-- Hover over a bar segement and it is highlighted with a border. 
+- Hover over a bar segement, 80% cutoff line and line markers and they are highlighted with a border. 
 
 #### Tooltip
 - Customize the tooltip displayed when hovering over a bar through the visualisation properties. 
