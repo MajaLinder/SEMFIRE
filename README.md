@@ -56,7 +56,10 @@ Improvement can always be made and suggestions for the Pareto mod include:
 - A checkbox to select the type of labels for percentage, value and category,
 - A radio button to show labels for "all", "marked rows" and "none"
 - A option for users to choose between a linear and logarithmic scale,
-- Flexible labels on the value axis to display larger numbers.
+- Flexible labels on the value axis to display larger numbers,
+- Color settings for cumulative and cutoff lines,
+- Removing axes through canvas settings.
+
 
 ## How to get started (with development server)
 
