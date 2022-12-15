@@ -88,7 +88,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
     }
 
     function drawDots(lineData: StackedBar[], stroke: string) {
-        d3svg
+        let dots = d3svg
             .append("g")
             .attr("class", "dots-group")
             .selectAll("dot")
@@ -111,12 +111,33 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
                 });
             })
             .on("mouseover", function (event: any, d: any) {
+                const nodes = dots.nodes();
+                const i = nodes.indexOf(this);
+                let thisCircle = nodes[i] as SVGCircleElement;
+                let parentGroup = d3.select(thisCircle.parentElement);
+                drawHoverDots(parentGroup, this, "dot-hover-border");
                 showLineToolTip(d);
             })
             .on("mouseout", function () {
+                d3.select(".dot-hover-border").remove();
                 settings.tooltip.hide();
             });
     }
+
+    function drawHoverDots(selection: any, baseDot: SVGCircleElement, cssClass: string) {
+        selection
+            .append("circle")
+            .classed(cssClass, true)
+            .style("pointer-events", "none")
+            .attr("cx", baseDot.cx.baseVal.value)
+            .attr("cy", baseDot.cy.baseVal.value)
+            .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+            .attr("stroke", "#000")
+            .attr("stroke-width", settings.style.onMouseOverBox.strokeWidth)
+            .attr("fill-opacity", 0)
+            .attr("r", 7);
+    }
+
     function showLineToolTip(d: any) {
         let percentage = d.cumulativePercentage;
         percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
@@ -124,6 +145,7 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         // display the text
         settings.tooltip.show(text);
     }
+
     rectangularSelection({
         clearMarking: settings.clearMarking,
         mark: (d: StackedBar) => d.mark(),
