@@ -6,7 +6,7 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 
 ### Overview
  
-[insert Pareto chart image]
+![image](https://user-images.githubusercontent.com/63287104/207910420-838af974-857d-4ec9-b4ff-876d4c8810b9.png)
 
 Pareto Analysis is a technique used for decision making based on the Pareto Principle. Pareto Principle is based on 80/20 rule which says “80% of impacts are due to 20% of causes”. It emphasizes that a major number of issues are created by a relatively smaller number of underlying causes. You can focus on a vital few root causes of the problem and ignore the trivial many.
 
