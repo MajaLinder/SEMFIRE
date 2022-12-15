@@ -137,6 +137,7 @@ function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: bool
                 parentKey: leaf.key ?? "",
                 mark: (event: any) => {
                     if (event != null && event.ctrlKey) {
+                        console.log("toggle");
                         row.mark("ToggleOrAdd");
                         return;
                     }
@@ -154,7 +155,18 @@ function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: bool
             totalValue: totalValue,
             cumulativeValue: 0,
             cumulativePercentage: 0,
-            key: leaf.key ?? ""
+            key: leaf.key ?? "",
+            isMarked: leaf.rows().some(function (b) {
+                return b.isMarked() == true;
+            }),
+            mark: (event: any) => {
+                if (event != null && event.ctrlKey) {
+                    console.log("Toggle");
+                    leaf.mark("ToggleOrAdd");
+                    return;
+                }
+                leaf.mark();
+            }
         };
 
         //fill in y0 coordinates of bars in a reverse order to match the coloring order
@@ -186,12 +198,14 @@ function transformData(rootNode: DataViewHierarchyNode, hasColorExpression: bool
     sortedStackedBars.forEach(
         (stackedBar) => (stackedBar.cumulativePercentage = (100 * stackedBar.cumulativeValue) / paretoGrandTotal)
     );
-
     let pareto: Pareto = {
         stackedBars: sortedStackedBars,
         maxValue: sortedStackedBars?.length ? sortedStackedBars[0].totalValue : 0,
         minValue: sortedStackedBars?.length ? sortedStackedBars[sortedStackedBars.length - 1].totalValue : 0,
-        grandTotal: paretoGrandTotal
+        grandTotal: paretoGrandTotal,
+        noMarkOnLine: sortedStackedBars.every(function (l) {
+            return l.isMarked == false;
+        })
     };
     return pareto;
 }

@@ -9,6 +9,7 @@ import {
     modulePercentageAxis,
     moduleIndices
 } from "./axis";
+
 import { rectangularSelection } from "./rectangleMarking";
 import { resources } from "./resources";
 import { randomBates, style } from "d3";
@@ -66,9 +67,13 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
         .style("stroke-width", resources.LINEWEIGHT)
         .style("stroke-dasharray", "8 8 ")
         .attr("x1", range)
+        .attr("x1", range)
         .attr("y1", percentageAxis(80))
         .attr("x2", 0)
+        .attr("x2", 0)
         .attr("y2", percentageAxis(80))
+        .on("click", selectedBars)
+        .on("mouseover", showLineToolTip)
         .on("click", selectedBars)
         .on("mouseover", showLineToolTip)
         .on("mouseout", function () {
@@ -92,6 +97,7 @@ export function renderStackedBars(pareto: Pareto, settings: Settings) {
     inBars
         .on("click", function (event: any, d: any) {
             d.mark(event);
+            //showOnlyBars(pareto, settings);
         })
         .on("mouseover", function (event: any, d: any) {
             const nodes = inBars.nodes();

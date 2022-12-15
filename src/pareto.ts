@@ -11,6 +11,7 @@ export interface Pareto {
     minValue: number;
     /** sum of all bar values */
     grandTotal: number;
+    noMarkOnLine?: boolean | null;
 }
 
 /**
@@ -25,6 +26,9 @@ export interface StackedBar {
     cumulativeValue: number; //cumulative value in the sorted array of stacked bars
     cumulativePercentage: number;
     key: string;
+    isMarked: boolean;
+    // to help build position
+    mark(operation?: MarkingOperation | undefined): void;
 }
 /** A sector of a bar */
 export interface Bar {

@@ -1,8 +1,11 @@
 import * as d3 from "d3";
-import { Pareto } from "./pareto";
+import { Pareto, StackedBar } from "./pareto";
 import { moduleCategoryAxis, moduleIndices, modulePercentageAxis } from "./axis";
 import { resources } from "./resources";
+import { rectangularSelection } from "./rectangleMarking";
 import { Settings } from "./settings";
+import { Line } from "d3";
+
 /**
  * Render the cumulative line using d3
  * @param pareto Pareto data structure
@@ -20,59 +23,108 @@ export function renderCumulativeLine(pareto: Pareto, settings: Settings) {
         svgBoundingClientRect.width + categoryAxisBandwidth.bandwidth() / 2
     );
     const valueAxis = modulePercentageAxis(svgBoundingClientRect.height);
+    const markedStroke: string = "#3050EF";
+    const unMarkedStroke: string = "#d5dcfb";
 
-    const positions = pareto.stackedBars.map((stackedBar) => {
-        return [stackedBar.index, stackedBar.cumulativePercentage];
-    });
+    // if nothing is marked in the chart then no opacity is applied
+    d3svg.selectAll(".line").remove();
+    d3svg.selectAll(".line-circle").remove();
+    d3svg.selectAll(".dots-group").remove();
 
-  
+    if (pareto.noMarkOnLine == true) {
+        // no marking yet only need to render as is
+        var line = d3
+            .line<any>()
+            .x(function (d): number {
+                return categoryAxis(d.index)!;
+            })
+            .y(function (d): number {
+                return valueAxis(d.cumulativePercentage)!;
+            });
 
-    var line = d3
-        .line<any>()
-        .x(function (d): number {
-            return categoryAxis(d[0])!;
-        })
-        .y(function (d): number {
-            return valueAxis(d[1])!;
-        });
+        drawLine(pareto.stackedBars, markedStroke, line);
+        drawDots(pareto.stackedBars, markedStroke);
+    } else {
+        //there is marking to render
+        const markedPostions = pareto.stackedBars.filter((line) => line.isMarked == true);
+        const unMarkedPositions = pareto.stackedBars.filter((line) => line.isMarked == false);
 
-    d3svg
-        .append("path")
-        .datum(positions)
-        .attr("class", "line")
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
-        .attr("d", line)
-        .style("fill", "none")
-        .style("stroke", "#3050EF")
-        .style("stroke-width", resources.LINEWEIGHT);
-    d3svg
-        .append("g")
-        .selectAll("dot")
-        .data(positions)
-        .enter()
-        .append("circle")
-        .attr("cx", function (d): any {
-            return categoryAxis(d[0] as any);
-        })
-        .attr("cy", function (d): any {
-            return valueAxis(d[1]);
-        })
-        .attr("r", 5)
-        .attr("transform", "translate(" + resources.PADDINGLEFT + "," +  resources.PADDINGBOTTOMDOWN + ")")
-        .style("fill", "#3050EF")
-        .on("mouseover", function (event:any, d: any) {
-            showLineToolTip(d);
-        })
-        .on("mouseout", function () {
-            settings.tooltip.hide();
-        }); 
- 
+        var unMarkedline = d3
+            .line<any>()
+            .x(function (d): number {
+                return categoryAxis(d.index)!;
+            })
+            .y(function (d): number {
+                return valueAxis(d.cumulativePercentage)!;
+            });
 
+        var markedline = d3
+            .line<any>()
+            .x(function (d): number {
+                return categoryAxis(d.index)!;
+            })
+            .y(function (d): number {
+                return valueAxis(d.cumulativePercentage)!;
+            })
+            .defined((d) => d.isMarked == true);
+
+        drawLine(pareto.stackedBars, unMarkedStroke, unMarkedline);
+        drawLine(pareto.stackedBars, markedStroke, markedline);
+
+        drawDots(unMarkedPositions, unMarkedStroke);
+        drawDots(markedPostions, markedStroke);
+    }
+
+    function drawLine(lineData: StackedBar[], stroke: string, line: Line<any>) {
+        d3svg
+            .append("path")
+            .datum(lineData)
+            .attr("class", "line")
+            .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+            .attr("d", line)
+            .style("fill", "none")
+            .style("stroke", stroke)
+            .style("stroke-width", resources.LINEWEIGHT);
+    }
+
+    function drawDots(lineData: StackedBar[], stroke: string) {
+        d3svg
+            .append("g")
+            .attr("class", "dots-group")
+            .selectAll("dot")
+            .data(lineData)
+            .enter()
+            .append("circle")
+            .classed("line-circle", true)
+            .attr("cx", function (d): any {
+                return categoryAxis(d.index as any);
+            })
+            .attr("cy", function (d): any {
+                return valueAxis(d.cumulativePercentage);
+            })
+            .attr("r", 5)
+            .attr("transform", "translate(" + resources.PADDINGLEFT + "," + resources.PADDINGBOTTOMDOWN + ")")
+            .style("fill", stroke)
+            .on("click", function (event: any, d: any) {
+                d.mark(event);
+            })
+            .on("mouseover", function (event: any, d: any) {
+                showLineToolTip(d);
+            })
+            .on("mouseout", function () {
+                settings.tooltip.hide();
+            });
+    }
     function showLineToolTip(d: any) {
-            let percentage = d[1];
-            percentage = Math.round((percentage + Number.EPSILON) * 100) / 100
-            let text:string = "Cumulative percentage: " + percentage + "%";
-             // display the text
-             settings.tooltip.show(text); 
-     }
+        let percentage = d.cumulativePercentage;
+        percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
+        let text: string = "Cumulative percentage: " + percentage + "%";
+        // display the text
+        settings.tooltip.show(text);
+    }
+    rectangularSelection({
+        clearMarking: settings.clearMarking,
+        mark: (d: StackedBar) => d.mark(),
+        markingSelector: ".line-circle"
+    });
 }
