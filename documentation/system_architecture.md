@@ -1,3 +1,4 @@
+# System Architecture
 The Pareto mod retrieves data from the Spotfire API in the index.ts file.
 The data is transformed and set in a Pareto interface that is used to render
 the different parts. This architectural decision enhances reusability as the
