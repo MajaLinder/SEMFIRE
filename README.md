@@ -49,15 +49,16 @@ The Pareto visualization mod is composed of
 ### Future improvements
 
 Improvement can always be made and suggestions for the Pareto mod include:
-- A checkbox to show the cumulative frequency line
-- A checkbox to show the line markers,
-- A checkbox to show the 80/20 cut-off line,
-- A checkbox to set the position of labels for bars and complete bars,
-- A checkbox to select the type of labels for percentage, value and category,
-- A radio button to show labels for "all", "marked rows" and "none"
-- A option for users to choose between a linear and logarithmic scale,
+- Checkbox to: 
+    - show the cumulative frequency line,
+    - show the line markers,
+    - show the 80/20 cut-off line,
+    - set the position of labels for bars and complete bars,
+    - select the type of labels for percentage, value and category.
+- A radio button to show labels for "all", "marked rows" and "none",
+- An option for users to choose between a linear and logarithmic scale,
 - Flexible labels on the value axis to display larger numbers,
-- Color settings for cumulative and cutoff lines,
+- Color selection for cumulative and cutoff lines,
 - Removing axes through canvas settings.
 
 
