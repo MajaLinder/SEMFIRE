@@ -44,6 +44,7 @@ The Pareto visualization mod is composed of
 - Customize the settings of colors, font style and font size,
 - No negative values are allowed in the Pareto chart and if any are detected an error message is displayed. 
 
+#### Use case diagram
 ![image](/use-case-diagram.png)
 
 ### Future improvements
