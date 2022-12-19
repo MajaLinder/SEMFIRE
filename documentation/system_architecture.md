@@ -7,7 +7,7 @@ Pareto funtionalities are not directly connected with the data from the API. Ano
 
 An overview of the architecture as a component diagram.
 
-![image](/diagrams/Component_Diagram.png)
+![image](/documentation/diagrams/Component_Diagram.png)
 
 Below we provide a detailed narrative description of the somponents and their responsabilities.
 

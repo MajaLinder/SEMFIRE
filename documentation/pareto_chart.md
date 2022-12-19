@@ -45,7 +45,7 @@ The Pareto visualization mod is composed of
 
 #### Use case diagram
 
-![image](/diagrams/use-case-diagram.png)
+![image](/documentation/diagrams/use-case-diagram.png)
 
 ### Future improvements
 
