@@ -1,6 +1,7 @@
 # SEMFIRE #
 SEMFIRE is the name of the student group for the course DIT827 Software Innovation. 
-SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod for Pareto chart. 
+SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod for Pareto chart.
+![image](/documentation/paretoChart.png)
 
 ## Pareto Chart ##
 
