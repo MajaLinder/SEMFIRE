@@ -66,13 +66,13 @@ Improvement can always be made and suggestions for the Pareto mod include:
 
 ### Prerequisites
  This chart is a developed mod based on [Tibco platform](https://www.tibco.com/).
- To start with this mod you need to have either the [web client] or [desktop client Tibco Spotfire](https://support.tibco.com/s/article/How-to-download-TIBCO-Spotfire-Desktop).
+ To start with this mod you need to have either the web client or [desktop client Tibco Spotfire](https://support.tibco.com/s/article/How-to-download-TIBCO-Spotfire-Desktop).
  To run this mode you need to download and install [Node.js](https://nodejs.org/en/).
  The complete guide to get start with the [Tibco platform can be found here](https://tibcosoftware.github.io/spotfire-mods/docs/getting-started/). 
  ### Installation guide
- - First we need to download or clone the last version of the mod.
+ - First you need to download or clone the last version of the mod.
  #### Clone
-  Firts you should go to the front page of the repository and and click on the Code button and copy the HTTPS address of the repository.
+  To clone this repository, you should go to the front page of the repository and and click on the Code button and copy the HTTPS address of the repository.
   In the next step you need to clone it on your system. You can find the complete guide to [clone a github repository here](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop).
   Or you can run the following command in the [Gitbash](https://gitforwindows.org/).
   `git clone https://github.com/MajaLinder/SEMFIRE.git`
