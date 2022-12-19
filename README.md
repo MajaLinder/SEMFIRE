@@ -8,6 +8,10 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 
 [About the chart](/documentation/pareto_chart.md)
 
+## Demo Video
+
+[Video](/documentation/Pareto.mp4)
+
 ## Get Started with Pareto Chart
 
 [How to get started](https://github.com/MajaLinder/SEMFIRE/blob/Update-readme/documentation/getting_started.md)
@@ -19,10 +23,6 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 ## GitFlow
 
 Information about the gitflow can be found [here](/documentation/git_flow.md)
-
-## Demo video
-
-[Video](/documentation/Pareto.mp4)
 
 ## Group members:
 
