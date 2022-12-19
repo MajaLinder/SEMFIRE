@@ -1,3 +1,4 @@
+# Pareto Chart
 ### Overview
 
 ![image](/documentation/paretoChart.png)
