@@ -10,7 +10,7 @@ SEMFIRE works in cooperation with Tibco Spotfire to develop a visualisation mod 
 
 ## Demo Video
 
-[Video](/documentation/Pareto.mp4)
+[Video](https://drive.google.com/file/d/1L0MO03E1RQRa1l5vYAF-CZznOJ94x8kh/view?usp=sharing)
 
 ## Get Started with Pareto Chart
 
