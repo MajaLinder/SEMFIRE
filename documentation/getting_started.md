@@ -27,7 +27,7 @@ After downloading the file you need to extract it and open it with you IDE.
 -   Open a terminal at the location of this example.
 -   Run `npm install`. This will install necessary tools. Run this command only the first time you are building the mod and skip this step for any subsequent builds.
 -   Run `npm start`. This will compile the code and place the bundle in the `dist` folder. This task will watch for changes in code and will continue running until it is stopped. Whenever you save a file, the changes will be reflected in the visualization mod.
--   Run `npm run server` in a separate terminal. This will start a development server.
+-   Run `npm run server` in a separate terminal. This will start a development server
 -   Start editing, for example `src/index.ts`.
 -   In Spotfire, follow the steps of creating a new mod and connecting to the development server.
 -   TIBCO Spotfire Mod guide [documentation](https://tibcosoftware.github.io/spotfire-mods/docs/using-the-api/api-docs/).
